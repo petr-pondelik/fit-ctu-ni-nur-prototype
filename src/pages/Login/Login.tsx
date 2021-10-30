@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import LoginForm from "../../components/LoginForm/LoginForm";
-import {Button, Container, Grid} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 
 interface LoginProps {
     propagateState(key: string, data: any): any
@@ -29,7 +29,7 @@ class Login extends React.Component<LoginProps> {
                 textAlign={"center"}
             >
                 <Grid item>
-                    <p>LOGO</p>
+                    <h1>EVENTER</h1>
                 </Grid>
                 <Grid item>
                     <LoginForm propagateState={this.updateState}/>

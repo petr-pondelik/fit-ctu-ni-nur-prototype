@@ -1,39 +1,37 @@
-import './Homepage.css';
+import React from "react";
 
-const Homepage: React.FC = () => {
+import {Button, Grid} from "@mui/material";
+import Header from "../../components/Header/Header";
+
+import AddIcon from '@mui/icons-material/Add';
+
+import './Homepage.css';
+import EventsList from "../../components/EventsList/EventsList";
+import {Event} from "../../model/Events";
+
+export interface IHomepageProps {
+    events: Array<Event>
+}
+
+const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
     return (
-        <div></div>
-        // <IonPage>
-        //     <IonContent fullscreen>
-        //         <IonHeader>
-        //             <IonToolbar>
-        //                 <IonTitle slot={"start"}>LOGO</IonTitle>
-        //                 <IonTitle slot={"end"}>PROFILE</IonTitle>
-        //                 {/*<IonAvatar*/}
-        //                 {/*    slot={"end"}*/}
-        //                 {/*></IonAvatar>*/}
-        //             </IonToolbar>
-        //         </IonHeader>
-        //         <IonCard>
-        //             <IonCardHeader>
-        //                 <IonCardTitle>Mom's 100th Birthday</IonCardTitle>
-        //                 <IonCardSubtitle>25.-27. July</IonCardSubtitle>
-        //             </IonCardHeader>
-        //         </IonCard>
-        //         <IonCard>
-        //             <IonCardHeader>
-        //                 <IonCardTitle>Halloween</IonCardTitle>
-        //                 <IonCardSubtitle>31. October</IonCardSubtitle>
-        //             </IonCardHeader>
-        //         </IonCard>
-        //         <IonCard>
-        //             <IonCardHeader>
-        //                 <IonCardTitle>After COVID Party</IonCardTitle>
-        //                 <IonCardSubtitle>2. January-24. January 2084</IonCardSubtitle>
-        //             </IonCardHeader>
-        //         </IonCard>
-        //     </IonContent>
-        // </IonPage>
+        <Grid container direction={"column"}>
+            <Grid item>
+                <Header/>
+            </Grid>
+            <Grid container item sx={{ paddingX: "5%" }}>
+                <Grid container item>
+                    <Grid item>
+                        <h1>
+                            Vaše události <Button><AddIcon fontSize={"large"}/></Button>
+                        </h1>
+                    </Grid>
+                </Grid>
+                <Grid container item>
+                    <EventsList events={props.events}/>
+                </Grid>
+            </Grid>
+        </Grid>
     );
 };
 

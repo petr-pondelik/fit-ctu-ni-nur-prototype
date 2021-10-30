@@ -2,7 +2,6 @@ import './Registration.css';
 import React from "react";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import {Grid} from "@mui/material";
-import ActionButton from "../../components/Common/ActionButton";
 
 const Registration: React.FC = () => {
     return (
@@ -11,12 +10,11 @@ const Registration: React.FC = () => {
             direction={"column"}
             justifyContent={"space-around"}
             height={"100vh"}
-            paddingX={"5%"}
             textAlign={"center"}
             rowSpacing={2}
         >
             <Grid item>
-                <p>LOGO</p>
+                <h1>EVENTER</h1>
             </Grid>
             <Grid item>
                 <SignUpForm/>
