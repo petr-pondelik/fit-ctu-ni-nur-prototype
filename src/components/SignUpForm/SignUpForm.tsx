@@ -134,7 +134,6 @@ class SignUpForm extends React.Component<any, any> {
         if (this.data[key] !== newVal) {
             this.data[key] = newVal;
         }
-        console.log(this.data);
     }
 
     /**
@@ -243,7 +242,6 @@ class SignUpForm extends React.Component<any, any> {
         this.prepareValidationMessagesObj();
         let isValid = true;
         for (const dataKey of Object.keys(this.data)) {
-            console.log(dataKey);
             let res: [boolean, string | undefined] = this.getValidationFunction(dataKey)(this.getData(dataKey));
             if (!res[0]) {
                 this.setValidationMessage(dataKey, res[1])
@@ -251,7 +249,6 @@ class SignUpForm extends React.Component<any, any> {
             }
         }
         this.validated = isValid;
-        console.log(this.stateUpdate);
         if (this.stateUpdate !== undefined) {
             this.setState(this.stateUpdate);
         }

@@ -14,7 +14,6 @@ class Login extends React.Component<LoginProps> {
      * @param data
      */
     updateState = (key: any, data: any) => {
-        console.log([key, data]);
         this.props.propagateState(key, data);
     }
 

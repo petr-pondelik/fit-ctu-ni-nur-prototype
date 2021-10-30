@@ -12,7 +12,7 @@ import Registration from "./pages/Registration/Registration";
 import EventsModel from "./model/Events";
 
 interface AppState {
-    user?: User
+    loggedUser?: User
 }
 
 const history = createBrowserHistory();
@@ -27,14 +27,11 @@ class App extends React.Component<any, AppState> {
         this.usersModel = new UsersModel();
         this.eventsModel = new EventsModel();
         this.state = {
-            user: this.usersModel.getLoggedUser()
+            loggedUser: this.usersModel.getLoggedUser()
         };
-        // console.log(this.usersModel.getLoggedUser());
-        // console.log(this.state);
     }
 
     updateState = (key: keyof AppState, data: any) => {
-        console.log([key, data]);
         if (this.state[key] !== data) {
             let newStateFragment: AppState = this.state;
             newStateFragment[key] = data;
@@ -48,16 +45,22 @@ class App extends React.Component<any, AppState> {
                 <Switch>
                     <Route exact path={"/"}>
                         {
-                            this.state.user === undefined ?
+                            this.state.loggedUser === undefined ?
                                 <Login propagateState={this.updateState}/> :
-                                <Homepage events={this.eventsModel.findByUser(this.state.user)}/>
+                                <Homepage
+                                    loggedUser={this.state.loggedUser}
+                                    events={this.eventsModel.findByUser(this.state.loggedUser)}
+                                />
                         }
                     </Route>
                     <Route exact path="/registration">
                         {
-                            this.state.user === undefined ?
+                            this.state.loggedUser === undefined ?
                                 <Registration/> :
-                                <Homepage events={this.eventsModel.findByUser(this.state.user)}/>
+                                <Homepage
+                                    loggedUser={this.state.loggedUser}
+                                    events={this.eventsModel.findByUser(this.state.loggedUser)}
+                                />
                         }
                     </Route>
                 </Switch>

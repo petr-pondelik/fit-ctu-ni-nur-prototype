@@ -1,4 +1,4 @@
-import {IUserEventsList, IUserInvitation, User} from "./Users";
+import {IUserInvitation, User} from "./Users";
 
 export enum EventInvitationStatus {
     Confirmed = 1,
@@ -7,13 +7,21 @@ export enum EventInvitationStatus {
     Pending
 }
 
-interface IPlace {
+export const EventInvitationStatusCZ: Array<string> = [
+    'Organizátor',
+    'Účastním se',
+    'Váhám',
+    'Odmítl jsem účast',
+    'Nevyjádřil jsem se'
+]
+
+export interface IPlace {
     name: string,
     lat: number,
     long: number,
 }
 
-interface IEventTime {
+export interface IEventTime {
     start: Date;
     end?: Date;
 }
@@ -25,7 +33,7 @@ export interface IEvent {
     place: IPlace,
     eventTime: IEventTime,
     description: string,
-    organizer: number,
+    organizer: string,
     attendants: IAttendantsList
 }
 
@@ -41,7 +49,7 @@ export class Event {
     place: IPlace;
     eventTime: IEventTime;
     description: string;
-    organizer: number;
+    organizer: string;
     attendants: IAttendantsList;
 
     /**
@@ -56,6 +64,22 @@ export class Event {
         this.organizer = data.organizer;
         this.description = data.description;
         this.attendants = data.attendants;
+    }
+
+    /**
+     * @param user
+     */
+    getUsersStatus(user: User) {
+        if (this.organizer === user.id) {
+            return EventInvitationStatusCZ[0];
+        }
+        for (const [id, invitation] of Object.entries(this.attendants)) {
+            if (id === user.id) {
+                console.log(invitation.status);
+                console.log(EventInvitationStatusCZ[invitation.status]);
+                return EventInvitationStatusCZ[invitation.status]
+            }
+        }
     }
 
 }
@@ -74,12 +98,12 @@ class EventsModel {
             },
             eventTime: {
                 start: new Date('2021-12-18T18:00:00'),
-                end: new Date('1995-12-18T18:00:00'),
+                end: new Date('2021-12-18T23:30:00'),
             },
             description: 'Letošní třídní sraz bude v Lucerně.',
-            organizer: 1,
+            organizer: '2',
             attendants: {
-                1: { status: EventInvitationStatus.Confirmed },
+                1: { status: EventInvitationStatus.Pending },
                 2: { status: EventInvitationStatus.Confirmed },
                 3: { status: EventInvitationStatus.Confirmed },
                 4: { status: EventInvitationStatus.Tentative },
@@ -104,7 +128,7 @@ class EventsModel {
                 end: undefined,
             },
             description: 'Nedělní kávové odpoledne s Evženií.',
-            organizer: 1,
+            organizer: '1',
             attendants: {
                 1: { status: EventInvitationStatus.Confirmed },
                 10: { status: EventInvitationStatus.Confirmed }
@@ -122,9 +146,12 @@ class EventsModel {
             events.push(new Event(e));
         }
 
+        events.sort((a, b) => {
+            return a.eventTime.start.getTime() - b.eventTime.start.getTime();
+        });
+
         this.data = events;
         sessionStorage.setItem('events', JSON.stringify(this.data));
-        console.log(this.data);
     }
 
     /**
@@ -134,14 +161,10 @@ class EventsModel {
         let res: Array<Event> = [];
         this.data.find(
             (e) => {
-                console.log(Object.keys(e.attendants));
-                console.log(user.id);
                 if (Object.keys(e.attendants).includes((user.id as unknown) as string)) {
-                    console.log('MATCH');
                     res.push(e);
                 }
             });
-        console.log(res);
         return res;
     }
 

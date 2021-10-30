@@ -95,13 +95,11 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
      * @param event
      */
     updateData = (event: React.FormEvent<HTMLInputElement>) => {
-        console.log(event.currentTarget);
         let key: keyof LoginFormDataInterface = event.currentTarget.name as keyof LoginFormDataInterface;
         let newVal: string = event.currentTarget.value as string;
         if (this.data[key] !== newVal) {
             this.data[key] = newVal;
         }
-        console.log(this.data);
     }
 
     /**
@@ -166,7 +164,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
         this.prepareValidationMessagesObj();
         let isValid = true;
         for (const dataKey of Object.keys(this.data)) {
-            console.log(dataKey);
             let res: [boolean, string | undefined] = this.getValidationFunction(dataKey)(this.getData(dataKey));
             if (!res[0]) {
                 this.setValidationMessage(dataKey, res[1])
@@ -190,12 +187,10 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
         }
 
         let loginRes: UserInterface | undefined = this.usersModel.findByCredentials(this.data.username, this.data.password);
-        console.log(loginRes);
 
         if (loginRes !== undefined) {
             this.usersModel.setLoggedUser(loginRes);
             this.props.propagateState('user', loginRes);
-            // this.props.history.push('/homepage');
         }
 
         this.setState({
@@ -220,7 +215,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
     }
 
     render() {
-        console.log(this.state.messages);
         return (
             <Grid container direction={"column"} rowSpacing={2}>
                 <Grid container item>

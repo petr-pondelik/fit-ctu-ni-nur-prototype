@@ -168,7 +168,6 @@ class UsersModel {
 
         this.data = users;
         sessionStorage.setItem('users', JSON.stringify(this.data));
-        console.log(this.data);
     }
 
     /**
@@ -182,7 +181,6 @@ class UsersModel {
 
     getLoggedUser (): User|undefined {
         let res = JSON.parse(sessionStorage.getItem('loggedUser') as string);
-        console.log(res);
         if (res === null) {
             return undefined;
         }
