@@ -2,7 +2,7 @@ import React from "react";
 import {AppBar, Box, Button, Toolbar, Typography} from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 
-const Header: React.FC = () => {
+const HomepageHeader: React.FC = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -19,4 +19,4 @@ const Header: React.FC = () => {
     );
 }
 
-export default Header;
+export default HomepageHeader;

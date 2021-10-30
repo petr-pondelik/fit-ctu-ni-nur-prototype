@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import LoginForm from "../../components/LoginForm/LoginForm";
+import LoginForm from "../../components/Login/LoginForm/LoginForm";
 import {Button, Grid} from "@mui/material";
 
 interface LoginProps {
@@ -23,7 +23,7 @@ class Login extends React.Component<LoginProps> {
                 container
                 direction={"column"}
                 justifyContent={"space-around"}
-                height={"100vh"}
+                minHeight={"100vh"}
                 paddingX={"5%"}
                 textAlign={"center"}
             >

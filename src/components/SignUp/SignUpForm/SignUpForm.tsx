@@ -1,8 +1,7 @@
 import React from "react";
-import UsersModel from "../../model/Users";
-import {ValidationFunction, ValidationTuple} from "../../types/CustomeTypes";
-import FloatingInput from "../Common/AppTextField";
-import ActionButton from "../Common/ActionButton";
+import {ValidationFunction, ValidationTuple} from "../../../types/CustomeTypes";
+import FloatingInput from "../../Common/AppTextField";
+import ActionButton from "../../Common/ActionButton";
 import {Button, Grid} from "@mui/material";
 import {Link} from "react-router-dom";
 
@@ -64,7 +63,6 @@ interface MessagesInterface {
 
 class SignUpForm extends React.Component<any, any> {
 
-    usersModel: UsersModel;
     validated: boolean = false;
 
     data: RegistrationFormDataInterface = {
@@ -105,7 +103,6 @@ class SignUpForm extends React.Component<any, any> {
 
     constructor(props: any) {
         super(props);
-        this.usersModel = new UsersModel();
         this.state = {
             messages: {
                 validation: {

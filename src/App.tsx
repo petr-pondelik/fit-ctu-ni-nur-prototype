@@ -10,6 +10,7 @@ import './App.css';
 import './styles/global.css';
 import Registration from "./pages/Registration/Registration";
 import EventsModel from "./model/Events";
+import EventView from "./pages/Event/EventView";
 
 interface AppState {
     loggedUser?: User
@@ -19,19 +20,15 @@ const history = createBrowserHistory();
 
 class App extends React.Component<any, AppState> {
 
-    usersModel: UsersModel;
-    eventsModel: EventsModel;
-
     constructor(props: any) {
         super(props);
-        this.usersModel = new UsersModel();
-        this.eventsModel = new EventsModel();
         this.state = {
-            loggedUser: this.usersModel.getLoggedUser()
+            loggedUser: UsersModel.getLoggedUser()
         };
     }
 
     updateState = (key: keyof AppState, data: any) => {
+        console.log([key, data]);
         if (this.state[key] !== data) {
             let newStateFragment: AppState = this.state;
             newStateFragment[key] = data;
@@ -49,7 +46,7 @@ class App extends React.Component<any, AppState> {
                                 <Login propagateState={this.updateState}/> :
                                 <Homepage
                                     loggedUser={this.state.loggedUser}
-                                    events={this.eventsModel.findByUser(this.state.loggedUser)}
+                                    events={EventsModel.findByUser(this.state.loggedUser)}
                                 />
                         }
                     </Route>
@@ -59,9 +56,14 @@ class App extends React.Component<any, AppState> {
                                 <Registration/> :
                                 <Homepage
                                     loggedUser={this.state.loggedUser}
-                                    events={this.eventsModel.findByUser(this.state.loggedUser)}
+                                    events={EventsModel.findByUser(this.state.loggedUser)}
                                 />
                         }
+                    </Route>
+                    <Route path="/event/view/:id"
+                        render={(props) =>
+                            <EventView/>
+                        }>
                     </Route>
                 </Switch>
             </Router>

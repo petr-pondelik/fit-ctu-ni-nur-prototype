@@ -1,12 +1,12 @@
 import React from "react";
 
 import {Button, Grid} from "@mui/material";
-import Header from "../../components/Header/Header";
+import HomepageHeader from "../../components/Header/HomepageHeader";
 
 import AddIcon from '@mui/icons-material/Add';
 
 import './Homepage.css';
-import EventsList from "../../components/EventsList/EventsList";
+import EventsList from "../../components/Event/List/EventsList";
 import {Event} from "../../model/Events";
 import {User} from "../../model/Users";
 
@@ -17,9 +17,9 @@ export interface IHomepageProps {
 
 const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
     return (
-        <Grid container direction={"column"} py={"1rem"}>
+        <Grid container direction={"column"} pb={"1rem"}>
             <Grid item>
-                <Header/>
+                <HomepageHeader/>
             </Grid>
             <Grid container item sx={{ paddingX: "5%" }}>
                 <Grid container item alignItems={"center"}>

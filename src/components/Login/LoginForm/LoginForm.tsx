@@ -1,11 +1,11 @@
 import React from "react";
 
-import UsersModel, {UserInterface} from "../../model/Users";
-import {ValidationFunction, ValidationTuple} from "../../types/CustomeTypes";
-import ActionButton from "../Common/ActionButton";
-import AppTextField from "../Common/AppTextField";
+import UsersModel, {UserInterface} from "../../../model/Users";
+import {ValidationFunction, ValidationTuple} from "../../../types/CustomeTypes";
+import ActionButton from "../../Common/ActionButton";
+import AppTextField from "../../Common/AppTextField";
 import {Grid} from "@mui/material";
-import MessageBox from "../Common/MessageBox";
+import MessageBox from "../../Common/MessageBox";
 
 interface LoginFormDataInterface {
     username?: string,
@@ -45,7 +45,6 @@ interface MessagesInterface {
 
 class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface> {
 
-    usersModel: UsersModel;
     validated: boolean = false;
 
     data: LoginFormDataInterface = {
@@ -75,7 +74,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
      */
     constructor(props: any) {
         super(props);
-        this.usersModel = new UsersModel();
         this.state = {
             messages: {
                 validation: {
@@ -186,11 +184,12 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
             return;
         }
 
-        let loginRes: UserInterface | undefined = this.usersModel.findByCredentials(this.data.username, this.data.password);
+        let loginRes: UserInterface | undefined = UsersModel.findByCredentials(this.data.username, this.data.password);
 
         if (loginRes !== undefined) {
-            this.usersModel.setLoggedUser(loginRes);
-            this.props.propagateState('user', loginRes);
+            UsersModel.setLoggedUser(loginRes);
+            this.props.propagateState('loggedUser', loginRes);
+            return;
         }
 
         this.setState({

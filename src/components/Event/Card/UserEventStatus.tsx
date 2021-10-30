@@ -1,8 +1,8 @@
 import React from "react";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import {Event} from "../../model/Events";
+import {Event} from "../../../model/Events";
 import {Grid, Typography} from "@mui/material";
-import {User} from "../../model/Users";
+import {User} from "../../../model/Users";
 import {SxProps} from "@mui/system";
 
 interface IUserEventStatusProps {

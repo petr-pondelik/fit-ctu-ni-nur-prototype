@@ -15,7 +15,7 @@ export const EventInvitationStatusCZ: Array<string> = [
     'Nevyjádřil jsem se'
 ]
 
-export interface IPlace {
+export interface ILocation {
     name: string,
     lat: number,
     long: number,
@@ -27,10 +27,10 @@ export interface IEventTime {
 }
 
 export interface IEvent {
-    id: number,
+    id: string,
     title: string,
     imgPath: string,
-    place: IPlace,
+    location: ILocation,
     eventTime: IEventTime,
     description: string,
     organizer: string,
@@ -43,10 +43,10 @@ export interface IAttendantsList {
 
 export class Event {
 
-    id: number;
+    id: string;
     title: string;
     imgPath: string;
-    place: IPlace;
+    location: ILocation;
     eventTime: IEventTime;
     description: string;
     organizer: string;
@@ -59,7 +59,7 @@ export class Event {
         this.id = data.id;
         this.title = data.title;
         this.imgPath = data.imgPath;
-        this.place = data.place;
+        this.location = data.location;
         this.eventTime = data.eventTime;
         this.organizer = data.organizer;
         this.description = data.description;
@@ -88,13 +88,13 @@ class EventsModel {
 
     dataDefinition: Array<IEvent> = [
         {
-            id: 1,
+            id: '1',
             title: 'Třídní sraz',
             imgPath: '/static/images/events/1/cover.jpg',
-            place: {
+            location: {
                 name: 'Lucerna',
-                lat: 50.0809028,
-                long: 14.4242057,
+                lat: 50.0814607,
+                long: 14.4230261,
             },
             eventTime: {
                 start: new Date('2021-12-18T18:00:00'),
@@ -115,10 +115,10 @@ class EventsModel {
             }
         },
         {
-            id: 2,
+            id: '2',
             title: 'Káva a Evženií',
             imgPath: '/static/images/events/2/cover.jpg',
-            place: {
+            location: {
                 name: 'Kavárna Kabinet',
                 lat: 50.102453,
                 long: 14.3929309,
@@ -155,6 +155,19 @@ class EventsModel {
     }
 
     /**
+     * @param id
+     */
+    findById(id: string): Event|undefined {
+        let res: Event|undefined = undefined;
+        this.data.find((e) => {
+            if (e.id === id) {
+                res = e;
+            }
+        });
+        return res;
+    }
+
+    /**
      * @param user
      */
     findByUser(user: User): Array<Event> {
@@ -170,4 +183,4 @@ class EventsModel {
 
 }
 
-export default EventsModel;
+export default new EventsModel();

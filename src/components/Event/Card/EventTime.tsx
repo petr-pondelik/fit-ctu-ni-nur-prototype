@@ -1,6 +1,7 @@
 import React from "react";
 import {Typography} from "@mui/material";
-import {IEventTime} from "../../model/Events";
+import {IEventTime} from "../../../model/Events";
+import TimeUtils from "../../../utils/TimeUtils";
 
 interface IEventTimeProps {
     eventTime: IEventTime
@@ -12,8 +13,8 @@ interface IEventTimeProps {
  */
 const EventTime: React.FC<IEventTimeProps> = (props: IEventTimeProps) => {
 
-    let startDateStr: string = props.eventTime.start.toLocaleDateString('cz-CZ').replaceAll('/', '.');
-    let startTimeStr: string = props.eventTime.start.toLocaleTimeString('cz-CZ', { hour12: false, hour: '2-digit', minute: '2-digit' });
+    let startDateStr: string = TimeUtils.formatDateCz(props.eventTime.start);
+    let startTimeStr: string = TimeUtils.formatTimeCz(props.eventTime.start);
 
     if (props.eventTime.end === undefined) {
         return (
@@ -22,8 +23,8 @@ const EventTime: React.FC<IEventTimeProps> = (props: IEventTimeProps) => {
             </Typography>
         );
     } else {
-        let endDateStr: string = props.eventTime.end.toLocaleDateString('cz-CZ').replaceAll('/', '.');
-        let endTimeStr: string = props.eventTime.end.toLocaleTimeString('cz-CZ', { hour12: false, hour: '2-digit', minute: '2-digit' });
+        let endDateStr: string = TimeUtils.formatDateCz(props.eventTime.start);
+        let endTimeStr: string = TimeUtils.formatTimeCz(props.eventTime.start);
 
         return (
             <Typography gutterBottom variant="body1" component="p" pt={"0.5rem"}>

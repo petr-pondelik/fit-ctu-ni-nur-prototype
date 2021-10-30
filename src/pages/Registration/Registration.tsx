@@ -1,6 +1,6 @@
 import './Registration.css';
 import React from "react";
-import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import SignUpForm from "../../components/SignUp/SignUpForm/SignUpForm";
 import {Grid} from "@mui/material";
 
 const Registration: React.FC = () => {
@@ -9,7 +9,7 @@ const Registration: React.FC = () => {
             container
             direction={"column"}
             justifyContent={"space-around"}
-            height={"100vh"}
+            minHeight={"100vh"}
             textAlign={"center"}
             rowSpacing={2}
         >

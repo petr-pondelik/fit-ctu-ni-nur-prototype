@@ -1,8 +1,8 @@
 import React from "react";
-import {Event} from "../../model/Events";
-import EventCard from "../EventCard/EventCard";
+import {Event} from "../../../model/Events";
+import EventCard from "../Card/EventCard";
 import {Grid} from "@mui/material";
-import {User} from "../../model/Users";
+import {User} from "../../../model/Users";
 
 interface IEventsListProps {
     loggedUser: User,
@@ -11,9 +11,9 @@ interface IEventsListProps {
 
 const EventsList: React.FC<IEventsListProps> = (props: IEventsListProps) => {
 
-    let eventCards = props.events.map((e: Event) => {
+    let eventCards = props.events.map((e: Event, inx) => {
         return (
-            <Grid item>
+            <Grid item key={inx}>
                 <EventCard
                     loggedUser={props.loggedUser}
                     event={e}
