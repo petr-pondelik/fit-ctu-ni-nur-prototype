@@ -5,9 +5,11 @@ import CommonHeader from "../../components/Header/CommonHeader";
 import {useParams} from "react-router-dom";
 import {IRouteParams} from "../../interfaces/IRouteParams";
 import Content from "../../components/Event/View/Content";
+import {User} from "../../model/Users";
 
 
 export interface IEventViewProps {
+    loggedUser: User
 }
 
 
@@ -29,7 +31,10 @@ const EventView: React.FC<IEventViewProps> = (props: IEventViewProps) => {
                 <CommonHeader title={event.title}/>
             </Grid>
             <Grid container item sx={{paddingX: "5%"}}>
-                <Content event={event}/>
+                <Content
+                    loggedUser={props.loggedUser}
+                    event={event}
+                />
             </Grid>
         </Grid>
     );

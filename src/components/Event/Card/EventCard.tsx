@@ -2,7 +2,7 @@ import React from "react";
 import {Event} from "../../../model/Events";
 import {Button, Card, CardActions, CardContent, CardMedia, Container, Divider} from "@mui/material";
 import EventTitle from "./EventTitle";
-import EventTime from "./EventTime";
+import EventTime from "./EventTimeView";
 import {Link} from "react-router-dom";
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import { SxProps } from '@mui/system';

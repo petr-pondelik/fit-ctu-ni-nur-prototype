@@ -62,7 +62,8 @@ class App extends React.Component<any, AppState> {
                     </Route>
                     <Route path="/event/view/:id"
                         render={(props) =>
-                            <EventView/>
+                            this.state.loggedUser !== undefined ?
+                                <EventView loggedUser={this.state.loggedUser}/> : undefined
                         }>
                     </Route>
                 </Switch>

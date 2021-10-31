@@ -1,12 +1,14 @@
 import React from "react";
 import {Card, CardMedia, Grid, Paper, Typography} from "@mui/material";
 import {Event} from "../../../model/Events";
-import EventTime from "../Card/EventTime";
+import EventTime from "../Card/EventTimeView";
 import EventViewLocation from "./EventViewLocation";
-import AttendantsList from "./AttendantsList";
+import EventAttendantsList from "./EventAttendantsList";
 import EventParticipation from "./Participation/EventParticipation";
+import {User} from "../../../model/Users";
 
 export interface IContentProps {
+    loggedUser: User,
     event: Event
 }
 
@@ -35,10 +37,13 @@ const Content: React.FC<IContentProps> = (props: IContentProps) => {
                 </Typography>
             </Grid>
             <Grid item pt={"0.5rem"}>
-                <EventParticipation attendants={props.event.attendants}/>
+                <EventParticipation
+                    loggedUser={props.loggedUser}
+                    event={props.event}
+                />
             </Grid>
             <Grid item pt={"1rem"}>
-                <AttendantsList attendants={props.event.attendants} />
+                <EventAttendantsList attendants={props.event.attendants} />
             </Grid>
         </Grid>
     );

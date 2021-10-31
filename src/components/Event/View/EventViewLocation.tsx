@@ -1,7 +1,6 @@
 import React from "react";
 import {Event} from "../../../model/Events";
 import EventMap from "../Map/EventMap";
-import {Grid, Typography} from "@mui/material";
 import EventLocation from "../Card/EventLocation";
 
 export interface IEventViewLocationProps {

@@ -1,17 +1,17 @@
 import React from "react";
 import {Typography} from "@mui/material";
-import {IEventTime} from "../../../model/Events";
+import {EventTime} from "../../../model/Events";
 import TimeUtils from "../../../utils/TimeUtils";
 
-interface IEventTimeProps {
-    eventTime: IEventTime
+interface IEventTimeViewProps {
+    eventTime: EventTime
 }
 
 /**
  * @param props
  * @constructor
  */
-const EventTime: React.FC<IEventTimeProps> = (props: IEventTimeProps) => {
+const EventTimeView: React.FC<IEventTimeViewProps> = (props: IEventTimeViewProps) => {
 
     let startDateStr: string = TimeUtils.formatDateCz(props.eventTime.start);
     let startTimeStr: string = TimeUtils.formatTimeCz(props.eventTime.start);
@@ -36,4 +36,4 @@ const EventTime: React.FC<IEventTimeProps> = (props: IEventTimeProps) => {
 
 }
 
-export default EventTime;
+export default EventTimeView;

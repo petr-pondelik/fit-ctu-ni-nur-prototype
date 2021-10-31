@@ -1,12 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import {Grid} from "@mui/material";
-import {IAttendantsList} from "../../../../model/Events";
+import EventsModel, {Event, EventInvitationStatus} from "../../../../model/Events";
 import Confirmed from "./Confirmed";
 import Declined from "./Declined";
 import Tentative from "./Tentative";
+import {User} from "../../../../model/Users";
 
 interface IEventParticipationProps {
-    attendants: IAttendantsList
+    loggedUser: User,
+    event: Event
 }
 
 /**
@@ -15,32 +17,63 @@ interface IEventParticipationProps {
  */
 const EventParticipation: React.FC<IEventParticipationProps> = (props: IEventParticipationProps) => {
 
-    // <Grid container>
-    //     <Grid container item>
-    //         <Grid item>
-    //
-    //         </Grid>
-    //     </Grid>
-    //     <Grid container item>
-    //         <Grid item>
-    //
-    //         </Grid>
-    //         <Grid item>
-    //
-    //         </Grid>
-    //     </Grid>
-    // </Grid>
+    const [invitationStatus, setInvitationStatus] = useState(props.event.attendants.getUsersPartStatus(props.loggedUser));
+
+    /**
+     *
+     * @param newPartStatus
+     */
+    function handleChange(newPartStatus: EventInvitationStatus) {
+        console.log(newPartStatus);
+        setInvitationStatus(newPartStatus);
+        EventsModel.updateEventAttendance(props.loggedUser, props.event, newPartStatus);
+    }
+
+    function renderConfirmed(): any {
+        if (invitationStatus === EventInvitationStatus.Pending) {
+            return <Confirmed parentChange={handleChange}/>
+        }
+        return <Confirmed
+            active={invitationStatus === EventInvitationStatus.Confirmed}
+            parentChange={handleChange}
+        />
+    }
+
+    function renderTentative(): any {
+        if (invitationStatus === EventInvitationStatus.Pending) {
+            return <Tentative parentChange={handleChange}/>
+        }
+        return <Tentative
+            active={invitationStatus === EventInvitationStatus.Tentative}
+            parentChange={handleChange}
+        />
+    }
+
+    function renderDeclined(): any {
+        if (invitationStatus === EventInvitationStatus.Pending) {
+            return <Declined parentChange={handleChange}/>
+        }
+        return <Declined
+            active={invitationStatus === EventInvitationStatus.Declined}
+            parentChange={handleChange}
+        />
+    }
 
     return (
-        <Grid container alignItems={"center"} justifyContent={"space-around"} pt={"1rem"}>
+        <Grid
+            container
+            alignItems={"center"}
+            justifyContent={"space-around"}
+            sx={{ pt: "1rem", minHeight: "84px" }}
+        >
             <Grid item>
-                <Confirmed/>
+                {renderConfirmed()}
             </Grid>
             <Grid item>
-                <Tentative/>
+                {renderTentative()}
             </Grid>
             <Grid item>
-                <Declined/>
+                {renderDeclined()}
             </Grid>
         </Grid>
     );

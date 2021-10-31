@@ -1,10 +1,10 @@
 import React from "react";
-import {IAttendantsList} from "../../../model/Events";
+import {AttendantsList} from "../../../model/Events";
 import {Grid, Typography} from "@mui/material";
 
 
-export interface IAttendantsListProps {
-    attendants: IAttendantsList
+export interface IEventAttendantsListProps {
+    attendants: AttendantsList
 }
 
 
@@ -12,7 +12,7 @@ export interface IAttendantsListProps {
  * @param props
  * @constructor
  */
-const AttendantsList: React.FC<IAttendantsListProps> = (props: IAttendantsListProps) => {
+const EventAttendantsList: React.FC<IEventAttendantsListProps> = (props: IEventAttendantsListProps) => {
 
     return (
         <Grid container>
@@ -24,4 +24,4 @@ const AttendantsList: React.FC<IAttendantsListProps> = (props: IAttendantsListPr
 
 }
 
-export default AttendantsList;
+export default EventAttendantsList;

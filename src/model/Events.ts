@@ -22,8 +22,8 @@ export interface ILocation {
 }
 
 export interface IEventTime {
-    start: Date;
-    end?: Date;
+    start: string;
+    end?: string;
 }
 
 export interface IEvent {
@@ -41,16 +41,58 @@ export interface IAttendantsList {
     [key: number]: IUserInvitation
 }
 
+export class AttendantsList {
+
+    [key: number]: IUserInvitation
+
+    /**
+     * @param data
+     */
+    constructor(data: IAttendantsList) {
+        for (const [inx, p] of Object.entries(data)) {
+            this[inx as unknown as number] = p;
+        }
+    }
+
+    /**
+     * @param user
+     */
+    getUsersPartStatus(user: User): EventInvitationStatus | undefined {
+        for (const [id, p] of Object.entries(this)) {
+            if (id === user.id) {
+                return p.status;
+            }
+        }
+        return undefined;
+    }
+
+}
+
+export class EventTime {
+
+    start: Date;
+    end?: Date;
+
+    /**
+     * @param data
+     */
+    constructor(data: IEventTime) {
+        this.start = new Date(data.start);
+        data.end === undefined ? this.end = undefined : this.end = new Date(data.end);
+    }
+
+}
+
 export class Event {
 
     id: string;
     title: string;
     imgPath: string;
     location: ILocation;
-    eventTime: IEventTime;
+    eventTime: EventTime;
     description: string;
     organizer: string;
-    attendants: IAttendantsList;
+    attendants: AttendantsList;
 
     /**
      * @param data
@@ -60,10 +102,10 @@ export class Event {
         this.title = data.title;
         this.imgPath = data.imgPath;
         this.location = data.location;
-        this.eventTime = data.eventTime;
+        this.eventTime = new EventTime(data.eventTime);
         this.organizer = data.organizer;
         this.description = data.description;
-        this.attendants = data.attendants;
+        this.attendants = new AttendantsList(data.attendants);
     }
 
     /**
@@ -97,21 +139,21 @@ class EventsModel {
                 long: 14.4230261,
             },
             eventTime: {
-                start: new Date('2021-12-18T18:00:00'),
-                end: new Date('2021-12-18T23:30:00'),
+                start: '2021-12-18T18:00:00',
+                end: '2021-12-18T23:30:00',
             },
             description: 'Letošní třídní sraz bude v Lucerně.',
             organizer: '2',
             attendants: {
-                1: { status: EventInvitationStatus.Pending },
-                2: { status: EventInvitationStatus.Confirmed },
-                3: { status: EventInvitationStatus.Confirmed },
-                4: { status: EventInvitationStatus.Tentative },
-                5: { status: EventInvitationStatus.Declined },
-                6: { status: EventInvitationStatus.Confirmed },
-                7: { status: EventInvitationStatus.Tentative },
-                8: { status: EventInvitationStatus.Tentative },
-                9: { status: EventInvitationStatus.Pending }
+                1: {status: EventInvitationStatus.Pending},
+                2: {status: EventInvitationStatus.Confirmed},
+                3: {status: EventInvitationStatus.Confirmed},
+                4: {status: EventInvitationStatus.Tentative},
+                5: {status: EventInvitationStatus.Declined},
+                6: {status: EventInvitationStatus.Confirmed},
+                7: {status: EventInvitationStatus.Tentative},
+                8: {status: EventInvitationStatus.Tentative},
+                9: {status: EventInvitationStatus.Pending}
             }
         },
         {
@@ -124,21 +166,29 @@ class EventsModel {
                 long: 14.3929309,
             },
             eventTime: {
-                start: new Date('2021-12-19T15:00:00'),
+                start: '2021-12-19T15:00:00',
                 end: undefined,
             },
             description: 'Nedělní kávové odpoledne s Evženií.',
             organizer: '1',
             attendants: {
-                1: { status: EventInvitationStatus.Confirmed },
-                10: { status: EventInvitationStatus.Confirmed }
+                1: {status: EventInvitationStatus.Confirmed},
+                10: {status: EventInvitationStatus.Confirmed}
             }
         }
     ];
 
-    data: Array<Event>;
+    data: Array<Event> = [];
 
     constructor() {
+        console.log('Events Constructor');
+        this.data = [];
+        let sessionEvents: string | null = sessionStorage.getItem('events');
+        console.log(sessionEvents);
+        sessionEvents !== null ? this.constructFromSession(sessionEvents) : this.constructFromDataDefinition();
+    }
+
+    constructFromDataDefinition() {
         let events: Array<Event> = [];
 
         /** Synchronize session storage with defined events */
@@ -155,10 +205,29 @@ class EventsModel {
     }
 
     /**
+     * @param sessionEvents
+     */
+    constructFromSession(sessionEvents: string) {
+        let events: Array<IEvent> = JSON.parse(sessionEvents);
+        console.log(events);
+
+        // /** Construct events from session */
+        for (const e of events) {
+            console.log(e);
+            console.log(new Event(e));
+            this.data.push(new Event(e));
+        }
+
+        this.data.sort((a, b) => {
+            return a.eventTime.start.getTime() - b.eventTime.start.getTime();
+        });
+    }
+
+    /**
      * @param id
      */
-    findById(id: string): Event|undefined {
-        let res: Event|undefined = undefined;
+    findById(id: string): Event | undefined {
+        let res: Event | undefined = undefined;
         this.data.find((e) => {
             if (e.id === id) {
                 res = e;
@@ -181,6 +250,27 @@ class EventsModel {
         return res;
     }
 
+    /**
+     * @param user
+     * @param event
+     * @param newStatus
+     */
+    updateEventAttendance(user: User, event: Event, newStatus: EventInvitationStatus) {
+        this.data.find(
+            (e, inx) => {
+                if (e.id === event.id) {
+                    for (const id of Object.keys(e.attendants)) {
+                        if (user.id === id) {
+                            console.log('UPDATE');
+                            this.data[inx].attendants[id as unknown as number].status = newStatus;
+                        }
+                    }
+                }
+            });
+        sessionStorage.setItem('events', JSON.stringify(this.data));
+    }
+
 }
+
 
 export default new EventsModel();
