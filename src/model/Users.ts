@@ -5,7 +5,7 @@ export interface IUserInvitation {
 }
 
 export interface IUserEventsList {
-    [key: number]: IUserInvitation
+    [key: string]: IUserInvitation
 }
 
 export interface UserInterface {
@@ -41,6 +41,10 @@ export class User {
         this.events = data.events;
     }
 
+    getFullName(): string {
+        return `${this.givenName} ${this.familyName}`
+    }
+
 }
 
 class UsersModel {
@@ -53,7 +57,7 @@ class UsersModel {
             givenName: 'Petr',
             familyName: 'Test',
             password: '12345678',
-            events: []
+            events: {}
         },
         {
             id: '2',
@@ -156,7 +160,7 @@ class UsersModel {
         },
     ];
 
-    data: Array<UserInterface>;
+    data: Array<User>;
 
     constructor() {
         let users: Array<User> = [];
@@ -168,6 +172,19 @@ class UsersModel {
 
         this.data = users;
         sessionStorage.setItem('users', JSON.stringify(this.data));
+    }
+
+    /**
+     * @param id
+     */
+    findById(id: string): User | undefined {
+        let res: User | undefined = undefined;
+        this.data.find((e) => {
+            if (e.id === id) {
+                res = e;
+            }
+        });
+        return res;
     }
 
     /**
@@ -193,6 +210,7 @@ class UsersModel {
     setLoggedUser (user: UserInterface) {
         sessionStorage.setItem('loggedUser', JSON.stringify(user));
     }
+
 }
 
 export default new UsersModel();

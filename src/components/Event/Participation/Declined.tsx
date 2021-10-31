@@ -1,7 +1,7 @@
 import React, {MouseEvent} from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import {SxProps} from "@mui/system";
-import {EventInvitationStatus} from "../../../../model/Events";
+import {EventInvitationStatus} from "../../../model/Events";
 
 export interface IDeclinedProps {
     active?: boolean,

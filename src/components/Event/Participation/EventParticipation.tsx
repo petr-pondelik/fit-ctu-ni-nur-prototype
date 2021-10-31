@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 import {Grid} from "@mui/material";
-import EventsModel, {Event, EventInvitationStatus} from "../../../../model/Events";
+import EventsModel, {Event, EventInvitationStatus} from "../../../model/Events";
 import Confirmed from "./Confirmed";
 import Declined from "./Declined";
 import Tentative from "./Tentative";
-import {User} from "../../../../model/Users";
+import {User} from "../../../model/Users";
 
 interface IEventParticipationProps {
     loggedUser: User,
-    event: Event
+    event: Event,
+    updateParent(event: Event): void
 }
 
 /**
@@ -24,9 +25,9 @@ const EventParticipation: React.FC<IEventParticipationProps> = (props: IEventPar
      * @param newPartStatus
      */
     function handleChange(newPartStatus: EventInvitationStatus) {
-        console.log(newPartStatus);
         setInvitationStatus(newPartStatus);
         EventsModel.updateEventAttendance(props.loggedUser, props.event, newPartStatus);
+        props.updateParent(EventsModel.findById(props.event.id) as Event);
     }
 
     function renderConfirmed(): any {

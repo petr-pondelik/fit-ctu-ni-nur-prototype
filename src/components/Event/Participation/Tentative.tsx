@@ -1,10 +1,11 @@
 import React, {MouseEvent} from "react";
+import HelpCenterOutlinedIcon from '@mui/icons-material/HelpCenterOutlined';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
+import {EventInvitationStatus} from "../../../model/Events";
 import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import {EventInvitationStatus} from "../../../../model/Events";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
-
-export interface IConfirmedProps {
+export interface ITentativeProps {
     active?: boolean,
     parentChange(invitationResponse: EventInvitationStatus): void
 }
@@ -14,32 +15,32 @@ export interface IConfirmedProps {
  * @param props
  * @constructor
  */
-const Confirmed: React.FC<IConfirmedProps> = (props: IConfirmedProps) => {
+const Tentative: React.FC<ITentativeProps> = (props: ITentativeProps) => {
 
     /**
      * @param e
      */
     function handleClick(e: MouseEvent<SVGSVGElement>) {
-        props.parentChange(EventInvitationStatus.Confirmed);
+        props.parentChange(EventInvitationStatus.Tentative);
     }
 
     function renderPending(): any {
-        return <CheckBoxOutlinedIcon
-            sx={{ fontSize: "4rem", color: "success.main" }}
+        return <HelpCenterOutlinedIcon
+            sx={{ fontSize: "4rem", color: "text.disabled" }}
             onClick={handleClick}
         />
     }
 
     function renderActive(): any {
-        return <CheckBoxIcon
-            sx={{ fontSize: "4rem", color: "success.main" }}
+        return <HelpCenterIcon
+            sx={{ fontSize: "4rem", color: "text.disabled" }}
             onClick={handleClick}
         />
     }
 
     function renderInActive(): any {
-        return <CheckBoxOutlinedIcon
-            sx={{ fontSize: "3rem", color: "success.main" }}
+        return <HelpCenterOutlinedIcon
+            sx={{ fontSize: "3rem", color: "text.disabled" }}
             onClick={handleClick}
         />
     }
@@ -50,4 +51,4 @@ const Confirmed: React.FC<IConfirmedProps> = (props: IConfirmedProps) => {
     return props.active ? renderActive() : renderInActive();
 }
 
-export default Confirmed;
+export default Tentative;

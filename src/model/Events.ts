@@ -1,4 +1,4 @@
-import {IUserInvitation, User} from "./Users";
+import {IUserEventsList, IUserInvitation, User} from "./Users";
 
 export enum EventInvitationStatus {
     Confirmed = 1,
@@ -39,6 +39,13 @@ export interface IEvent {
 
 export interface IAttendantsList {
     [key: number]: IUserInvitation
+}
+
+export interface IAttendantsOrganized {
+    Confirmed: Array<string>,
+    Tentative: Array<string>,
+    Declined: Array<string>,
+    Pending: Array<string>
 }
 
 export class AttendantsList {
@@ -117,8 +124,6 @@ export class Event {
         }
         for (const [id, invitation] of Object.entries(this.attendants)) {
             if (id === user.id) {
-                console.log(invitation.status);
-                console.log(EventInvitationStatusCZ[invitation.status]);
                 return EventInvitationStatusCZ[invitation.status]
             }
         }
@@ -181,10 +186,8 @@ class EventsModel {
     data: Array<Event> = [];
 
     constructor() {
-        console.log('Events Constructor');
         this.data = [];
         let sessionEvents: string | null = sessionStorage.getItem('events');
-        console.log(sessionEvents);
         sessionEvents !== null ? this.constructFromSession(sessionEvents) : this.constructFromDataDefinition();
     }
 
@@ -209,12 +212,9 @@ class EventsModel {
      */
     constructFromSession(sessionEvents: string) {
         let events: Array<IEvent> = JSON.parse(sessionEvents);
-        console.log(events);
 
         // /** Construct events from session */
         for (const e of events) {
-            console.log(e);
-            console.log(new Event(e));
             this.data.push(new Event(e));
         }
 
@@ -243,10 +243,41 @@ class EventsModel {
         let res: Array<Event> = [];
         this.data.find(
             (e) => {
-                if (Object.keys(e.attendants).includes((user.id as unknown) as string)) {
+                if (Object.keys(e.attendants).includes(user.id)) {
                     res.push(e);
                 }
             });
+        return res;
+    }
+
+    /**
+     * @param attendants
+     */
+    getAttendantsOrganized(attendants: AttendantsList): IAttendantsOrganized {
+        let res: IAttendantsOrganized = {
+            Confirmed: [],
+            Tentative: [],
+            Declined: [],
+            Pending: []
+        }
+
+        for (const [id, a] of Object.entries(attendants)) {
+            switch (a.status) {
+                case EventInvitationStatus.Confirmed:
+                    res.Confirmed.push(id);
+                    break;
+                case EventInvitationStatus.Tentative:
+                    res.Tentative.push(id);
+                    break;
+                case EventInvitationStatus.Declined:
+                    res.Declined.push(id);
+                    break;
+                case EventInvitationStatus.Pending:
+                    res.Pending.push(id);
+                    break;
+            }
+        }
+
         return res;
     }
 
@@ -261,7 +292,6 @@ class EventsModel {
                 if (e.id === event.id) {
                     for (const id of Object.keys(e.attendants)) {
                         if (user.id === id) {
-                            console.log('UPDATE');
                             this.data[inx].attendants[id as unknown as number].status = newStatus;
                         }
                     }

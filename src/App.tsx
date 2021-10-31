@@ -28,7 +28,6 @@ class App extends React.Component<any, AppState> {
     }
 
     updateState = (key: keyof AppState, data: any) => {
-        console.log([key, data]);
         if (this.state[key] !== data) {
             let newStateFragment: AppState = this.state;
             newStateFragment[key] = data;
