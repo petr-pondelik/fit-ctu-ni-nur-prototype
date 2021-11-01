@@ -7,7 +7,7 @@ import Tentative from "./Tentative";
 import {User} from "../../../model/Users";
 
 interface IEventParticipationProps {
-    loggedUser: User,
+    user: User,
     event: Event,
     updateParent(event: Event): void
 }
@@ -18,7 +18,7 @@ interface IEventParticipationProps {
  */
 const EventParticipation: React.FC<IEventParticipationProps> = (props: IEventParticipationProps) => {
 
-    const [invitationStatus, setInvitationStatus] = useState(props.event.attendants.getUsersPartStatus(props.loggedUser));
+    const [invitationStatus, setInvitationStatus] = useState(props.event.attendants.getUsersPartStatus(props.user));
 
     /**
      *
@@ -26,7 +26,7 @@ const EventParticipation: React.FC<IEventParticipationProps> = (props: IEventPar
      */
     function handleChange(newPartStatus: EventInvitationStatus) {
         setInvitationStatus(newPartStatus);
-        EventsModel.updateEventAttendance(props.loggedUser, props.event, newPartStatus);
+        EventsModel.updateEventAttendance(props.user, props.event, newPartStatus);
         props.updateParent(EventsModel.findById(props.event.id) as Event);
     }
 

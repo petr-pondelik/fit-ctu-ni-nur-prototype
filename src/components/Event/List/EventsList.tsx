@@ -5,7 +5,7 @@ import {Grid} from "@mui/material";
 import {User} from "../../../model/Users";
 
 interface IEventsListProps {
-    loggedUser: User,
+    user: User,
     events: Array<Event>
 }
 
@@ -15,7 +15,7 @@ const EventsList: React.FC<IEventsListProps> = (props: IEventsListProps) => {
         return (
             <Grid item key={inx}>
                 <EventCard
-                    loggedUser={props.loggedUser}
+                    user={props.user}
                     event={e}
                 />
             </Grid>

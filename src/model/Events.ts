@@ -1,4 +1,4 @@
-import {IUserEventsList, IUserInvitation, User} from "./Users";
+import {IUserInvitation, User} from "./Users";
 
 export enum EventInvitationStatus {
     Confirmed = 1,
@@ -118,7 +118,14 @@ export class Event {
     /**
      * @param user
      */
-    getUsersStatus(user: User) {
+    isOrganisedBy(user: User): boolean {
+        return this.organizer === user.id;
+    }
+
+    /**
+     * @param user
+     */
+    getUsersStatusCZ(user: User): string|undefined {
         if (this.organizer === user.id) {
             return EventInvitationStatusCZ[0];
         }
@@ -127,6 +134,7 @@ export class Event {
                 return EventInvitationStatusCZ[invitation.status]
             }
         }
+        return undefined;
     }
 
 }
@@ -157,8 +165,7 @@ class EventsModel {
                 5: {status: EventInvitationStatus.Declined},
                 6: {status: EventInvitationStatus.Confirmed},
                 7: {status: EventInvitationStatus.Tentative},
-                8: {status: EventInvitationStatus.Tentative},
-                9: {status: EventInvitationStatus.Pending}
+                8: {status: EventInvitationStatus.Tentative}
             }
         },
         {
@@ -178,7 +185,7 @@ class EventsModel {
             organizer: '1',
             attendants: {
                 1: {status: EventInvitationStatus.Confirmed},
-                10: {status: EventInvitationStatus.Confirmed}
+                9: {status: EventInvitationStatus.Confirmed}
             }
         }
     ];
@@ -213,7 +220,7 @@ class EventsModel {
     constructFromSession(sessionEvents: string) {
         let events: Array<IEvent> = JSON.parse(sessionEvents);
 
-        // /** Construct events from session */
+        /** Construct events from session */
         for (const e of events) {
             this.data.push(new Event(e));
         }

@@ -9,7 +9,7 @@ import {User} from "../../model/Users";
 
 
 export interface IEventViewProps {
-    loggedUser: User
+    user: User
 }
 
 
@@ -26,13 +26,13 @@ const EventView: React.FC<IEventViewProps> = (props: IEventViewProps) => {
     }
 
     return (
-        <Grid container direction={"column"} pb={"1rem"}>
+        <Grid container direction={"column"} mt={"4rem"} pb={"1rem"}>
             <Grid item>
                 <CommonHeader title={event.title}/>
             </Grid>
             <Grid container item sx={{paddingX: "5%"}}>
                 <Content
-                    loggedUser={props.loggedUser}
+                    user={props.user}
                     event={event}
                 />
             </Grid>

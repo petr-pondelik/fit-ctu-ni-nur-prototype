@@ -26,7 +26,7 @@ const UserEventStatus: React.FC<IUserEventStatusProps> = (props: IUserEventStatu
             </Grid>
             <Grid item>
                 <Typography sx={StatusStyle} pl={"0.5rem"}>
-                    {props.event.getUsersStatus(props.loggedUser)}
+                    {props.event.getUsersStatusCZ(props.loggedUser)}
                 </Typography>
             </Grid>
         </Grid>

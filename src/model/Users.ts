@@ -127,17 +127,6 @@ class UsersModel {
         },
         {
             id: '8',
-            username: 'vytizenater',
-            email: 'terezavytizena@test.com',
-            givenName: 'Tereza',
-            familyName: 'Vytížená',
-            password: '12345678',
-            events: {
-                1: { status: EventInvitationStatus.Tentative }
-            }
-        },
-        {
-            id: '9',
             username: 'hruskalad',
             email: 'ladahruska@test.com',
             givenName: 'Láďa',
@@ -148,7 +137,7 @@ class UsersModel {
             }
         },
         {
-            id: '10',
+            id: '9',
             username: 'kavickovaevz',
             email: 'evzeniekavickova@test.com',
             givenName: 'Evženie',

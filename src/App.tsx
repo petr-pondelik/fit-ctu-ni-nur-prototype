@@ -11,9 +11,11 @@ import './styles/global.css';
 import Registration from "./pages/Registration/Registration";
 import EventsModel from "./model/Events";
 import EventView from "./pages/Event/EventView";
+import EventEdit from "./pages/Event/EventEdit";
+import EventCreate from "./pages/Event/EventCreate";
 
 interface AppState {
-    loggedUser?: User
+    user?: User
 }
 
 const history = createBrowserHistory();
@@ -23,7 +25,7 @@ class App extends React.Component<any, AppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            loggedUser: UsersModel.getLoggedUser()
+            user: UsersModel.getLoggedUser()
         };
     }
 
@@ -41,30 +43,35 @@ class App extends React.Component<any, AppState> {
                 <Switch>
                     <Route exact path={"/"}>
                         {
-                            this.state.loggedUser === undefined ?
+                            this.state.user === undefined ?
                                 <Login propagateState={this.updateState}/> :
                                 <Homepage
-                                    loggedUser={this.state.loggedUser}
-                                    events={EventsModel.findByUser(this.state.loggedUser)}
+                                    user={this.state.user}
+                                    events={EventsModel.findByUser(this.state.user)}
                                 />
                         }
                     </Route>
                     <Route exact path="/registration">
                         {
-                            this.state.loggedUser === undefined ?
+                            this.state.user === undefined ?
                                 <Registration/> :
                                 <Homepage
-                                    loggedUser={this.state.loggedUser}
-                                    events={EventsModel.findByUser(this.state.loggedUser)}
+                                    user={this.state.user}
+                                    events={EventsModel.findByUser(this.state.user)}
                                 />
                         }
                     </Route>
                     <Route path="/event/view/:id"
-                        render={(props) =>
-                            this.state.loggedUser !== undefined ?
-                                <EventView loggedUser={this.state.loggedUser}/> : undefined
-                        }>
-                    </Route>
+                           render={(props) =>
+                               this.state.user !== undefined ?
+                                   <EventView user={this.state.user}/> : undefined
+                           }/>
+                    <Route path="/event/edit/:id"
+                           render={(props) =>
+                               this.state.user !== undefined ?
+                                   <EventEdit user={this.state.user} {...props}/> : undefined
+                           }/>
+                    <Route path="/event/create" component={EventCreate}/>
                 </Switch>
             </Router>
         )

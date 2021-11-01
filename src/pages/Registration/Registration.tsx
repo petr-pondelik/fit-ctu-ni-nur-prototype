@@ -1,4 +1,3 @@
-import './Registration.css';
 import React from "react";
 import SignUpForm from "../../components/SignUp/SignUpForm/SignUpForm";
 import {Grid} from "@mui/material";

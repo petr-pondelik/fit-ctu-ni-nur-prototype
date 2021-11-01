@@ -3,14 +3,35 @@ import {AppBar, Box, Button, Grid, Toolbar, Typography} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {RouteComponentProps, withRouter} from "react-router-dom";
 
+
 interface ICommonHeaderProps extends RouteComponentProps {
-    title: string
+    title: string,
+    children?: JSX.Element
 }
 
+
+/**
+ * @param props
+ * @constructor
+ */
 const CommonHeader: React.FC<ICommonHeaderProps> = (props: ICommonHeaderProps) => {
+
+    function renderIcon() {
+        if (props.children === undefined) {
+            return '';
+        }
+        return (
+            <Grid item>
+                <Typography variant="h5" component="div" sx={{flexGrow: 1, pr: "0.5rem", pt: "0.25rem"}}>
+                    {props.children}
+                </Typography>
+            </Grid>
+        );
+    }
+
     return (
         <Box sx={{flexGrow: 1}}>
-            <AppBar position="static">
+            <AppBar sx={{ position: "fixed"}}>
                 <Toolbar>
                     <Grid container justifyContent={"space-between"} alignItems={"center"}>
                         <Grid item>
@@ -19,9 +40,14 @@ const CommonHeader: React.FC<ICommonHeaderProps> = (props: ICommonHeaderProps) =
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Typography variant="h5" component="div" sx={{flexGrow: 1}}>
-                                {props.title}
-                            </Typography>
+                            <Grid container alignItems={"center"} justifyContent={"end"}>
+                                {renderIcon()}
+                                <Grid item>
+                                    <Typography variant="h5" component="div" sx={{flexGrow: 1}}>
+                                        {props.title}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Toolbar>

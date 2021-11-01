@@ -2,8 +2,7 @@ import React, {MouseEvent} from "react";
 import HelpCenterOutlinedIcon from '@mui/icons-material/HelpCenterOutlined';
 import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import {EventInvitationStatus} from "../../../model/Events";
-import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+
 
 export interface ITentativeProps {
     active?: boolean,
