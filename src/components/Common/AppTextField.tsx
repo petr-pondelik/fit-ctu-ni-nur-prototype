@@ -1,11 +1,14 @@
 import React from "react";
 import {TextField} from "@mui/material";
 import MessageBox from "./MessageBox";
+import {OverridableStringUnion} from "@mui/types";
+import {TextFieldPropsSizeOverrides} from "@mui/material/TextField/TextField";
 
 interface AppTextFieldProps {
-    type: string,
+    type?: string,
     name: string,
     label: string,
+    size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>,
     changeHandler(event: React.ChangeEvent<HTMLInputElement>): void,
     message?: string
 }
@@ -14,10 +17,11 @@ const AppTextField: React.FC<AppTextFieldProps> = (props: AppTextFieldProps) => 
     return (
         <React.Fragment>
             <TextField
-                type={props.type}
+                variant={"standard"}
+                type={props.type ?? 'text'}
                 name={props.name}
                 label={props.label}
-                variant={"standard"}
+                size={props.size ?? 'medium'}
                 onChange={props.changeHandler}
                 fullWidth
             />

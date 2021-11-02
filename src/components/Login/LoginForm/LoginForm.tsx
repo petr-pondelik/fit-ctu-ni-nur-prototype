@@ -188,7 +188,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
 
         if (loginRes !== undefined) {
             UsersModel.setLoggedUser(loginRes);
-            this.props.propagateState('loggedUser', loginRes);
+            this.props.propagateState('user', loginRes);
             return;
         }
 

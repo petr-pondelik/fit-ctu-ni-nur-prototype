@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Grid, Typography} from "@mui/material";
 import HomepageHeader from "../../components/Header/HomepageHeader";
-import AddIcon from '@mui/icons-material/Add';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import EventsList from "../../components/Event/List/EventsList";
 import {Event} from "../../model/Events";
 import {User} from "../../model/Users";
@@ -16,12 +16,12 @@ export interface IHomepageProps {
 
 const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
     return (
-        <Grid container direction={"column"} mt={"4rem"} pb={"1rem"}>
+        <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
             <Grid item>
                 <HomepageHeader/>
             </Grid>
             <Grid container item sx={{ paddingX: "5%" }}>
-                <Grid container item alignItems={"center"} sx={{ py: "1.25rem" }}>
+                <Grid container item alignItems={"center"} sx={{ pt: "1rem", pb: "1.5rem" }}>
                     <Grid item>
                         <Typography variant={"h4"} component={"h1"}>
                             Vaše události
@@ -29,7 +29,7 @@ const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
                     </Grid>
                     <Grid item>
                         <Button component={Link} to={"/event/create"}>
-                            <AddIcon fontSize={"large"}/>
+                            <AddBoxOutlinedIcon fontSize={"large"}/>
                         </Button>
                     </Grid>
                 </Grid>

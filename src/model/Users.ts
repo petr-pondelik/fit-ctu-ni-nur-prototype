@@ -1,4 +1,5 @@
 import {EventInvitationStatus} from "./Events";
+import Cookies from 'js-cookie';
 
 export interface IUserInvitation {
     status: EventInvitationStatus
@@ -154,13 +155,13 @@ class UsersModel {
     constructor() {
         let users: Array<User> = [];
 
-        /** Synchronize session storage with defined users */
+        /** Synchronize cookies with defined users */
         for (const u of this.dataDefinition) {
             users.push(new User(u));
         }
 
         this.data = users;
-        sessionStorage.setItem('users', JSON.stringify(this.data));
+        Cookies.set('users', JSON.stringify(this.data));
     }
 
     /**
@@ -186,7 +187,11 @@ class UsersModel {
     };
 
     getLoggedUser (): User|undefined {
-        let res = JSON.parse(sessionStorage.getItem('loggedUser') as string);
+        let str: string|undefined = Cookies.get('loggedUser');
+        if (str === undefined) {
+            return undefined;
+        }
+        let res = JSON.parse(str);
         if (res === null) {
             return undefined;
         }
@@ -197,7 +202,7 @@ class UsersModel {
      * @param user
      */
     setLoggedUser (user: UserInterface) {
-        sessionStorage.setItem('loggedUser', JSON.stringify(user));
+        Cookies.set('loggedUser', JSON.stringify(user));
     }
 
 }

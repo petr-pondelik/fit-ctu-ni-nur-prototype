@@ -14,14 +14,14 @@ export interface ICardMediaProps {
 }
 
 
-const SendIconStyle: SxProps = {
-    position: "absolute",
-    bottom: "10px",
-    right: "30px",
-    padding: '0.25rem',
-    background: grey['A100'],
-    opacity: 0.85
-}
+// const SendIconStyle: SxProps = {
+//     position: "absolute",
+//     bottom: "10px",
+//     right: "30px",
+//     padding: '0.25rem',
+//     background: grey['A100'],
+//     opacity: 0.85
+// }
 
 
 /**
@@ -41,7 +41,7 @@ const MediaDetailLink: React.FC<ICardMediaProps> = (props: ICardMediaProps) => {
                 height="140"
                 image={props.event.imgPath}
             />
-            <ReadMoreIcon sx={SendIconStyle}/>
+            {/*<ReadMoreIcon sx={SendIconStyle}/>*/}
         </Container>
         </Link>
     );

@@ -1,4 +1,5 @@
 import {IUserInvitation, User} from "./Users";
+import Cookies from 'js-cookie';
 
 export enum EventInvitationStatus {
     Confirmed = 1,
@@ -145,7 +146,7 @@ class EventsModel {
         {
             id: '1',
             title: 'Třídní sraz',
-            imgPath: '/static/images/events/1/cover.jpg',
+            imgPath: '/static/images/events/1/create-event-cover.jpg',
             location: {
                 name: 'Lucerna',
                 lat: 50.0814607,
@@ -171,7 +172,7 @@ class EventsModel {
         {
             id: '2',
             title: 'Káva a Evženií',
-            imgPath: '/static/images/events/2/cover.jpg',
+            imgPath: '/static/images/events/2/create-event-cover.jpg',
             location: {
                 name: 'Kavárna Kabinet',
                 lat: 50.102453,
@@ -194,8 +195,8 @@ class EventsModel {
 
     constructor() {
         this.data = [];
-        let sessionEvents: string | null = sessionStorage.getItem('events');
-        sessionEvents !== null ? this.constructFromSession(sessionEvents) : this.constructFromDataDefinition();
+        let sessionEvents: string | undefined = Cookies.get('events');
+        sessionEvents !== undefined ? this.constructFromSession(sessionEvents) : this.constructFromDataDefinition();
     }
 
     constructFromDataDefinition() {
@@ -211,7 +212,7 @@ class EventsModel {
         });
 
         this.data = events;
-        sessionStorage.setItem('events', JSON.stringify(this.data));
+        Cookies.set('events', JSON.stringify(this.data));
     }
 
     /**
@@ -304,7 +305,7 @@ class EventsModel {
                     }
                 }
             });
-        sessionStorage.setItem('events', JSON.stringify(this.data));
+        Cookies.set('events', JSON.stringify(this.data));
     }
 
 }

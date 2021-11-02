@@ -26,11 +26,11 @@ const EventView: React.FC<IEventViewProps> = (props: IEventViewProps) => {
     }
 
     return (
-        <Grid container direction={"column"} mt={"4rem"} pb={"1rem"}>
+        <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
             <Grid item>
                 <CommonHeader title={event.title}/>
             </Grid>
-            <Grid container item sx={{paddingX: "5%"}}>
+            <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
                 <Content
                     user={props.user}
                     event={event}

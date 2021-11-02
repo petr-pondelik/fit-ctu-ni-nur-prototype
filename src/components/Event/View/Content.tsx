@@ -39,7 +39,7 @@ export default class Content extends React.Component<IContentProps, IContentStat
 
     render() {
         return (
-            <Grid container direction={"column"} py={"2rem"}>
+            <Grid container direction={"column"}>
                 <Grid item>
                     <Card elevation={2}>
                         <CardMedia
