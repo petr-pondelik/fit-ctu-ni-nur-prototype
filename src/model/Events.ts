@@ -146,7 +146,7 @@ class EventsModel {
         {
             id: '1',
             title: 'Třídní sraz',
-            imgPath: '/static/images/events/1/create-event-cover.jpg',
+            imgPath: '/static/images/events/1/cover.jpg',
             location: {
                 name: 'Lucerna',
                 lat: 50.0814607,
@@ -172,7 +172,7 @@ class EventsModel {
         {
             id: '2',
             title: 'Káva a Evženií',
-            imgPath: '/static/images/events/2/create-event-cover.jpg',
+            imgPath: '/static/images/events/2/cover.jpg',
             location: {
                 name: 'Kavárna Kabinet',
                 lat: 50.102453,
@@ -236,11 +236,7 @@ class EventsModel {
      */
     findById(id: string): Event | undefined {
         let res: Event | undefined = undefined;
-        this.data.find((e) => {
-            if (e.id === id) {
-                res = e;
-            }
-        });
+        res = this.data.find((e) => e.id === id);
         return res;
     }
 
@@ -249,12 +245,11 @@ class EventsModel {
      */
     findByUser(user: User): Array<Event> {
         let res: Array<Event> = [];
-        this.data.find(
-            (e) => {
-                if (Object.keys(e.attendants).includes(user.id)) {
-                    res.push(e);
-                }
-            });
+        for (const e of this.data) {
+            if (Object.keys(e.attendants).includes(user.id)) {
+                res.push(e);
+            }
+        }
         return res;
     }
 
@@ -295,16 +290,15 @@ class EventsModel {
      * @param newStatus
      */
     updateEventAttendance(user: User, event: Event, newStatus: EventInvitationStatus) {
-        this.data.find(
-            (e, inx) => {
-                if (e.id === event.id) {
-                    for (const id of Object.keys(e.attendants)) {
-                        if (user.id === id) {
-                            this.data[inx].attendants[id as unknown as number].status = newStatus;
-                        }
+        for (const [inx, e] of Object.entries(this.data)) {
+            if (e.id === event.id) {
+                for (const id of Object.keys(e.attendants)) {
+                    if (user.id === id) {
+                        this.data[inx as unknown as number].attendants[id as unknown as number].status = newStatus;
                     }
                 }
-            });
+            }
+        }
         Cookies.set('events', JSON.stringify(this.data));
     }
 

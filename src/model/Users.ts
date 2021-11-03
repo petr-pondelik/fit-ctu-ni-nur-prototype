@@ -169,11 +169,7 @@ class UsersModel {
      */
     findById(id: string): User | undefined {
         let res: User | undefined = undefined;
-        this.data.find((e) => {
-            if (e.id === id) {
-                res = e;
-            }
-        });
+        res = this.data.find((e) => e.id === id);
         return res;
     }
 

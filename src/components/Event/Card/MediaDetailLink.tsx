@@ -1,9 +1,6 @@
 import React from "react";
 import {CardMedia, Container} from "@mui/material";
-import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import {Event} from "../../../model/Events";
-import {SxProps} from "@mui/system";
-import {grey} from "@mui/material/colors";
 import {Link} from "react-router-dom";
 import {User} from "../../../model/Users";
 
