@@ -1,18 +1,21 @@
 import {LocalizationProvider, MobileDateTimePicker} from '@mui/lab';
-import {TextField, Typography} from "@mui/material";
+import {TextField} from "@mui/material";
 import React from "react";
 import AdapterMoment from '@mui/lab/AdapterMoment';
 import moment, {Moment} from 'moment';
 import 'moment/locale/cs';
 import {SxProps} from "@mui/system";
-import {Label} from "@mui/icons-material";
-
 moment.locale('cs');
 
+
 export interface IAppDateTimePickerProps {
+    name: string,
+    value: Moment,
     toolbarTitle?: string,
-    textHelper?: string
+    textHelper?: string,
+    updateParent(stateFragment: any): void
 }
+
 
 /**
  * @param props
@@ -20,9 +23,7 @@ export interface IAppDateTimePickerProps {
  */
 const AppDateTimePicker: React.FC<IAppDateTimePickerProps> = (props: IAppDateTimePickerProps) => {
 
-    const [value, setValue] = React.useState<Moment | null>(
-        moment(new Date('2018-01-01T00:00:00.000Z')),
-    );
+    const [value, setValue] = React.useState<Moment | null>(props.value);
 
     const TextFieldStyle: SxProps = {
         marginY: "0.5rem",
@@ -31,10 +32,14 @@ const AppDateTimePicker: React.FC<IAppDateTimePickerProps> = (props: IAppDateTim
     };
 
     /**
-     * @param neValue
+     * @param newValue
      */
-    function onDateTimeChange(neValue: Moment | null) {
-        setValue(neValue);
+    function update(newValue: Moment | null) {
+        setValue(newValue);
+        console.log(newValue?.toISOString());
+        let stateFragment: any = { data: {} };
+        stateFragment.data[props.name] = newValue?.toISOString();
+        props.updateParent(stateFragment);
     }
 
     return (
@@ -43,7 +48,8 @@ const AppDateTimePicker: React.FC<IAppDateTimePickerProps> = (props: IAppDateTim
             <LocalizationProvider dateAdapter={AdapterMoment}>
                 <MobileDateTimePicker
                     value={value}
-                    onChange={(newValue) => onDateTimeChange(newValue)}
+                    onError={(e) => console.log(e)}
+                    onChange={(newValue) => update(newValue)}
                     renderInput={
                         (params) => {
                             return <TextField

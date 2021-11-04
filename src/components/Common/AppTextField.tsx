@@ -9,11 +9,24 @@ interface AppTextFieldProps {
     name: string,
     label: string,
     size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>,
-    changeHandler(event: React.ChangeEvent<HTMLInputElement>): void,
-    message?: string
+    defaultValue?: string,
+    message?: string,
+    updateParent(stateFragment: any): void,
 }
 
 const AppTextField: React.FC<AppTextFieldProps> = (props: AppTextFieldProps) => {
+
+    /**
+     * @param event
+     */
+    function update(event: React.ChangeEvent<HTMLInputElement>) {
+        let key: string = event.currentTarget.name;
+        let newVal: string = event.currentTarget.value as string;
+        let stateFragment: any = { data: {} };
+        stateFragment.data[key] = newVal;
+        props.updateParent(stateFragment);
+    }
+
     return (
         <React.Fragment>
             <TextField
@@ -22,7 +35,8 @@ const AppTextField: React.FC<AppTextFieldProps> = (props: AppTextFieldProps) => 
                 name={props.name}
                 label={props.label}
                 size={props.size ?? 'medium'}
-                onChange={props.changeHandler}
+                defaultValue={props.defaultValue ?? undefined}
+                onChange={update}
                 fullWidth
             />
             <MessageBox

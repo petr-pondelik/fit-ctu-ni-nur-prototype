@@ -12,7 +12,6 @@ interface LoginFormDataInterface {
     password?: string
 }
 
-// interface LoginFormProps extends RouteComponentProps {
 interface LoginFormProps {
     propagateState(key: string, data: any): any
 }
@@ -89,14 +88,14 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
         };
     }
 
-    /**
-     * @param event
+    /**g
+     * @param key
+     * @param newVal
      */
-    updateData = (event: React.FormEvent<HTMLInputElement>) => {
-        let key: keyof LoginFormDataInterface = event.currentTarget.name as keyof LoginFormDataInterface;
-        let newVal: string = event.currentTarget.value as string;
-        if (this.data[key] !== newVal) {
-            this.data[key] = newVal;
+    update = (key: string, newVal: string) => {
+        let k = key as keyof LoginFormDataInterface;
+        if (this.data[k] !== newVal) {
+            this.data[k] = newVal;
         }
     }
 
@@ -216,24 +215,24 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
     render() {
         return (
             <Grid container direction={"column"} rowSpacing={2}>
-                <Grid container item>
-                    <AppTextField
-                        type={'text'}
-                        name={'username'}
-                        label={'Username *'}
-                        changeHandler={this.updateData}
-                        message={this.state.messages?.validation?.username}
-                    />
-                </Grid>
-                <Grid container item>
-                    <AppTextField
-                        type={'password'}
-                        name={'password'}
-                        label={'Password *'}
-                        changeHandler={this.updateData}
-                        message={this.state.messages?.validation?.password}
-                    />
-                </Grid>
+                {/*<Grid container item>*/}
+                {/*    <AppTextField*/}
+                {/*        type={'text'}*/}
+                {/*        name={'username'}*/}
+                {/*        label={'Username *'}*/}
+                {/*        updateParent={this.update}*/}
+                {/*        message={this.state.messages?.validation?.username}*/}
+                {/*    />*/}
+                {/*</Grid>*/}
+                {/*<Grid container item>*/}
+                {/*    <AppTextField*/}
+                {/*        type={'password'}*/}
+                {/*        name={'password'}*/}
+                {/*        label={'Password *'}*/}
+                {/*        updateParent={this.update}*/}
+                {/*        message={this.state.messages?.validation?.password}*/}
+                {/*    />*/}
+                {/*</Grid>*/}
                 <Grid container item marginTop={"16px"}>
                     <ActionButton
                         text={'Login'}

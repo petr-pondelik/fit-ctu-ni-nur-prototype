@@ -4,7 +4,9 @@ import {SxProps} from "@mui/system";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 export interface IImageUploadProps {
-
+    name: string,
+    defaultValue?: string,
+    updateParent(stateFragment: any): void
 }
 
 
@@ -16,9 +18,16 @@ const ImageUpload: React.FC<IImageUploadProps> = (props: IImageUploadProps) => {
 
     const [imagePath, setImagePath] = useState('');
 
-    function getImgPath(): string {
-        let pathParts: Array<string> = imagePath.split('\\');
-        return `url("/static/images/default/${pathParts[pathParts.length - 1]}")`;
+    /**
+     * @param path
+     */
+    function getImgPath(path: string): string {
+        let pathParts: Array<string> = path.split('\\');
+        return '/static/images/default/' + pathParts[pathParts.length - 1];
+    }
+
+    function getCSSImgPath(): string {
+        return `url("${imagePath}")`;
     }
 
     let EmptyStyle: SxProps = {
@@ -40,16 +49,19 @@ const ImageUpload: React.FC<IImageUploadProps> = (props: IImageUploadProps) => {
             opacity: 0.75,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            backgroundImage: getImgPath(),
+            backgroundImage: getCSSImgPath(),
         }
     }
 
     /**
      * @param e
      */
-    function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
-        console.log(e.currentTarget.value);
-        setImagePath(e.currentTarget.value);
+    function update(e: ChangeEvent<HTMLInputElement>) {
+        let path: string = getImgPath(e.currentTarget.value);
+        setImagePath(path);
+        let stateFragment: any = { data: {} };
+        stateFragment.data[props.name] = path;
+        props.updateParent(stateFragment);
     }
 
     function renderEmpty() {
@@ -57,12 +69,12 @@ const ImageUpload: React.FC<IImageUploadProps> = (props: IImageUploadProps) => {
             <React.Fragment>
                 <input
                     accept="image/*"
-                    className={'t'}
+                    name={props.name}
                     style={{display: 'none'}}
                     id="image-upload"
                     multiple
                     type="file"
-                    onChange={handleFileChange}
+                    onChange={update}
                 />
                 <label htmlFor="image-upload">
                     <Paper elevation={3} sx={EmptyStyle}>
@@ -93,7 +105,7 @@ const ImageUpload: React.FC<IImageUploadProps> = (props: IImageUploadProps) => {
                     id="image-upload"
                     multiple
                     type="file"
-                    onChange={handleFileChange}
+                    onChange={update}
                 />
                 <label htmlFor="image-upload">
                     <Paper elevation={3} sx={SelectedStyle}>
