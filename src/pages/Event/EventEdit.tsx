@@ -36,6 +36,7 @@ export default class EventEdit extends React.Component<IEventEditProps, IEventEd
     }
 
     render() {
+        console.log(this.state);
         return (
             <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
                 <Grid item>

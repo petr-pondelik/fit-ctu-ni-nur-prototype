@@ -42,7 +42,7 @@ const EventCreateLocation: React.FC<IEventCreateLocationProps> = (props: IEventC
         <Grid container item direction={"column"}>
             <Grid item mb={"0.75rem"}>
                 <EventLocationAutocomplete
-                    // location={props.location}
+                    location={props.location}
                     updateParent={update}
                 />
             </Grid>

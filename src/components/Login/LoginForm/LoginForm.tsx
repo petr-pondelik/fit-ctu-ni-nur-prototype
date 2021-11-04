@@ -6,19 +6,29 @@ import ActionButton from "../../Common/ActionButton";
 import AppTextField from "../../Common/AppTextField";
 import {Grid} from "@mui/material";
 import MessageBox from "../../Common/MessageBox";
+import merge from "merge-objects";
 
-interface LoginFormDataInterface {
+interface ILoginFormData {
     username?: string,
     password?: string
 }
 
-interface LoginFormProps {
+interface ILoginFormProps {
     propagateState(key: string, data: any): any
 }
 
-interface LoginFormStateInterface {
+interface ILoginFormState {
+    data: ILoginFormData,
     messages?: {
-        validation?: LoginFormDataInterface,
+        validation?: ILoginFormData,
+        global?: string,
+    }
+}
+
+interface ILoginFormStateFragment {
+    data?: ILoginFormData,
+    messages?: {
+        validation?: ILoginFormData,
         global?: string,
     }
 }
@@ -42,17 +52,17 @@ interface MessagesInterface {
     }
 }
 
-class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface> {
+class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
 
     validated: boolean = false;
 
-    data: LoginFormDataInterface = {
-        username: undefined,
-        password: undefined,
-    };
+    // data: ILoginFormData = {
+    //     username: undefined,
+    //     password: undefined,
+    // };
 
     validationFunctions: DataValidationFunctionsInterface;
-    stateUpdate?: LoginFormStateInterface;
+    stateUpdate?: ILoginFormStateFragment;
 
     messages: MessagesInterface = {
         validation: {
@@ -74,6 +84,10 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
     constructor(props: any) {
         super(props);
         this.state = {
+            data: {
+                username: undefined,
+                password: undefined
+            },
             messages: {
                 validation: {
                     username: undefined,
@@ -88,23 +102,23 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
         };
     }
 
-    /**g
-     * @param key
-     * @param newVal
+    /**
+     * @param stateFragment
      */
-    update = (key: string, newVal: string) => {
-        let k = key as keyof LoginFormDataInterface;
-        if (this.data[k] !== newVal) {
-            this.data[k] = newVal;
-        }
+    update = (stateFragment: ILoginFormStateFragment) => {
+        console.log('EventCreateForm update');
+        let stateUpdate: ILoginFormState = this.state;
+        let newState: ILoginFormState = merge(stateUpdate, stateFragment);
+        console.log(newState);
+        this.setState(newState);
     }
 
     /**
      * @param key
      */
     getData = (key: string) => {
-        let keyTyped = key as keyof LoginFormDataInterface;
-        return this.data[keyTyped];
+        let keyTyped = key as keyof ILoginFormData;
+        return this.state.data[keyTyped];
     }
 
     /**
@@ -131,7 +145,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
      * @param msg
      */
     setValidationMessage = (key: string, msg: string | undefined) => {
-        let keyTyped: keyof LoginFormDataInterface = key as keyof LoginFormDataInterface;
+        let keyTyped: keyof ILoginFormData = key as keyof ILoginFormData;
         if (this.stateUpdate && this.stateUpdate.messages && this.stateUpdate.messages.validation) {
             this.stateUpdate.messages.validation[keyTyped] = msg;
         }
@@ -141,7 +155,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
      * @param data
      */
     validateUsername = (data: string | undefined): ValidationTuple => {
-        if (typeof this.data.username !== 'string') {
+        if (typeof this.state.data.username !== 'string') {
             return [false, this.messages.validation.username.required];
         }
         return [true, undefined];
@@ -151,7 +165,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
      * @param data
      */
     validatePassword = (data: string | undefined): ValidationTuple => {
-        if (typeof this.data.password !== 'string') {
+        if (typeof this.state.data.password !== 'string') {
             return [false, this.messages.validation.password.required];
         }
         return [true, undefined];
@@ -160,7 +174,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
     validate = () => {
         this.prepareValidationMessagesObj();
         let isValid = true;
-        for (const dataKey of Object.keys(this.data)) {
+        for (const dataKey of Object.keys(this.state.data)) {
             let res: [boolean, string | undefined] = this.getValidationFunction(dataKey)(this.getData(dataKey));
             if (!res[0]) {
                 this.setValidationMessage(dataKey, res[1])
@@ -169,7 +183,8 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
         }
         this.validated = isValid;
         if (this.stateUpdate !== undefined) {
-            this.setState(this.stateUpdate);
+            let newState: ILoginFormState = merge(this.state, this.stateUpdate);
+            this.setState(newState);
         }
     }
 
@@ -183,7 +198,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
             return;
         }
 
-        let loginRes: UserInterface | undefined = UsersModel.findByCredentials(this.data.username, this.data.password);
+        let loginRes: UserInterface | undefined = UsersModel.findByCredentials(this.state.data.username, this.state.data.password);
 
         if (loginRes !== undefined) {
             UsersModel.setLoggedUser(loginRes);
@@ -215,24 +230,24 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormStateInterface>
     render() {
         return (
             <Grid container direction={"column"} rowSpacing={2}>
-                {/*<Grid container item>*/}
-                {/*    <AppTextField*/}
-                {/*        type={'text'}*/}
-                {/*        name={'username'}*/}
-                {/*        label={'Username *'}*/}
-                {/*        updateParent={this.update}*/}
-                {/*        message={this.state.messages?.validation?.username}*/}
-                {/*    />*/}
-                {/*</Grid>*/}
-                {/*<Grid container item>*/}
-                {/*    <AppTextField*/}
-                {/*        type={'password'}*/}
-                {/*        name={'password'}*/}
-                {/*        label={'Password *'}*/}
-                {/*        updateParent={this.update}*/}
-                {/*        message={this.state.messages?.validation?.password}*/}
-                {/*    />*/}
-                {/*</Grid>*/}
+                <Grid container item>
+                    <AppTextField
+                        type={'text'}
+                        name={'username'}
+                        label={'Username *'}
+                        updateParent={this.update}
+                        message={this.state.messages?.validation?.username}
+                    />
+                </Grid>
+                <Grid container item>
+                    <AppTextField
+                        type={'password'}
+                        name={'password'}
+                        label={'Password *'}
+                        updateParent={this.update}
+                        message={this.state.messages?.validation?.password}
+                    />
+                </Grid>
                 <Grid container item marginTop={"16px"}>
                     <ActionButton
                         text={'Login'}

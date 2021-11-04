@@ -8,48 +8,6 @@ export interface IEventLocationAutocompleteProps {
     updateParent(stateFragment: any): void
 }
 
-let addressesOriginal: ILocation[] = [
-    {
-        name: 'Sinobo Stadium',
-        address: 'U Slavie 1540/2a, 100 00 Praha 10-Vršovice',
-        lat: 50.0674643,
-        long: 14.4705921
-    },
-    {
-        name: 'Lucerna',
-        address: 'Štěpánská 61, 116 02 Nové Město',
-        lat: 50.0814607,
-        long: 14.4230261
-    },
-    {
-        name: 'Kavárna Kabinet',
-        address: 'Terronská 619, 160 00 Praha 6-Bubeneč',
-        lat: 50.102453,
-        long: 14.3929309
-    }
-];
-
-let addresses: ILocation[] = [
-    {
-        name: 'Sinobo Stadium',
-        address: 'U Slavie 1540/2a, 100 00 Praha 10-Vršovice',
-        lat: 50.0674643,
-        long: 14.4705921
-    },
-    {
-        name: 'Lucerna',
-        address: 'Štěpánská 61, 116 02 Nové Město',
-        lat: 50.0814607,
-        long: 14.4230261
-    },
-    {
-        name: 'Kavárna Kabinet',
-        address: 'Terronská 619, 160 00 Praha 6-Bubeneč',
-        lat: 50.102453,
-        long: 14.3929309
-    }
-];
-
 
 /**
  * @param props
@@ -102,3 +60,46 @@ const EventLocationAutocomplete: React.FC<IEventLocationAutocompleteProps> = (pr
 
 
 export default EventLocationAutocomplete;
+
+
+let addressesOriginal: ILocation[] = [
+    {
+        name: 'Sinobo Stadium',
+        address: 'U Slavie 1540/2a, 100 00 Praha 10-Vršovice',
+        lat: 50.0674643,
+        long: 14.4705921
+    },
+    {
+        name: 'Lucerna',
+        address: 'Štěpánská 61, 116 02 Nové Město',
+        lat: 50.0814607,
+        long: 14.4230261
+    },
+    {
+        name: 'Kavárna Kabinet',
+        address: 'Terronská 619, 160 00 Praha 6-Bubeneč',
+        lat: 50.102453,
+        long: 14.3929309
+    }
+];
+
+let addresses: ILocation[] = [
+    {
+        name: 'Sinobo Stadium',
+        address: 'U Slavie 1540/2a, 100 00 Praha 10-Vršovice',
+        lat: 50.0674643,
+        long: 14.4705921
+    },
+    {
+        name: 'Lucerna',
+        address: 'Štěpánská 61, 116 02 Nové Město',
+        lat: 50.0814607,
+        long: 14.4230261
+    },
+    {
+        name: 'Kavárna Kabinet',
+        address: 'Terronská 619, 160 00 Praha 6-Bubeneč',
+        lat: 50.102453,
+        long: 14.3929309
+    }
+];

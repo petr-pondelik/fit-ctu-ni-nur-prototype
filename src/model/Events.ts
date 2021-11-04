@@ -238,7 +238,7 @@ class EventsModel {
      * @param id
      */
     findById(id: string): Event | undefined {
-        let res: Event | undefined = undefined;
+        let res: Event | undefined;
         res = this.data.find((e) => e.id === id);
         return res;
     }

@@ -41,7 +41,7 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
             return {
                 title: this.props.event.title,
                 imgPath: this.props.event.imgPath,
-                location: undefined,
+                location: this.props.event.location,
                 eventTime: {
                     start: moment(this.props.event.eventTime.start),
                     end: this.props.event.eventTime.end !== undefined ? moment(this.props.event.eventTime.end) : undefined
