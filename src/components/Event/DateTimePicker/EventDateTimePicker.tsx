@@ -23,7 +23,6 @@ type EventDateTimeType = 'start' | 'startEnd';
 const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventDateTimePickerProps) => {
 
     function getEventDateTimeType(): EventDateTimeType {
-        // console.log(props.value);
         return props.value.end === undefined ? 'start' : 'startEnd';
     }
 
@@ -61,6 +60,7 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
                 value={props.value.start !== undefined ? props.value.start : moment(new Date()).add(5, 'minute')}
                 toolbarTitle={"Zvolte datum a čas začátku"}
                 textHelper={"Datum a čas začátku"}
+                label={"Začátek"}
                 updateParent={update}
             />
         </Grid>
@@ -76,6 +76,7 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
                 value={ (props.value.end !== undefined) ? props.value.end : moment(new Date()).add(5, 'minute') }
                 toolbarTitle={"Zvolte datum a čas konce"}
                 textHelper={"Datum a čas konce"}
+                label={"Konec"}
                 updateParent={update}
             />
         </Grid>
@@ -104,8 +105,6 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
         }
         return '';
     }
-
-    // console.log(type);
 
     return (
         <Grid container item direction={"column"} mt={"2rem"}>

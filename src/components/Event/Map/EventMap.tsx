@@ -16,11 +16,14 @@ interface IEventMapProps {
  */
 const EventMap: React.FC<IEventMapProps> = (props: IEventMapProps) => {
 
+    console.log(props.location);
+
     return (
         <React.Fragment>
             <GoogleMap
                 defaultZoom={14}
                 defaultCenter={{lat: props.location.lat, lng: props.location.long}}
+                center={{lat: props.location.lat, lng: props.location.long}}
             >
                 {
                     props.isMarkerShown &&

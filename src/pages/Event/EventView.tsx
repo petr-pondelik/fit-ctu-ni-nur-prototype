@@ -16,10 +16,8 @@ export interface IEventViewProps {
 const EventView: React.FC<IEventViewProps> = (props: IEventViewProps) => {
 
     const params = useParams<IRouteParams>();
-    console.log(params.id);
 
     let event: Event|undefined = EventsModel.findById(params.id);
-    console.log(event);
 
     if (event === undefined) {
         return <React.Fragment/>;

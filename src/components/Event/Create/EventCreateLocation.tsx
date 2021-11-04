@@ -7,6 +7,7 @@ import {Grid} from "@mui/material";
 
 export interface IEventCreateLocationProps {
     location?: ILocation,
+    updateParent(stateFragment: any): void
 }
 
 
@@ -25,11 +26,25 @@ const EventCreateLocation: React.FC<IEventCreateLocationProps> = (props: IEventC
         }
     }
 
+    /**
+     * @param stateFragment
+     */
+    function update(stateFragment: any) {
+        console.log('EventCreateLocation update');
+        let sf: any = {data: stateFragment };
+        console.log(sf);
+        props.updateParent(sf);
+    }
+
+    console.log(props.location);
+
     return (
         <Grid container item direction={"column"}>
-            {/*value={getLocation().name}*/}
             <Grid item mb={"0.75rem"}>
-                <EventLocationAutocomplete/>
+                <EventLocationAutocomplete
+                    // location={props.location}
+                    updateParent={update}
+                />
             </Grid>
             <Grid item>
                 <EventMap

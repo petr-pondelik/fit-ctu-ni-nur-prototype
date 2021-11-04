@@ -65,7 +65,6 @@ const Declined: React.FC<IDeclinedProps> = (props: IDeclinedProps) => {
     }
 
     if (props.active === undefined) {
-        console.log('pending');
         return renderPending();
     }
     return props.active ? renderActive() : renderInActive();

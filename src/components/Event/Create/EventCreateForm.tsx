@@ -75,13 +75,16 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
      * @param stateFragment
      */
     update = (stateFragment: IStateFragment) => {
+        console.log('EventCreateForm update');
         let stateUpdate: IEventCreateFormState = this.state;
         let newState: IEventCreateFormState = merge(stateUpdate, stateFragment);
+        console.log(newState);
         this.setState(newState);
     }
 
     render() {
         console.log(this.state);
+
         return (
             <Grid container item direction={"column"}>
                 <Grid item>
@@ -106,7 +109,10 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
                     updateParent={this.update}
                 />
                 <Grid item mt={"2.5rem"}>
-                    <EventCreateLocation location={this.props.event?.location}/>
+                    <EventCreateLocation
+                        location={this.state.data.location}
+                        updateParent={this.update}
+                    />
                 </Grid>
             </Grid>
         );
