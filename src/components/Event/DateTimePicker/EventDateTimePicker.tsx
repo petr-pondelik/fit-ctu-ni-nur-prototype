@@ -1,15 +1,15 @@
 import React from "react";
 import {Grid} from "@mui/material";
 import AppDateTimePicker from "../../Common/AppDateTimePicker";
-import moment from "moment";
+import moment, {Moment} from "moment";
 import ActionButton from "../../Common/ActionButton";
 
 
 export interface IEventDateTimePickerProps {
     name: string,
     value: {
-        start?: string,
-        end?: string
+        start?: Moment,
+        end?: Moment
     },
     updateParent(stateFragment: any): void
 }
@@ -23,7 +23,8 @@ type EventDateTimeType = 'start' | 'startEnd';
 const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventDateTimePickerProps) => {
 
     function getEventDateTimeType(): EventDateTimeType {
-        return props.value !== undefined && props.value.end !== undefined ? 'startEnd' : 'start';
+        // console.log(props.value);
+        return props.value.end === undefined ? 'start' : 'startEnd';
     }
 
     const [type, setType] = React.useState<EventDateTimeType>(getEventDateTimeType())
@@ -34,9 +35,9 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
     function update(stateFragment: any) {
         let sf: any = {data: {eventTime: {}}};
         if (stateFragment.data.start !== undefined) {
-            sf.data.eventTime.start = stateFragment.data.start;
+            sf.data.eventTime.start = moment(new Date(stateFragment.data.start));
         } else {
-            sf.data.eventTime.end = stateFragment.data.end;
+            sf.data.eventTime.end = moment(new Date(stateFragment.data.end));
         }
         props.updateParent(sf);
     }
@@ -57,7 +58,7 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
         return <Grid item sx={{textAlign: "center"}}>
             <AppDateTimePicker
                 name={"start"}
-                value={props.value.start !== undefined ? moment(new Date(props.value.start)) : moment(new Date()).add(5, 'minute')}
+                value={props.value.start !== undefined ? props.value.start : moment(new Date()).add(5, 'minute')}
                 toolbarTitle={"Zvolte datum a čas začátku"}
                 textHelper={"Datum a čas začátku"}
                 updateParent={update}
@@ -72,10 +73,7 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
         return <Grid item>
             <AppDateTimePicker
                 name={"end"}
-                value={
-                    (props.value.end !== undefined) ?
-                        moment(new Date(props.value.end)) : moment(new Date()).add(5, 'minute')
-                }
+                value={ (props.value.end !== undefined) ? props.value.end : moment(new Date()).add(5, 'minute') }
                 toolbarTitle={"Zvolte datum a čas konce"}
                 textHelper={"Datum a čas konce"}
                 updateParent={update}
@@ -106,6 +104,8 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
         }
         return '';
     }
+
+    // console.log(type);
 
     return (
         <Grid container item direction={"column"} mt={"2rem"}>

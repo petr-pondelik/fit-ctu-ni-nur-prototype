@@ -1,25 +1,28 @@
 import React, {Component} from "react";
 import {Grid} from "@mui/material";
-import AppTextField from "../../../Common/AppTextField";
-import ImageUpload from "../../../Common/ImageUpload";
-import {IAttendantsList, ILocation} from "../../../../model/Events";
+import AppTextField from "../../Common/AppTextField";
+import ImageUpload from "../../Common/ImageUpload";
+import {IAttendantsList, ILocation} from "../../../model/Events";
 import merge from "merge-objects";
-import EventDateTimePicker from "../../DateTimePicker/EventDateTimePicker";
+import EventDateTimePicker from "../DateTimePicker/EventDateTimePicker";
+import {Event} from "../../../model/Events";
+import moment, {Moment} from "moment";
+import EventCreateLocation from "./EventCreateLocation";
 
 interface IEventData {
     title?: string,
     imgPath?: string,
     location?: ILocation,
     eventTime: {
-        start?: string,
-        end?: string
+        start?: Moment,
+        end?: Moment
     },
     description?: string,
     attendants?: IAttendantsList
 }
 
 interface IEventCreateFormProps {
-
+    event?: Event
 }
 
 interface IStateFragment {
@@ -33,24 +36,39 @@ interface IEventCreateFormState {
 
 export default class EventCreateForm extends Component<IEventCreateFormProps, IEventCreateFormState> {
 
+    getDefaultData(): IEventData {
+        if (this.props.event instanceof Event) {
+            return {
+                title: this.props.event.title,
+                imgPath: this.props.event.imgPath,
+                location: undefined,
+                eventTime: {
+                    start: moment(this.props.event.eventTime.start),
+                    end: this.props.event.eventTime.end !== undefined ? moment(this.props.event.eventTime.end) : undefined
+                },
+                description: undefined,
+                attendants: undefined
+            }
+        }
+        return {
+            title: undefined,
+                imgPath: undefined,
+            location: undefined,
+            eventTime: {
+            start: undefined,
+                end: undefined
+            },
+            description: undefined,
+            attendants: undefined
+        }
+    }
+
     /**
      * @param props
      */
     constructor(props: IEventCreateFormProps) {
         super(props);
-        this.state = {
-            data: {
-                title: undefined,
-                imgPath: undefined,
-                location: undefined,
-                eventTime: {
-                    start: undefined,
-                    end: undefined
-                },
-                description: undefined,
-                attendants: undefined
-            }
-        };
+        this.state = { data: this.getDefaultData() };
     }
 
     /**
@@ -63,6 +81,7 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
     }
 
     render() {
+        console.log(this.state);
         return (
             <Grid container item direction={"column"}>
                 <Grid item>
@@ -86,6 +105,9 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
                     value={this.state.data.eventTime}
                     updateParent={this.update}
                 />
+                <Grid item mt={"2.5rem"}>
+                    <EventCreateLocation location={this.props.event?.location}/>
+                </Grid>
             </Grid>
         );
     }

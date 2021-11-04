@@ -22,6 +22,7 @@ const EventLocation: React.FC<IEventLocationProps> = (props: IEventLocationProps
     const defaultProps: IEventLocationProps = {
         location: {
             name: '',
+            address: '',
             lat: 0,
             long: 0,
         },

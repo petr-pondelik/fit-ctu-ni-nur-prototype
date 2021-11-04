@@ -1,11 +1,13 @@
 import React from "react";
-import {Event} from "../../../model/Events";
+import {ILocation} from "../../../model/Events";
 import EventMap from "../Map/EventMap";
 import EventLocation from "../Card/EventLocation";
 
+
 export interface IEventViewLocationProps {
-    event: Event
+    location: ILocation,
 }
+
 
 /**
  * @param props
@@ -16,12 +18,12 @@ const EventViewLocation: React.FC<IEventViewLocationProps> = (props: IEventViewL
     return (
         <React.Fragment>
             <EventLocation
-                location={props.event.location}
+                location={props.location}
                 variant={"h6"}
                 sx={{ pb: "1rem" }}
             />
             <EventMap
-                event={props.event}
+                location={props.location}
                 isMarkerShown={true}
                 isMarkerDraggable={false}
                 googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbhfQQJ63e272JyDZ9nUZq34Q34RHvcZg&callback=initMap"

@@ -18,6 +18,7 @@ export const EventInvitationStatusCZ: Array<string> = [
 
 export interface ILocation {
     name: string,
+    address: string,
     lat: number,
     long: number,
 }
@@ -149,6 +150,7 @@ class EventsModel {
             imgPath: '/static/images/events/1/cover.jpg',
             location: {
                 name: 'Lucerna',
+                address: 'Štěpánská 61, 116 02 Nové Město',
                 lat: 50.0814607,
                 long: 14.4230261,
             },
@@ -175,6 +177,7 @@ class EventsModel {
             imgPath: '/static/images/events/2/cover.jpg',
             location: {
                 name: 'Kavárna Kabinet',
+                address: 'Terronská 619, 160 00 Praha 6-Bubeneč',
                 lat: 50.102453,
                 long: 14.3929309,
             },

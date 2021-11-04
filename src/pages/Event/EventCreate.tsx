@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Grid} from "@mui/material";
 import CommonHeader from "../../components/Header/CommonHeader";
 import AppTextField from "../../components/Common/AppTextField";
-import EventCreateForm from "../../components/Event/Create/CreateForm/EventCreateForm";
+import EventCreateForm from "../../components/Event/Create/EventCreateForm";
 
 
 export interface IEventCreateProps {

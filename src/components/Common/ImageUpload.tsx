@@ -16,7 +16,7 @@ export interface IImageUploadProps {
  */
 const ImageUpload: React.FC<IImageUploadProps> = (props: IImageUploadProps) => {
 
-    const [imagePath, setImagePath] = useState('');
+    const [imagePath, setImagePath] = useState(props.defaultValue ?? '');
 
     /**
      * @param path
@@ -95,7 +95,6 @@ const ImageUpload: React.FC<IImageUploadProps> = (props: IImageUploadProps) => {
     }
 
     function renderSelected() {
-        console.log(imagePath);
         return (
             <React.Fragment>
                 <input

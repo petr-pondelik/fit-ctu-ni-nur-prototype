@@ -4,6 +4,7 @@ import {Grid} from "@mui/material";
 import {RouteComponentProps} from "react-router-dom";
 import Events, {Event} from "../../model/Events";
 import CommonHeader from "../../components/Header/CommonHeader";
+import EventCreateForm from "../../components/Event/Create/EventCreateForm";
 
 
 interface IRouteParams {
@@ -39,6 +40,9 @@ export default class EventEdit extends React.Component<IEventEditProps, IEventEd
             <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
                 <Grid item>
                     <CommonHeader title={this.state.event.title}/>
+                </Grid>
+                <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
+                    <EventCreateForm event={this.state.event} />
                 </Grid>
             </Grid>
         );
