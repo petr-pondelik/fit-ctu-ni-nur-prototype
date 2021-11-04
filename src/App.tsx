@@ -41,6 +41,7 @@ class App extends React.Component<any, AppState> {
         return (
             <Router history={history}>
                 <Switch>
+
                     <Route exact path={"/"}>
                         {
                             this.state.user === undefined ?
@@ -51,6 +52,7 @@ class App extends React.Component<any, AppState> {
                                 />
                         }
                     </Route>
+
                     <Route exact path="/registration">
                         {
                             this.state.user === undefined ?
@@ -61,17 +63,30 @@ class App extends React.Component<any, AppState> {
                                 />
                         }
                     </Route>
-                    <Route path="/event/view/:id"
+
+                    <Route exact path="/event/view/:id"
                            render={(props) =>
                                this.state.user !== undefined ?
                                    <EventView user={this.state.user}/> : undefined
                            }/>
-                    <Route path="/event/edit/:id"
+
+                    <Route exact path="/event/create" component={EventCreate}/>
+
+                    <Route exact path="/event/create/attendants" component={EventCreate}/>
+
+
+                    <Route exact path="/event/edit/:id"
                            render={(props) =>
                                this.state.user !== undefined ?
                                    <EventEdit user={this.state.user} {...props}/> : undefined
                            }/>
-                    <Route path="/event/create" component={EventCreate}/>
+
+                    <Route exact path="/event/edit/:id/attendants"
+                           render={(props) =>
+                               this.state.user !== undefined ?
+                                   <EventEdit user={this.state.user} {...props}/> : undefined
+                           }/>
+
                 </Switch>
             </Router>
         )

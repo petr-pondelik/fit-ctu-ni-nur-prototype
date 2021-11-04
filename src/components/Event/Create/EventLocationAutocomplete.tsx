@@ -21,16 +21,14 @@ const EventLocationAutocomplete: React.FC<IEventLocationAutocompleteProps> = (pr
      * @param newValue
      */
     function update(newValue: ILocation | null) {
-        console.log('EventLocationAutocomplete update');
+        // console.log('EventLocationAutocomplete update');
         setValue(newValue);
         let sf = {location: newValue ?? undefined};
-        console.log(sf);
+        // console.log(sf);
         props.updateParent(sf);
     }
 
     addresses = JSON.parse(JSON.stringify(addressesOriginal));
-    console.log(addressesOriginal);
-    console.log(addresses);
 
     return (
         <Autocomplete

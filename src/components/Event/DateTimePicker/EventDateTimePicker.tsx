@@ -11,6 +11,7 @@ export interface IEventDateTimePickerProps {
         start?: Moment,
         end?: Moment
     },
+
     updateParent(stateFragment: any): void
 }
 
@@ -73,7 +74,7 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
         return <Grid item>
             <AppDateTimePicker
                 name={"end"}
-                value={ (props.value.end !== undefined) ? props.value.end : moment(new Date()).add(5, 'minute') }
+                value={(props.value.end !== undefined) ? props.value.end : moment(new Date()).add(5, 'minute')}
                 toolbarTitle={"Zvolte datum a čas konce"}
                 textHelper={"Datum a čas konce"}
                 label={"Konec"}
@@ -107,14 +108,14 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
     }
 
     return (
-        <Grid container item direction={"column"} mt={"2rem"}>
+        <React.Fragment>
             {renderStart()}
             {renderEnd()}
-            <Grid container item direction={"column"} mt={"1rem"}>
+            <Grid container item direction={"column"} mt={"0.25rem"}>
                 {renderAddEndBtn()}
                 {renderRemoveEndBtn()}
             </Grid>
-        </Grid>
+        </React.Fragment>
     );
 
 }

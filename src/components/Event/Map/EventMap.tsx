@@ -16,8 +16,6 @@ interface IEventMapProps {
  */
 const EventMap: React.FC<IEventMapProps> = (props: IEventMapProps) => {
 
-    console.log(props.location);
-
     return (
         <React.Fragment>
             <GoogleMap

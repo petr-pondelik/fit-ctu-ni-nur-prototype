@@ -30,13 +30,9 @@ const EventCreateLocation: React.FC<IEventCreateLocationProps> = (props: IEventC
      * @param stateFragment
      */
     function update(stateFragment: any) {
-        console.log('EventCreateLocation update');
         let sf: any = {data: stateFragment };
-        console.log(sf);
         props.updateParent(sf);
     }
-
-    console.log(props.location);
 
     return (
         <Grid container item direction={"column"}>

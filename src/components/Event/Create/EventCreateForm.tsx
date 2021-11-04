@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Grid} from "@mui/material";
+import {Button, Grid, Typography} from "@mui/material";
 import AppTextField from "../../Common/AppTextField";
 import ImageUpload from "../../Common/ImageUpload";
 import {IAttendantsList, ILocation} from "../../../model/Events";
@@ -8,6 +8,9 @@ import EventDateTimePicker from "../DateTimePicker/EventDateTimePicker";
 import {Event} from "../../../model/Events";
 import moment, {Moment} from "moment";
 import EventCreateLocation from "./EventCreateLocation";
+import AppTextArea from "../../Common/AppTextArea";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import {Link} from "react-router-dom";
 
 interface IEventData {
     title?: string,
@@ -96,23 +99,45 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
                         updateParent={this.update}
                     />
                 </Grid>
-                <Grid item mt={"2rem"}>
+                <Grid item mt={"2.5rem"}>
                     <ImageUpload
                         name={"imgPath"}
                         defaultValue={this.state.data.imgPath}
                         updateParent={this.update}
                     />
                 </Grid>
-                <EventDateTimePicker
-                    name={"eventTime"}
-                    value={this.state.data.eventTime}
-                    updateParent={this.update}
-                />
+                <Grid container item direction={"column"} mt={"2.5rem"}>
+                    <EventDateTimePicker
+                        name={"eventTime"}
+                        value={this.state.data.eventTime}
+                        updateParent={this.update}
+                    />
+                </Grid>
                 <Grid item mt={"2.5rem"}>
                     <EventCreateLocation
                         location={this.state.data.location}
                         updateParent={this.update}
                     />
+                </Grid>
+                <Grid item mt={"2.5rem"}>
+                    <AppTextArea
+                        name={'description'}
+                        label={'Popis'}
+                        minRows={5}
+                        updateParent={this.update}
+                    />
+                </Grid>
+                <Grid container item alignItems={"center"} mt={"2.5rem"}>
+                    <Grid item>
+                        <Typography variant={"h5"} component={"h2"}>
+                            Pozvaní lidé
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Button component={Link} to={`/event/${this.props.event ? 'edit/' + this.props.event.id : 'create'}/attendants`}>
+                            <AddBoxOutlinedIcon fontSize={"large"}/>
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
         );

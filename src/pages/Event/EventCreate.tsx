@@ -24,7 +24,7 @@ export default class EventCreate extends React.Component<IEventCreateProps, IEve
 
     render() {
         return (
-            <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
+            <Grid container direction={"column"} mt={"4rem"} pb={"1rem"}>
                 <Grid item>
                     <CommonHeader title={'Vytvořit událost'}/>
                 </Grid>
