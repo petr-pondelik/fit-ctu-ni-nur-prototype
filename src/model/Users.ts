@@ -276,8 +276,8 @@ class UsersModel {
      * @param id
      */
     findById(id: string): User | undefined {
-        let res: User | undefined = undefined;
-        res = this.data.find((e) => e.id === id);
+        let res: User | undefined ;
+        res = this.data.find((e) => e.id == id);
         return res;
     }
 

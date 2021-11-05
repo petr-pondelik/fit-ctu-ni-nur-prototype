@@ -5,7 +5,7 @@ import {ButtonPropsVariantOverrides} from "@mui/material/Button/Button";
 
 interface ActionButtonProps {
     text?: string,
-    children?: JSX.Element|string,
+    children?: JSX.Element|JSX.Element[]|string,
     variant?: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>,
     fullWidth?: boolean,
     clickHandler: (event: React.MouseEvent<HTMLElement>) => any

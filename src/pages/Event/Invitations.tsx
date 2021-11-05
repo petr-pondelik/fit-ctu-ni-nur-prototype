@@ -3,7 +3,7 @@ import {Grid} from "@mui/material";
 import {User} from "../../model/Users";
 import CommonHeader from "../../components/Header/CommonHeader";
 import Events, {IEventData} from "../../model/Events";
-import ContactsInvitationsList from "../../components/Event/Attendants/ContactsInvitationsList";
+import ContactsInvitationsList from "../../components/Event/Invitation/ContactsInvitationsList";
 
 
 export interface IAttendantsFromContactsProps {
