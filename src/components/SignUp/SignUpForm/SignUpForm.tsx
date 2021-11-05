@@ -321,7 +321,9 @@ class SignUpForm extends React.Component<any, any> {
                 <Grid container item marginTop={"16px"}>
                     <Grid container direction={"column"} rowSpacing={1}>
                         <Grid item>
-                            <ActionButton text={'Sign Up'} clickHandler={this.signUp}/>
+                            <ActionButton variant={"contained"} clickHandler={this.signUp}>
+                                Registrovat se
+                            </ActionButton>
                         </Grid>
                         <Grid item>
                             <Button component={Link} to={"/"} variant="contained" fullWidth>Back to Login</Button>

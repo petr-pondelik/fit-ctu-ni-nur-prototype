@@ -1,8 +1,24 @@
 import {EventInvitationStatus} from "./Events";
 import Cookies from 'js-cookie';
+import EInvitationSource from "../enums/EInvitationSource";
+
+
+export const InvitationSource = {
+    Organizer: 'Organizátor',
+    MobileContacts: 'Mobilní kontakty',
+    Messenger: 'Messenger',
+    WhatsApp: 'WhatsApp'
+}
 
 export interface IUserInvitation {
-    status: EventInvitationStatus
+    status: EventInvitationStatus,
+    source?: EInvitationSource
+}
+
+export interface IUserContacts {
+    mobileContacts: Array<string>,
+    messenger: Array<string>,
+    whatsApp: Array<string>
 }
 
 export interface IUserEventsList {
@@ -16,6 +32,7 @@ export interface UserInterface {
     givenName: string,
     familyName: string,
     password: string,
+    contacts: IUserContacts,
     events: IUserEventsList
 }
 
@@ -27,6 +44,7 @@ export class User {
     givenName: string;
     familyName: string;
     password: string;
+    contacts: IUserContacts;
     events: IUserEventsList;
 
     /**
@@ -39,6 +57,7 @@ export class User {
         this.givenName = data.givenName;
         this.familyName = data.familyName;
         this.password = data.password;
+        this.contacts = data.contacts;
         this.events = data.events;
     }
 
@@ -58,7 +77,14 @@ class UsersModel {
             givenName: 'Petr',
             familyName: 'Test',
             password: '12345678',
-            events: {}
+            events: {
+                2: { status: EventInvitationStatus.Confirmed }
+            },
+            contacts: {
+                mobileContacts: ['2', '11'],
+                messenger: ['3', '10'],
+                whatsApp: ['9', '12']
+            }
         },
         {
             id: '2',
@@ -69,6 +95,11 @@ class UsersModel {
             password: '12345678',
             events: {
                 1: { status: EventInvitationStatus.Confirmed }
+            },
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
             }
         },
         {
@@ -80,6 +111,11 @@ class UsersModel {
             password: '12345678',
             events: {
                 1: { status: EventInvitationStatus.Confirmed }
+            },
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
             }
         },
         {
@@ -91,6 +127,11 @@ class UsersModel {
             password: '12345678',
             events: {
                 1: { status: EventInvitationStatus.Tentative }
+            },
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
             }
         },
         {
@@ -102,6 +143,11 @@ class UsersModel {
             password: '12345678',
             events: {
                 1: { status: EventInvitationStatus.Declined }
+            },
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
             }
         },
         {
@@ -113,6 +159,11 @@ class UsersModel {
             password: '12345678',
             events: {
                 1: { status: EventInvitationStatus.Confirmed }
+            },
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
             }
         },
         {
@@ -124,6 +175,11 @@ class UsersModel {
             password: '12345678',
             events: {
                 1: { status: EventInvitationStatus.Tentative }
+            },
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
             }
         },
         {
@@ -135,6 +191,11 @@ class UsersModel {
             password: '12345678',
             events: {
                 1: { status: EventInvitationStatus.Pending }
+            },
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
             }
         },
         {
@@ -146,6 +207,53 @@ class UsersModel {
             password: '12345678',
             events: {
                 2: { status: EventInvitationStatus.Confirmed }
+            },
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
+            }
+        },
+        {
+            id: '10',
+            username: 'mrkvickajar',
+            email: 'jaroslavmrkvicka@test.com',
+            givenName: 'Jaroslav',
+            familyName: 'Mrkvička',
+            password: '12345678',
+            events: {},
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
+            }
+        },
+        {
+            id: '11',
+            username: 'omackarad',
+            email: 'redovanomacka@test.com',
+            givenName: 'Radovan',
+            familyName: 'Omáčka',
+            password: '12345678',
+            events: {},
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
+            }
+        },
+        {
+            id: '12',
+            username: 'salamevz',
+            email: 'evzensalam@test.com',
+            givenName: 'Evžen',
+            familyName: 'Salám',
+            password: '12345678',
+            events: {},
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
             }
         },
     ];

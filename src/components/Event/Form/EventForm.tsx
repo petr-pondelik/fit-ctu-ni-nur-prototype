@@ -2,29 +2,20 @@ import React, {Component} from "react";
 import {Button, Grid, Typography} from "@mui/material";
 import AppTextField from "../../Common/AppTextField";
 import ImageUpload from "../../Common/ImageUpload";
-import {IAttendantsList, ILocation} from "../../../model/Events";
+import Events, {IAttendantsList, IEventData, ILocation} from "../../../model/Events";
 import merge from "merge-objects";
 import EventDateTimePicker from "../DateTimePicker/EventDateTimePicker";
 import {Event} from "../../../model/Events";
 import moment, {Moment} from "moment";
-import EventCreateLocation from "./EventCreateLocation";
+import EventLocation from "./EventLocation";
 import AppTextArea from "../../Common/AppTextArea";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import {Link} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import {User} from "../../../model/Users";
 
-interface IEventData {
-    title?: string,
-    imgPath?: string,
-    location?: ILocation,
-    eventTime: {
-        start?: Moment,
-        end?: Moment
-    },
-    description?: string,
-    attendants?: IAttendantsList
-}
 
-interface IEventCreateFormProps {
+interface IEventCreateFormProps extends RouteComponentProps {
+    user: User,
     event?: Event
 }
 
@@ -37,7 +28,7 @@ interface IEventCreateFormState {
 }
 
 
-export default class EventCreateForm extends Component<IEventCreateFormProps, IEventCreateFormState> {
+class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> {
 
     getDefaultData(): IEventData {
         if (this.props.event instanceof Event) {
@@ -49,7 +40,8 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
                     start: moment(this.props.event.eventTime.start),
                     end: this.props.event.eventTime.end !== undefined ? moment(this.props.event.eventTime.end) : undefined
                 },
-                description: undefined,
+                description: this.props.event.description,
+                organizer: this.props.event.organizer,
                 attendants: undefined
             }
         }
@@ -62,6 +54,7 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
                 end: undefined
             },
             description: undefined,
+            organizer: this.props.user.id,
             attendants: undefined
         }
     }
@@ -78,11 +71,16 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
      * @param stateFragment
      */
     update = (stateFragment: IStateFragment) => {
-        console.log('EventCreateForm update');
+        console.log('EventForm update');
         let stateUpdate: IEventCreateFormState = this.state;
         let newState: IEventCreateFormState = merge(stateUpdate, stateFragment);
         console.log(newState);
         this.setState(newState);
+    }
+
+    toAttendantsAction = () => {
+        Events.storeUnfinished(this.state.data);
+        this.props.history.push(`/event/${this.props.event ? 'edit/' + this.props.event.id : 'create'}/attendants`);
     }
 
     render() {
@@ -114,7 +112,7 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
                     />
                 </Grid>
                 <Grid item mt={"2.5rem"}>
-                    <EventCreateLocation
+                    <EventLocation
                         location={this.state.data.location}
                         updateParent={this.update}
                     />
@@ -130,11 +128,11 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
                 <Grid container item alignItems={"center"} mt={"2.5rem"}>
                     <Grid item>
                         <Typography variant={"h5"} component={"h2"}>
-                            Pozvaní lidé
+                            Pozvánky na událost
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Button component={Link} to={`/event/${this.props.event ? 'edit/' + this.props.event.id : 'create'}/attendants`}>
+                        <Button onClick={() => this.toAttendantsAction()}>
                             <AddBoxOutlinedIcon fontSize={"large"}/>
                         </Button>
                     </Grid>
@@ -144,3 +142,5 @@ export default class EventCreateForm extends Component<IEventCreateFormProps, IE
     }
 
 }
+
+export default withRouter(EventForm);

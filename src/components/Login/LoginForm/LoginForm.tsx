@@ -249,10 +249,9 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
                     />
                 </Grid>
                 <Grid container item marginTop={"16px"}>
-                    <ActionButton
-                        text={'Login'}
-                        clickHandler={this.logIn}
-                    />
+                    <ActionButton variant={"contained"} clickHandler={this.logIn}>
+                        Login
+                    </ActionButton>
                     {this.renderGlobalMessages()}
                 </Grid>
             </Grid>

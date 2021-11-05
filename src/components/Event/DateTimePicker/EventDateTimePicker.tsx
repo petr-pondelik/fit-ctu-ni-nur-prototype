@@ -11,7 +11,6 @@ export interface IEventDateTimePickerProps {
         start?: Moment,
         end?: Moment
     },
-
     updateParent(stateFragment: any): void
 }
 
@@ -86,10 +85,9 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
     function renderAddEndBtn() {
         if (type === 'start') {
             return <Grid item>
-                <ActionButton
-                    text={"Přidat čas konce"}
-                    clickHandler={addEnd}
-                />
+                <ActionButton variant={"contained"} clickHandler={addEnd}>
+                    Přidat čas konce
+                </ActionButton>
             </Grid>
         }
         return '';
@@ -98,10 +96,9 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
     function renderRemoveEndBtn() {
         if (type === 'startEnd') {
             return <Grid item>
-                <ActionButton
-                    text={"Odebrat čas konce"}
-                    clickHandler={removeEnd}
-                />
+                <ActionButton variant={"contained"} clickHandler={removeEnd}>
+                    Odebrat čas konce
+                </ActionButton>
             </Grid>
         }
         return '';

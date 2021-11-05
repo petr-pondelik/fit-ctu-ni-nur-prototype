@@ -1,5 +1,5 @@
 import React from "react";
-import {Autocomplete, createFilterOptions, TextField} from "@mui/material";
+import {Autocomplete, TextField} from "@mui/material";
 import {ILocation} from "../../../model/Events";
 
 

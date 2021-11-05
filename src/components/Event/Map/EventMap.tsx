@@ -7,6 +7,7 @@ interface IEventMapProps {
     isMarkerShown: boolean,
     isMarkerDraggable: boolean,
     location: ILocation,
+    updateParent?: (stateFragment: any) => void
 }
 
 
@@ -15,6 +16,22 @@ interface IEventMapProps {
  * @constructor
  */
 const EventMap: React.FC<IEventMapProps> = (props: IEventMapProps) => {
+
+    /**
+     * @param lat
+     * @param lng
+     */
+    const update = (lat: number, lng: number) => {
+        if (props.updateParent !== undefined) {
+            let sf: any = {
+                location: {
+                    lat: lat,
+                    long: lng
+                }
+            };
+            props.updateParent(sf);
+        }
+    };
 
     return (
         <React.Fragment>
@@ -29,7 +46,7 @@ const EventMap: React.FC<IEventMapProps> = (props: IEventMapProps) => {
                         position={{lat: props.location.lat, lng: props.location.long}}
                         draggable={props.isMarkerDraggable}
                         onDragEnd={(e) => {
-                            console.log([e.latLng.lat(), e.latLng.lng()])
+                            update(e.latLng.lat(), e.latLng.lng());
                         }}
                     />
                 }

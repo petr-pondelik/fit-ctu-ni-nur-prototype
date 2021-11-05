@@ -15,7 +15,7 @@ export interface IEventCreateLocationProps {
  * @param props
  * @constructor
  */
-const EventCreateLocation: React.FC<IEventCreateLocationProps> = (props: IEventCreateLocationProps) => {
+const EventLocation: React.FC<IEventCreateLocationProps> = (props: IEventCreateLocationProps) => {
 
     function getLocation(): ILocation {
         return {
@@ -51,6 +51,7 @@ const EventCreateLocation: React.FC<IEventCreateLocationProps> = (props: IEventC
                     loadingElement={<div style={{height: `100%`}}/>}
                     containerElement={<div style={{height: `27.5vh`}}/>}
                     mapElement={<div style={{height: `100%`}}/>}
+                    updateParent={update}
                 />
             </Grid>
         </Grid>
@@ -58,4 +59,4 @@ const EventCreateLocation: React.FC<IEventCreateLocationProps> = (props: IEventC
 
 }
 
-export default EventCreateLocation;
+export default EventLocation;

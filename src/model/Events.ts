@@ -1,5 +1,7 @@
 import {IUserInvitation, User} from "./Users";
 import Cookies from 'js-cookie';
+import {Moment} from "moment";
+import EInvitationSource from "../enums/EInvitationSource";
 
 export enum EventInvitationStatus {
     Confirmed = 1,
@@ -28,6 +30,19 @@ export interface IEventTime {
     end?: string;
 }
 
+export interface IEventData {
+    title?: string,
+    imgPath?: string,
+    location?: ILocation,
+    eventTime: {
+        start?: Moment,
+        end?: Moment
+    },
+    description?: string,
+    organizer: string,
+    attendants?: IAttendantsList
+}
+
 export interface IEvent {
     id: string,
     title: string,
@@ -48,6 +63,12 @@ export interface IAttendantsOrganized {
     Tentative: Array<string>,
     Declined: Array<string>,
     Pending: Array<string>
+}
+
+export interface IInvitationsOrganized {
+    MobileContacts: Array<string>
+    Messenger: Array<string>,
+    WhatsApp: Array<string>
 }
 
 export class AttendantsList {
@@ -161,14 +182,38 @@ class EventsModel {
             description: 'Letošní třídní sraz bude v Lucerně.',
             organizer: '2',
             attendants: {
-                1: {status: EventInvitationStatus.Pending},
-                2: {status: EventInvitationStatus.Confirmed},
-                3: {status: EventInvitationStatus.Confirmed},
-                4: {status: EventInvitationStatus.Tentative},
-                5: {status: EventInvitationStatus.Declined},
-                6: {status: EventInvitationStatus.Confirmed},
-                7: {status: EventInvitationStatus.Tentative},
-                8: {status: EventInvitationStatus.Tentative}
+                1: {
+                    status: EventInvitationStatus.Pending,
+                    source: EInvitationSource.MobileContacts
+                },
+                2: {
+                    status: EventInvitationStatus.Confirmed,
+                    source: EInvitationSource.MobileContacts
+                },
+                3: {
+                    status: EventInvitationStatus.Confirmed,
+                    source: EInvitationSource.Messenger
+                },
+                4: {
+                    status: EventInvitationStatus.Tentative,
+                    source: EInvitationSource.Messenger
+                },
+                5: {
+                    status: EventInvitationStatus.Declined,
+                    source: EInvitationSource.MobileContacts
+                },
+                6: {
+                    status: EventInvitationStatus.Confirmed,
+                    source: EInvitationSource.Messenger
+                },
+                7: {
+                    status: EventInvitationStatus.Tentative,
+                    source: EInvitationSource.Messenger
+                },
+                8: {
+                    status: EventInvitationStatus.Tentative,
+                    source: EInvitationSource.MobileContacts
+                }
             }
         },
         {
@@ -188,13 +233,20 @@ class EventsModel {
             description: 'Nedělní kávové odpoledne s Evženií.',
             organizer: '1',
             attendants: {
-                1: {status: EventInvitationStatus.Confirmed},
-                9: {status: EventInvitationStatus.Confirmed}
+                1: {
+                    status: EventInvitationStatus.Confirmed,
+                    source: EInvitationSource.Organizer
+                },
+                9: {
+                    status: EventInvitationStatus.Confirmed,
+                    source: EInvitationSource.WhatsApp
+                }
             }
         }
     ];
 
     data: Array<Event> = [];
+    unfinished?: IEventData;
 
     constructor() {
         this.data = [];
@@ -288,6 +340,33 @@ class EventsModel {
     }
 
     /**
+     * @param attendants
+     */
+    getInvitationsOrganized(attendants: AttendantsList): IInvitationsOrganized {
+        let res: IInvitationsOrganized = {
+            MobileContacts: [],
+            Messenger: [],
+            WhatsApp: [],
+        }
+
+        for (const [id, a] of Object.entries(attendants)) {
+            switch (a.source) {
+                case EInvitationSource.MobileContacts:
+                    res.MobileContacts.push(id);
+                    break;
+                case EInvitationSource.Messenger:
+                    res.Messenger.push(id);
+                    break;
+                case EInvitationSource.WhatsApp:
+                    res.WhatsApp.push(id);
+                    break;
+            }
+        }
+
+        return res;
+    }
+
+    /**
      * @param user
      * @param event
      * @param newStatus
@@ -303,6 +382,20 @@ class EventsModel {
             }
         }
         Cookies.set('events', JSON.stringify(this.data));
+    }
+
+    /**
+     * @param data
+     */
+    storeUnfinished(data: IEventData) {
+        console.log('storeUnfinished');
+        console.log(data);
+        this.unfinished = data;
+        sessionStorage.setItem('unfinished', JSON.stringify(this.unfinished));
+    }
+
+    fetchUnfinished(): IEventData|undefined {
+        return JSON.parse(sessionStorage.getItem('unfinished') ?? '');
     }
 
 }

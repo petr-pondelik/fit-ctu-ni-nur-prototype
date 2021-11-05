@@ -13,6 +13,7 @@ import EventsModel from "./model/Events";
 import EventView from "./pages/Event/EventView";
 import EventEdit from "./pages/Event/EventEdit";
 import EventCreate from "./pages/Event/EventCreate";
+import Invitations from "./pages/Event/Invitations";
 
 interface AppState {
     user?: User
@@ -70,9 +71,17 @@ class App extends React.Component<any, AppState> {
                                    <EventView user={this.state.user}/> : undefined
                            }/>
 
-                    <Route exact path="/event/create" component={EventCreate}/>
+                    <Route exact path="/event/create"
+                           render={(props) =>
+                               this.state.user !== undefined ?
+                                   <EventCreate user={this.state.user} {...props}/> : undefined
+                           }/>
 
-                    <Route exact path="/event/create/attendants" component={EventCreate}/>
+                    <Route exact path="/event/create/attendants"
+                           render={(props) =>
+                               this.state.user !== undefined ?
+                                   <Invitations user={this.state.user} {...props}/> : undefined
+                           }/>
 
 
                     <Route exact path="/event/edit/:id"
@@ -84,7 +93,7 @@ class App extends React.Component<any, AppState> {
                     <Route exact path="/event/edit/:id/attendants"
                            render={(props) =>
                                this.state.user !== undefined ?
-                                   <EventEdit user={this.state.user} {...props}/> : undefined
+                                   <Invitations user={this.state.user} {...props}/> : undefined
                            }/>
 
                 </Switch>
