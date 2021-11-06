@@ -2,16 +2,20 @@ import React, {useState} from "react";
 import {Grid, ListItem, Typography} from "@mui/material";
 import ActionButton from "../../Common/ActionButton";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import UsersModel, {User} from "../../../model/Users";
+import UsersModel, {IUserInvitation, User} from "../../../model/Users";
 import AttendantAvatar from "../Attendants/AttendantAvatar";
-import ContactsSelection from "../Contacts/ContactsSelection";
+import ContactsSelection from "./ContactsSelection";
+import {IEventContactState} from "../../../model/Events";
+import EInvitationSource from "../../../enums/EInvitationSource";
 
 
-export interface IInvitationSourceProps {
-    invitations: Array<string>,
-    contacts: Array<string>,
+export interface IContactsSourceProps {
+    source: EInvitationSource,
+    invitations: Array<IUserInvitation>,
+    contacts: IEventContactState[],
     title: string,
-    icon: JSX.Element
+    icon: JSX.Element,
+    parentUpdateInvitations: (source: EInvitationSource, state: IEventContactState[]) => any
 }
 
 
@@ -19,14 +23,25 @@ export interface IInvitationSourceProps {
  * @param props
  * @constructor
  */
-const InvitationSource: React.FC<IInvitationSourceProps> = (props: IInvitationSourceProps) => {
+const ContactsSource: React.FC<IContactsSourceProps> = (props: IContactsSourceProps) => {
 
     const [selectionOpen, setSelectionOpen] = useState(false);
 
+    /**
+     * @param state
+     */
+    const updateInvitations = (state: IEventContactState[]) => {
+        console.log('ContactsSource updateInvitations');
+        console.log(state);
+        console.log(props.invitations);
+        console.log(props.contacts);
+        props.parentUpdateInvitations(props.source, state);
+    }
+
     const renderInvitations = () => {
         if (props.invitations.length > 0) {
-            return Object.values(props.invitations).map((id, inx) => {
-                let u: User | undefined = UsersModel.findById(id);
+            return Object.values(props.invitations).map((inv, inx) => {
+                let u: User | undefined = UsersModel.findById(inv.id);
                 return u !== undefined ?
                     <ListItem key={inx}>
                         <AttendantAvatar attendant={u}/>
@@ -39,8 +54,9 @@ const InvitationSource: React.FC<IInvitationSourceProps> = (props: IInvitationSo
         </ListItem>
     }
 
-    console.log('render InvitationSource');
-    console.log(selectionOpen);
+    console.log('RENDER ContactsSource: ' + props.title);
+    console.log(props.invitations);
+    console.log(props.contacts);
 
     return (
         <React.Fragment>
@@ -65,10 +81,11 @@ const InvitationSource: React.FC<IInvitationSourceProps> = (props: IInvitationSo
                 contacts={props.contacts}
                 open={selectionOpen}
                 updateParent={setSelectionOpen}
+                updateParentContactsState={updateInvitations}
             />
         </React.Fragment>
     );
 
 }
 
-export default InvitationSource;
+export default ContactsSource;

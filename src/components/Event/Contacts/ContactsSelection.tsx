@@ -4,23 +4,21 @@ import {
     AppBar,
     Button,
     Dialog,
-    Divider,
     IconButton,
-    List,
-    ListItem,
-    ListItemText,
     Slide, Toolbar,
     Typography
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import ContactsSelectionList from "./ContactsSelectionList";
+import {IEventContactState} from "../../../model/Events";
 
 
 export interface IContactsSelectionProps {
     title: string,
-    contacts: Array<string>,
+    contacts: IEventContactState[],
     open: boolean,
-    updateParent: (open: boolean) => any
+    updateParent: (open: boolean) => any,
+    updateParentContactsState: (state: IEventContactState[]) => any
 }
 
 
@@ -44,6 +42,13 @@ const ContactsSelection: React.FC<IContactsSelectionProps> = (props: IContactsSe
         props.updateParent(false);
     };
 
+    const handleConfirm = () => {
+        console.log('ContactsSelection CONFIRM');
+        console.log(props);
+        props.updateParent(false);
+        props.updateParentContactsState(props.contacts);
+    };
+
     console.log('render ContactsSelection');
 
     return (
@@ -61,17 +66,20 @@ const ContactsSelection: React.FC<IContactsSelectionProps> = (props: IContactsSe
                         onClick={handleClose}
                         aria-label="close"
                     >
-                        <CloseIcon />
+                        <CloseIcon/>
                     </IconButton>
                     <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                         {props.title}
                     </Typography>
-                    <Button autoFocus color="inherit" onClick={handleClose}>
+                    <Button autoFocus color="inherit" onClick={handleConfirm}>
                         Potvrdit
                     </Button>
                 </Toolbar>
             </AppBar>
-            <ContactsSelectionList contacts={props.contacts}/>
+            <ContactsSelectionList
+                contacts={props.contacts}
+                // updateParent={updateSelection}
+            />
         </Dialog>
     );
 

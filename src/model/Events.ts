@@ -18,6 +18,17 @@ export const EventInvitationStatusCZ: Array<string> = [
     'Nevyjádřil jsem se'
 ]
 
+export interface IEventContactState {
+    userId: string,
+    invited: boolean
+}
+
+export interface IUserContactsStates {
+    mobileContacts: Array<IEventContactState>,
+    messenger: Array<IEventContactState>,
+    whatsApp: Array<IEventContactState>
+}
+
 export interface ILocation {
     name: string,
     address: string,
@@ -66,9 +77,9 @@ export interface IAttendantsOrganized {
 }
 
 export interface IInvitationsOrganized {
-    MobileContacts: Array<string>
-    Messenger: Array<string>,
-    WhatsApp: Array<string>
+    MobileContacts: Array<IUserInvitation>
+    Messenger: Array<IUserInvitation>,
+    WhatsApp: Array<IUserInvitation>
 }
 
 export class AttendantsList {
@@ -183,34 +194,42 @@ class EventsModel {
             organizer: '2',
             attendants: {
                 1: {
+                    id: '1',
                     status: EventInvitationStatus.Pending,
                     source: EInvitationSource.MobileContacts
                 },
                 2: {
+                    id: '2',
                     status: EventInvitationStatus.Confirmed,
                     source: EInvitationSource.MobileContacts
                 },
                 3: {
+                    id: '3',
                     status: EventInvitationStatus.Confirmed,
                     source: EInvitationSource.Messenger
                 },
                 4: {
+                    id: '4',
                     status: EventInvitationStatus.Tentative,
                     source: EInvitationSource.Messenger
                 },
                 5: {
+                    id: '5',
                     status: EventInvitationStatus.Declined,
                     source: EInvitationSource.MobileContacts
                 },
                 6: {
+                    id: '6',
                     status: EventInvitationStatus.Confirmed,
                     source: EInvitationSource.Messenger
                 },
                 7: {
+                    id: '7',
                     status: EventInvitationStatus.Tentative,
                     source: EInvitationSource.Messenger
                 },
                 8: {
+                    id: '8',
                     status: EventInvitationStatus.Tentative,
                     source: EInvitationSource.MobileContacts
                 }
@@ -234,10 +253,12 @@ class EventsModel {
             organizer: '1',
             attendants: {
                 1: {
+                    id: '1',
                     status: EventInvitationStatus.Confirmed,
                     source: EInvitationSource.Organizer
                 },
                 9: {
+                    id: '9',
                     status: EventInvitationStatus.Confirmed,
                     source: EInvitationSource.WhatsApp
                 }
@@ -343,6 +364,8 @@ class EventsModel {
      * @param attendants
      */
     getInvitationsOrganized(attendants: AttendantsList): IInvitationsOrganized {
+        console.log('getInvitationsOrganized');
+        console.log(attendants);
         let res: IInvitationsOrganized = {
             MobileContacts: [],
             Messenger: [],
@@ -352,13 +375,13 @@ class EventsModel {
         for (const [id, a] of Object.entries(attendants)) {
             switch (a.source) {
                 case EInvitationSource.MobileContacts:
-                    res.MobileContacts.push(id);
+                    res.MobileContacts.push(a);
                     break;
                 case EInvitationSource.Messenger:
-                    res.Messenger.push(id);
+                    res.Messenger.push(a);
                     break;
                 case EInvitationSource.WhatsApp:
-                    res.WhatsApp.push(id);
+                    res.WhatsApp.push(a);
                     break;
             }
         }
@@ -394,8 +417,36 @@ class EventsModel {
         sessionStorage.setItem('unfinished', JSON.stringify(this.unfinished));
     }
 
-    fetchUnfinished(): IEventData|undefined {
+    fetchUnfinished(): IEventData {
         return JSON.parse(sessionStorage.getItem('unfinished') ?? '');
+    }
+
+    /**
+     * @param user
+     */
+    getUnfinishedEventContactsState(user: User): IUserContactsStates {
+        let unfinished: IEventData = JSON.parse(sessionStorage.getItem('unfinished') ?? '');
+        let invited: Array<string> = [];
+        if (unfinished.attendants !== undefined) {
+            for (const inv of Object.values(unfinished.attendants)) {
+                invited.push(inv.id);
+            }
+        }
+        let res: IUserContactsStates = {
+            mobileContacts: [],
+            messenger: [],
+            whatsApp: []
+        };
+        for (const [source, contacts] of Object.entries(user.contacts)) {
+            for (const c of contacts) {
+                console.log(c);
+                res[source as keyof IUserContactsStates].push({
+                    userId: c,
+                    invited: invited.includes(c)
+                });
+            }
+        }
+        return res;
     }
 
 }

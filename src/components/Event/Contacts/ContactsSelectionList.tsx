@@ -1,11 +1,11 @@
-import React from "react";
-import {Divider, List, ListItem, ListItemText} from "@mui/material";
-import AttendantAvatar from "../Attendants/AttendantAvatar";
-import ContactAvatar from "./ContactsListItem";
+import React, {useState} from "react";
+import {List} from "@mui/material";
+import ContactsListItem from "./ContactsListItem";
+import {IEventContactState} from "../../../model/Events";
 
 
 export interface IContactsSelectionListProps {
-    contacts: Array<string>,
+    contacts: IEventContactState[],
 }
 
 
@@ -15,17 +15,23 @@ export interface IContactsSelectionListProps {
  */
 const ContactsSelectionList: React.FC<IContactsSelectionListProps> = (props: IContactsSelectionListProps) => {
 
-    let listItems = props.contacts.map((c: string, inx) => {
-            return (
-                <React.Fragment key={inx}>
-                    <ListItem button>
-                        <ContactAvatar contact={c}/>
-                        {/*<ListItemText primary="Phone ringtone" secondary="Titania"/>*/}
-                    </ListItem>
-                    <Divider/>
-                </React.Fragment>
-            )
-        });
+    /**
+     * @param newState
+     */
+    // const update = (newState: IEventContactState) => {
+    //     console.log('Update ContactsSelectionList');
+    //     console.log(props.contacts);
+    //     // props.updateParent(props.contacts);
+    // }
+
+    let listItems = props.contacts.map(
+        (c: IEventContactState, inx) => {
+            // return <ContactsListItem key={inx} contact={c} updateParent={update}/>
+            return <ContactsListItem key={inx} contact={c}/>
+        }
+    );
+
+    console.log('Render ContactsSelectionList');
 
     return (
         <List>

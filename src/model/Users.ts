@@ -11,6 +11,7 @@ export const InvitationSource = {
 }
 
 export interface IUserInvitation {
+    id: string,
     status: EventInvitationStatus,
     source?: EInvitationSource
 }
@@ -78,10 +79,13 @@ class UsersModel {
             familyName: 'Test',
             password: '12345678',
             events: {
-                2: { status: EventInvitationStatus.Confirmed }
+                2: {
+                    id: '2',
+                    status: EventInvitationStatus.Confirmed
+                }
             },
             contacts: {
-                mobileContacts: ['2', '11'],
+                mobileContacts: ['2', '11', '13'],
                 messenger: ['3', '10'],
                 whatsApp: ['9', '12']
             }
@@ -94,7 +98,10 @@ class UsersModel {
             familyName: 'Okurka',
             password: '12345678',
             events: {
-                1: { status: EventInvitationStatus.Confirmed }
+                1: {
+                    id: '1',
+                    status: EventInvitationStatus.Confirmed
+                }
             },
             contacts: {
                 mobileContacts: [],
@@ -110,7 +117,10 @@ class UsersModel {
             familyName: 'Brambora',
             password: '12345678',
             events: {
-                1: { status: EventInvitationStatus.Confirmed }
+                1: {
+                    id: '1',
+                    status: EventInvitationStatus.Confirmed
+                }
             },
             contacts: {
                 mobileContacts: [],
@@ -126,7 +136,10 @@ class UsersModel {
             familyName: 'Vytížená',
             password: '12345678',
             events: {
-                1: { status: EventInvitationStatus.Tentative }
+                1: {
+                    id: '1',
+                    status: EventInvitationStatus.Tentative
+                }
             },
             contacts: {
                 mobileContacts: [],
@@ -142,7 +155,10 @@ class UsersModel {
             familyName: 'Omáčka',
             password: '12345678',
             events: {
-                1: { status: EventInvitationStatus.Declined }
+                1: {
+                    id: '1',
+                    status: EventInvitationStatus.Declined
+                }
             },
             contacts: {
                 mobileContacts: [],
@@ -158,7 +174,10 @@ class UsersModel {
             familyName: 'Osamělá',
             password: '12345678',
             events: {
-                1: { status: EventInvitationStatus.Confirmed }
+                1: {
+                    id: '1',
+                    status: EventInvitationStatus.Confirmed
+                }
             },
             contacts: {
                 mobileContacts: [],
@@ -174,7 +193,10 @@ class UsersModel {
             familyName: 'Jablíčková',
             password: '12345678',
             events: {
-                1: { status: EventInvitationStatus.Tentative }
+                1: {
+                    id: '1',
+                    status: EventInvitationStatus.Tentative
+                }
             },
             contacts: {
                 mobileContacts: [],
@@ -190,7 +212,10 @@ class UsersModel {
             familyName: 'Hruška',
             password: '12345678',
             events: {
-                1: { status: EventInvitationStatus.Pending }
+                1: {
+                    id: '1',
+                    status: EventInvitationStatus.Pending
+                }
             },
             contacts: {
                 mobileContacts: [],
@@ -206,7 +231,10 @@ class UsersModel {
             familyName: 'Kávičková',
             password: '12345678',
             events: {
-                2: { status: EventInvitationStatus.Confirmed }
+                2: {
+                    id: '2',
+                    status: EventInvitationStatus.Confirmed
+                }
             },
             contacts: {
                 mobileContacts: [],
@@ -256,6 +284,20 @@ class UsersModel {
                 whatsApp: []
             }
         },
+        {
+            id: '13',
+            username: 'lakotaant',
+            email: 'antoninlakota@test.com',
+            givenName: 'Antonín',
+            familyName: 'Lakota',
+            password: '12345678',
+            events: {},
+            contacts: {
+                mobileContacts: [],
+                messenger: [],
+                whatsApp: []
+            }
+        },
     ];
 
     data: Array<User>;
@@ -277,7 +319,7 @@ class UsersModel {
      */
     findById(id: string): User | undefined {
         let res: User | undefined ;
-        res = this.data.find((e) => e.id == id);
+        res = this.data.find((e) => e.id === id as string);
         return res;
     }
 
