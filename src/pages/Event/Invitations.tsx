@@ -109,6 +109,11 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
         });
     }
 
+    goBack = () => {
+        let id: string|undefined = this.props.match.params.id;
+        this.props.history.push( `/event/${id ? 'edit/' + id : 'create'}`);
+    }
+
     saveInvitations = () => {
         Events.storeUnfinished(this.state.eventData);
         let id: string|undefined = this.props.match.params.id;
@@ -121,7 +126,10 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
         return (
             <Grid container direction={"column"} mt={"3rem"} pb={"1rem"}>
                 <Grid item>
-                    <CommonHeader title={'Pozvánky na událost'}/>
+                    <CommonHeader
+                        title={'Pozvánky na událost'}
+                        goBack={this.goBack}
+                    />
                 </Grid>
                 <Grid container direction={"column"} item sx={{paddingX: "5%", paddingY: "2rem"}}>
                     <Grid item>

@@ -22,6 +22,11 @@ export interface IEventEditState {
 
 export default class EventEdit extends React.Component<IEventEditProps, IEventEditState> {
 
+    goBack = () => {
+        this.props.history.push('/');
+        Events.clearUnfinished();
+    }
+
     /**
      * @param props
      */
@@ -40,7 +45,7 @@ export default class EventEdit extends React.Component<IEventEditProps, IEventEd
         return (
             <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
                 <Grid item>
-                    <CommonHeader title={this.state.event.title}/>
+                    <CommonHeader title={this.state.event.title} goBack={this.goBack}/>
                 </Grid>
                 <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
                     <EventCreateForm user={this.props.user} event={this.state.event} />

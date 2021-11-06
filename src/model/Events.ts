@@ -427,7 +427,7 @@ class EventsModel {
      * @param user
      */
     getUnfinishedEventContactsState(user: User): IUserContactsStates {
-        let unfinished: IEventData = JSON.parse(sessionStorage.getItem('unfinished') ?? '');
+        let unfinished: IEventData = JSON.parse(sessionStorage.getItem('unfinished') ?? '{}');
         let invited: Array<string> = [];
         if (unfinished.attendants !== null) {
             for (const inv of Object.values(unfinished.attendants)) {

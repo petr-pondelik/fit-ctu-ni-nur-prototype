@@ -4,9 +4,10 @@ import CommonHeader from "../../components/Header/CommonHeader";
 import EventCreateForm from "../../components/Event/Form/EventForm";
 import {User} from "../../model/Users";
 import Events from "../../model/Events";
+import {RouteComponentProps} from "react-router-dom";
 
 
-export interface IEventCreateProps {
+export interface IEventCreateProps extends RouteComponentProps {
     user: User
 }
 
@@ -17,7 +18,8 @@ export interface IEventCreateState {
 
 export default class EventCreate extends React.Component<IEventCreateProps, IEventCreateState> {
 
-    goBackCallback = () => {
+    goBack = () => {
+        this.props.history.push('/');
         Events.clearUnfinished();
     }
 
@@ -25,7 +27,7 @@ export default class EventCreate extends React.Component<IEventCreateProps, IEve
         return (
             <Grid container direction={"column"} mt={"4rem"} pb={"1rem"}>
                 <Grid item>
-                    <CommonHeader title={'Vytvořit událost'} goBackCallback={this.goBackCallback}/>
+                    <CommonHeader title={'Vytvořit událost'} goBack={this.goBack}/>
                 </Grid>
                 <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
                     <EventCreateForm user={this.props.user}/>

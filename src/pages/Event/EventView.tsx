@@ -2,7 +2,7 @@ import React from "react";
 import EventsModel, {Event} from "../../model/Events";
 import {Grid} from "@mui/material";
 import CommonHeader from "../../components/Header/CommonHeader";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {IRouteParams} from "../../interfaces/IRouteParams";
 import Content from "../../components/Event/View/Content";
 import {User} from "../../model/Users";
@@ -16,6 +16,7 @@ export interface IEventViewProps {
 const EventView: React.FC<IEventViewProps> = (props: IEventViewProps) => {
 
     const params = useParams<IRouteParams>();
+    const history = useHistory();
 
     let event: Event|undefined = EventsModel.findById(params.id);
 
@@ -26,7 +27,7 @@ const EventView: React.FC<IEventViewProps> = (props: IEventViewProps) => {
     return (
         <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
             <Grid item>
-                <CommonHeader title={event.title}/>
+                <CommonHeader title={event.title} goBack={() => history.push('/')}/>
             </Grid>
             <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
                 <Content
