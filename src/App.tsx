@@ -47,10 +47,7 @@ class App extends React.Component<any, AppState> {
                         {
                             this.state.user === undefined ?
                                 <Login propagateState={this.updateState}/> :
-                                <Homepage
-                                    user={this.state.user}
-                                    events={EventsModel.findByUser(this.state.user)}
-                                />
+                                <Homepage user={this.state.user}/>
                         }
                     </Route>
 
@@ -58,10 +55,7 @@ class App extends React.Component<any, AppState> {
                         {
                             this.state.user === undefined ?
                                 <Registration/> :
-                                <Homepage
-                                    user={this.state.user}
-                                    events={EventsModel.findByUser(this.state.user)}
-                                />
+                                <Homepage user={this.state.user}/>
                         }
                     </Route>
 

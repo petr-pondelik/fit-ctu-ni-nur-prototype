@@ -5,6 +5,7 @@ import {RouteComponentProps} from "react-router-dom";
 import Events, {Event} from "../../model/Events";
 import CommonHeader from "../../components/Header/CommonHeader";
 import EventCreateForm from "../../components/Event/Form/EventForm";
+import {FormOperations} from "../../enums/FormOperations";
 
 
 interface IRouteParams {
@@ -48,7 +49,7 @@ export default class EventEdit extends React.Component<IEventEditProps, IEventEd
                     <CommonHeader title={this.state.event.title} goBack={this.goBack}/>
                 </Grid>
                 <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
-                    <EventCreateForm user={this.props.user} event={this.state.event} />
+                    <EventCreateForm operation={FormOperations.Update} user={this.props.user} event={this.state.event} />
                 </Grid>
             </Grid>
         );

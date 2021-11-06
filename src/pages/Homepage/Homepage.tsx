@@ -1,20 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Grid, Typography} from "@mui/material";
 import HomepageHeader from "../../components/Header/HomepageHeader";
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import EventsList from "../../components/Event/List/EventsList";
-import {Event} from "../../model/Events";
+import EventsModel, {Event} from "../../model/Events";
 import {User} from "../../model/Users";
 import {Link} from "react-router-dom";
 
 
 export interface IHomepageProps {
     user: User,
-    events: Array<Event>
 }
 
 
 const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
+
+    const [events, setEvents] = useState<Event[]>(EventsModel.findByUser(props.user))
+
     return (
         <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
             <Grid item>
@@ -36,7 +38,7 @@ const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
                 <Grid container item>
                     <EventsList
                         user={props.user}
-                        events={props.events}
+                        events={events}
                     />
                 </Grid>
             </Grid>

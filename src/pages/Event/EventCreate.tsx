@@ -5,6 +5,7 @@ import EventCreateForm from "../../components/Event/Form/EventForm";
 import {User} from "../../model/Users";
 import Events from "../../model/Events";
 import {RouteComponentProps} from "react-router-dom";
+import {FormOperations} from "../../enums/FormOperations";
 
 
 export interface IEventCreateProps extends RouteComponentProps {
@@ -30,7 +31,7 @@ export default class EventCreate extends React.Component<IEventCreateProps, IEve
                     <CommonHeader title={'Vytvořit událost'} goBack={this.goBack}/>
                 </Grid>
                 <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
-                    <EventCreateForm user={this.props.user}/>
+                    <EventCreateForm operation={FormOperations.Create} user={this.props.user}/>
                 </Grid>
             </Grid>
         )

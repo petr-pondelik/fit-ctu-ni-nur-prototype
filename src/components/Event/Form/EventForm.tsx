@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import {Button, Grid, Typography} from "@mui/material";
+import {Button, Grid, List, Typography} from "@mui/material";
 import AppTextField from "../../Common/AppTextField";
 import ImageUpload from "../../Common/ImageUpload";
-import Events, {IEventData} from "../../../model/Events";
+import Events, {IEvent, IEventData} from "../../../model/Events";
 import EventDateTimePicker from "../DateTimePicker/EventDateTimePicker";
 import {Event} from "../../../model/Events";
 import EventLocation from "./EventLocation";
@@ -11,9 +11,14 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {User} from "../../../model/Users";
 import * as _ from "lodash"
+import EventInvitations from "../Invitation/EventInvitations";
+import {FormOperations} from "../../../enums/FormOperations";
+import EditIcon from '@mui/icons-material/Edit';
+import ActionButton from "../../Common/ActionButton";
 
 
 interface IEventCreateFormProps extends RouteComponentProps {
+    operation: FormOperations,
     user: User,
     event?: Event
 }
@@ -81,6 +86,11 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
         this.state = { data: this.getDefaultData() };
     }
 
+    toInvitations = () => {
+        Events.storeUnfinished(this.state.data);
+        this.props.history.push(`/event/${this.props.event ? 'edit/' + this.props.event.id : 'create'}/attendants`);
+    }
+
     /**
      * @param stateFragment
      */
@@ -89,9 +99,34 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
         this.setState(newState);
     }
 
-    toAttendantsAction = () => {
-        Events.storeUnfinished(this.state.data);
-        this.props.history.push(`/event/${this.props.event ? 'edit/' + this.props.event.id : 'create'}/attendants`);
+    renderInvitationsIcon = () => {
+        return this.state.data.attendants !== null && Object.values(this.state.data.attendants).length > 0 ?
+            <EditIcon fontSize={"medium"}/> : <AddBoxOutlinedIcon fontSize={"large"}/>
+    }
+
+    renderActionButton = () => {
+        if (this.props.operation === FormOperations.Create) {
+            return <ActionButton variant={"contained"} clickHandler={this.createEvent}>
+                Založit událost
+            </ActionButton>
+        }
+        return <ActionButton variant={"contained"} clickHandler={this.updateEvent}>
+            Uložit změny
+        </ActionButton>
+    }
+
+    createEvent = () => {
+        console.log('Create Event');
+        Events.insert(this.state.data);
+        Events.clearUnfinished();
+        this.props.history.push(`/`);
+    }
+
+    updateEvent = () => {
+        console.log('Update Event');
+        Events.update(this.state.data);
+        Events.clearUnfinished();
+        this.props.history.push(`/`);
     }
 
     render() {
@@ -138,17 +173,25 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                         updateParent={this.update}
                     />
                 </Grid>
-                <Grid container item alignItems={"center"} mt={"2.5rem"}>
-                    <Grid item>
-                        <Typography variant={"h5"} component={"h2"}>
-                            Pozvánky na událost
-                        </Typography>
+                <Grid container alignItems={"center"} mt={"2.5rem"}>
+                    <Grid container item alignItems={"center"}>
+                        <Grid item>
+                            <Typography variant={"h5"} component={"h2"}>
+                                Pozvánky na událost
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Button onClick={() => this.toInvitations()}>
+                                {this.renderInvitationsIcon()}
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <Button onClick={() => this.toAttendantsAction()}>
-                            <AddBoxOutlinedIcon fontSize={"large"}/>
-                        </Button>
+                    <Grid container item direction={"column"} pt={"1rem"} px={"2.5%"}>
+                        <EventInvitations eventData={this.state.data}/>
                     </Grid>
+                </Grid>
+                <Grid item mt={"2.5rem"}>
+                    {this.renderActionButton()}
                 </Grid>
             </Grid>
         );

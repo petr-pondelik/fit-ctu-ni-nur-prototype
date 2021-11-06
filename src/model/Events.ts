@@ -49,7 +49,7 @@ export interface IEventData {
         end: Date|null
     },
     description: string|null,
-    organizer: string|null,
+    organizer: string,
     attendants: IAttendantsList|null
 }
 
@@ -173,6 +173,8 @@ export class Event {
 }
 
 class EventsModel {
+
+    lastId: number = 2;
 
     dataDefinition: Array<IEvent> = [
         {
@@ -320,12 +322,53 @@ class EventsModel {
      */
     findByUser(user: User): Array<Event> {
         let res: Array<Event> = [];
-        for (const e of this.data) {
+        for (const e of this.data)
+        {
             if (Object.keys(e.attendants).includes(user.id)) {
                 res.push(e);
             }
         }
+        res.sort((a, b) => a.eventTime.start.getTime() - b.eventTime.start.getTime());
         return res;
+    }
+
+    /**
+     * @param data
+     */
+    insert = (data: IEventData) => {
+        let att: IAttendantsList = data.attendants ?? [];
+        att[parseInt(data.organizer)] = {
+            id: data.organizer,
+            status: EventInvitationStatus.Confirmed,
+            source: EInvitationSource.Organizer
+        }
+        let dataProcessed: IEvent = {
+            id: String(this.data.length + 1),
+            title: data.title ?? '',
+            imgPath: data.imgPath ?? '',
+            eventTime: {
+                start: data.eventTime.start ? data.eventTime.start.toString() : '',
+                end: data.eventTime.end ? data.eventTime.end.toString() : null
+            },
+            location: {
+                name: data.location ? data.location.name : '',
+                address: data.location ? data.location.address : '',
+                lat: data.location ? data.location.lat : 0,
+                long: data.location ? data.location.long : 0
+            },
+            organizer: data.organizer,
+            description: data.description ?? '',
+            attendants: att
+        };
+        this.data.push(new Event(dataProcessed));
+        sessionStorage.setItem('events', JSON.stringify(this.data));
+    }
+
+    /**
+     * @param data
+     */
+    update = (data: IEventData) => {
+
     }
 
     /**
