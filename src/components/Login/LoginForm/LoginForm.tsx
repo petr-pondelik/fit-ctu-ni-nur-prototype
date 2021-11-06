@@ -192,9 +192,12 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
      * @param event
      */
     logIn = (event: React.MouseEvent<HTMLElement>) => {
+        console.log('logIn');
         this.validate();
 
         if (!this.validated) {
+            console.log('ERROR');
+            console.log(this.state.messages);
             return;
         }
 

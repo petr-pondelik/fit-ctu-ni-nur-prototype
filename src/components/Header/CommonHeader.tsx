@@ -6,7 +6,8 @@ import {RouteComponentProps, withRouter} from "react-router-dom";
 
 interface ICommonHeaderProps extends RouteComponentProps {
     title: string,
-    children?: JSX.Element
+    children?: JSX.Element,
+    goBackCallback?: (data?: any) => any
 }
 
 
@@ -15,6 +16,13 @@ interface ICommonHeaderProps extends RouteComponentProps {
  * @constructor
  */
 const CommonHeader: React.FC<ICommonHeaderProps> = (props: ICommonHeaderProps) => {
+
+    const goBack = () => {
+        if (typeof props.goBackCallback === 'function') {
+            props.goBackCallback();
+        }
+        props.history.goBack();
+    }
 
     function renderIcon() {
         if (props.children === undefined) {
@@ -36,7 +44,7 @@ const CommonHeader: React.FC<ICommonHeaderProps> = (props: ICommonHeaderProps) =
                     <Grid container justifyContent={"space-between"} alignItems={"center"}>
                         <Grid item>
                             <Button color="inherit" sx={{padding: 0, minWidth: "auto"}}>
-                                <ArrowBackIcon fontSize={'large'} onClick={props.history.goBack}/>
+                                <ArrowBackIcon fontSize={'large'} onClick={goBack}/>
                             </Button>
                         </Grid>
                         <Grid item>

@@ -6,7 +6,7 @@ import {Grid} from "@mui/material";
 
 
 export interface IEventCreateLocationProps {
-    location?: ILocation,
+    location: ILocation|null,
     updateParent(stateFragment: any): void
 }
 

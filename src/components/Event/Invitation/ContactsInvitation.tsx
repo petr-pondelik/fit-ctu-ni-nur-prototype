@@ -14,7 +14,8 @@ import EInvitationSource from "../../../enums/EInvitationSource";
 export interface IContactsInvitationsListProps {
     eventData: IEventData,
     contacts: IUserContactsStates,
-    updateParent: (source: EInvitationSource, state: IEventContactState[]) => any
+    updateParent: (source: EInvitationSource, state: IEventContactState[]) => any,
+    parentCancelInvitation: (userId: string) => any
 }
 
 
@@ -39,18 +40,25 @@ const ContactsInvitation: React.FC<IContactsInvitationsListProps> = (props: ICon
      * @param state
      */
     const updateInvitations = (source: EInvitationSource, state: IEventContactState[]) => {
-        console.log('UPDATE ContactsInvitation');
-        console.log(state);
+        // console.log('UPDATE ContactsInvitation');
+        // console.log(state);
         props.updateParent(source, state);
     }
 
+    /**
+     * @param userId
+     */
+    const cancelInvitation = (userId: string) => {
+        props.parentCancelInvitation(userId);
+    }
+
     console.log('RENDER ContactsInvitation');
-    console.log(eventData);
-    console.log(invitations);
+    console.log(props.contacts);
+    // console.log(eventData);
+    // console.log(invitations);
 
     return (
         <Grid container item direction={"column"} px={"2.5%"}>
-            <p>{JSON.stringify(props.eventData)}</p>
             <List>
                 <ContactsSource
                     source={EInvitationSource.MobileContacts}
@@ -59,6 +67,7 @@ const ContactsInvitation: React.FC<IContactsInvitationsListProps> = (props: ICon
                     title={EInvitationSource.MobileContacts}
                     icon={<PhoneIcon fontSize={"large"}/>}
                     parentUpdateInvitations={updateInvitations}
+                    parentCancelInvitation={cancelInvitation}
                 />
                 <ContactsSource
                     source={EInvitationSource.Messenger}
@@ -67,6 +76,7 @@ const ContactsInvitation: React.FC<IContactsInvitationsListProps> = (props: ICon
                     title={EInvitationSource.Messenger}
                     icon={<Icon icon="mdi:facebook-messenger" width={"35"}/>}
                     parentUpdateInvitations={updateInvitations}
+                    parentCancelInvitation={cancelInvitation}
                 />
                 <ContactsSource
                     source={EInvitationSource.WhatsApp}
@@ -75,6 +85,7 @@ const ContactsInvitation: React.FC<IContactsInvitationsListProps> = (props: ICon
                     contacts={props.contacts.whatsApp}
                     icon={<WhatsAppIcon fontSize={"large"}/>}
                     parentUpdateInvitations={updateInvitations}
+                    parentCancelInvitation={cancelInvitation}
                 />
             </List>
         </Grid>

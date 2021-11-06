@@ -5,7 +5,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 export interface IImageUploadProps {
     name: string,
-    defaultValue?: string,
+    defaultValue: string|null,
     updateParent(stateFragment: any): void
 }
 

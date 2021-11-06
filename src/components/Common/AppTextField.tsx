@@ -9,7 +9,7 @@ interface AppTextFieldProps {
     name: string,
     label: string,
     size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>,
-    defaultValue?: string,
+    defaultValue?: string|null,
     message?: string,
     updateParent(stateFragment: any): void,
 }

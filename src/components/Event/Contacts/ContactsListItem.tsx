@@ -17,20 +17,18 @@ export interface IContactsListItemProps {
 const ContactsListItem: React.FC<IContactsListItemProps> = (props: IContactsListItemProps) => {
 
     let contactUser = Users.findById(String(props.contact.userId));
-    console.log(contactUser);
 
     const [checked, setChecked] = useState(false);
 
     const update = () => {
-        console.log('Update ContactsListItem');
         let newState = props.contact;
         newState.invited = !checked;
         setChecked(!checked);
-        // console.log(newState);
-        // props.updateParent(newState);
     }
 
     console.log('Render ContactsListItem');
+    console.log(props.contact);
+    console.log(contactUser);
 
     return (
         <React.Fragment>
@@ -48,7 +46,7 @@ const ContactsListItem: React.FC<IContactsListItemProps> = (props: IContactsList
                     <Grid item>
                         <Checkbox
                             checked={checked}
-                            // disabled={props.contact.invited}
+                            value={checked}
                         />
                     </Grid>
                 </Grid>

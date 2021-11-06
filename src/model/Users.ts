@@ -297,12 +297,13 @@ class UsersModel {
                 messenger: [],
                 whatsApp: []
             }
-        },
+        }
     ];
 
     data: Array<User>;
 
     constructor() {
+        console.log('Users constructor');
         let users: Array<User> = [];
 
         /** Synchronize cookies with defined users */
@@ -311,7 +312,8 @@ class UsersModel {
         }
 
         this.data = users;
-        Cookies.set('users', JSON.stringify(this.data));
+        console.log(this.data);
+        sessionStorage.setItem('users', JSON.stringify(this.data));
     }
 
     /**
@@ -329,6 +331,8 @@ class UsersModel {
      * @param password
      */
     findByCredentials = (username: string|undefined, password: string|undefined): UserInterface|undefined => {
+        console.log([username, password]);
+        console.log(this.data);
         return this.data.find(item => item.username === username && item.password === password);
     };
 

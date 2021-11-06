@@ -2,16 +2,15 @@ import React, {Component} from "react";
 import {Button, Grid, Typography} from "@mui/material";
 import AppTextField from "../../Common/AppTextField";
 import ImageUpload from "../../Common/ImageUpload";
-import Events, {IAttendantsList, IEventData, ILocation} from "../../../model/Events";
-import merge from "merge-objects";
+import Events, {IEventData} from "../../../model/Events";
 import EventDateTimePicker from "../DateTimePicker/EventDateTimePicker";
 import {Event} from "../../../model/Events";
-import moment, {Moment} from "moment";
 import EventLocation from "./EventLocation";
 import AppTextArea from "../../Common/AppTextArea";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {User} from "../../../model/Users";
+import * as _ from "lodash"
 
 
 interface IEventCreateFormProps extends RouteComponentProps {
@@ -31,31 +30,46 @@ interface IEventCreateFormState {
 class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> {
 
     getDefaultData(): IEventData {
+        let unfinished: IEventData|undefined = Events.fetchUnfinished();
+        if (unfinished !== undefined) {
+            return {
+                title: unfinished.title,
+                imgPath: unfinished.imgPath,
+                location: unfinished.location,
+                eventTime: {
+                    start: unfinished.eventTime.start !== null ? new Date(unfinished.eventTime.start) : null,
+                    end: unfinished.eventTime.end !== null ? new Date(unfinished.eventTime.end) : null
+                },
+                description: unfinished.description,
+                organizer: unfinished.organizer,
+                attendants: unfinished.attendants
+            }
+        }
         if (this.props.event instanceof Event) {
             return {
                 title: this.props.event.title,
                 imgPath: this.props.event.imgPath,
                 location: this.props.event.location,
                 eventTime: {
-                    start: moment(this.props.event.eventTime.start),
-                    end: this.props.event.eventTime.end !== undefined ? moment(this.props.event.eventTime.end) : undefined
+                    start: this.props.event.eventTime.start,
+                    end: this.props.event.eventTime.end !== null ? this.props.event.eventTime.end : null
                 },
                 description: this.props.event.description,
                 organizer: this.props.event.organizer,
-                attendants: undefined
+                attendants: this.props.event.attendants
             }
         }
         return {
-            title: undefined,
-                imgPath: undefined,
-            location: undefined,
+            title: null,
+                imgPath: null,
+            location: null,
             eventTime: {
-            start: undefined,
-                end: undefined
+            start: null,
+                end: null
             },
-            description: undefined,
+            description: null,
             organizer: this.props.user.id,
-            attendants: undefined
+            attendants: null
         }
     }
 
@@ -71,10 +85,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
      * @param stateFragment
      */
     update = (stateFragment: IStateFragment) => {
-        console.log('EventForm update');
-        let stateUpdate: IEventCreateFormState = this.state;
-        let newState: IEventCreateFormState = merge(stateUpdate, stateFragment);
-        console.log(newState);
+        let newState = _.merge(this.state, stateFragment);
         this.setState(newState);
     }
 
@@ -84,6 +95,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
     }
 
     render() {
+        console.log('RENDER EventForm');
         console.log(this.state);
 
         return (
@@ -122,6 +134,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                         name={'description'}
                         label={'Popis'}
                         minRows={5}
+                        defaultValue={this.state.data.description}
                         updateParent={this.update}
                     />
                 </Grid>

@@ -4,7 +4,7 @@ import {ILocation} from "../../../model/Events";
 
 
 export interface IEventLocationAutocompleteProps {
-    location?: ILocation,
+    location: ILocation|null,
     updateParent(stateFragment: any): void
 }
 
@@ -23,7 +23,7 @@ const EventLocationAutocomplete: React.FC<IEventLocationAutocompleteProps> = (pr
     function update(newValue: ILocation | null) {
         // console.log('EventLocationAutocomplete update');
         setValue(newValue);
-        let sf = {location: newValue ?? undefined};
+        let sf = {location: newValue ?? null};
         // console.log(sf);
         props.updateParent(sf);
     }

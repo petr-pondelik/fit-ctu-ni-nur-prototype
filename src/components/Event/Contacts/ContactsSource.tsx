@@ -7,6 +7,7 @@ import AttendantAvatar from "../Attendants/AttendantAvatar";
 import ContactsSelection from "./ContactsSelection";
 import {IEventContactState} from "../../../model/Events";
 import EInvitationSource from "../../../enums/EInvitationSource";
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 export interface IContactsSourceProps {
@@ -15,7 +16,8 @@ export interface IContactsSourceProps {
     contacts: IEventContactState[],
     title: string,
     icon: JSX.Element,
-    parentUpdateInvitations: (source: EInvitationSource, state: IEventContactState[]) => any
+    parentUpdateInvitations: (source: EInvitationSource, state: IEventContactState[]) => any,
+    parentCancelInvitation: (userId: string) => any
 }
 
 
@@ -28,23 +30,30 @@ const ContactsSource: React.FC<IContactsSourceProps> = (props: IContactsSourcePr
     const [selectionOpen, setSelectionOpen] = useState(false);
 
     /**
+     * @param e
+     */
+    const cancelInvitation = (e: React.MouseEvent<SVGSVGElement>) => {
+        console.log('Cancel invitation: ' + e.currentTarget.id);
+        props.parentCancelInvitation(e.currentTarget.id);
+    }
+
+    /**
      * @param state
      */
     const updateInvitations = (state: IEventContactState[]) => {
-        console.log('ContactsSource updateInvitations');
-        console.log(state);
-        console.log(props.invitations);
-        console.log(props.contacts);
         props.parentUpdateInvitations(props.source, state);
     }
 
     const renderInvitations = () => {
+        console.log('renderInvitations');
+        console.log(props.invitations);
         if (props.invitations.length > 0) {
             return Object.values(props.invitations).map((inv, inx) => {
                 let u: User | undefined = UsersModel.findById(inv.id);
                 return u !== undefined ?
-                    <ListItem key={inx}>
+                    <ListItem key={inx} sx={{ paddingRight: "2.175rem" }}>
                         <AttendantAvatar attendant={u}/>
+                        <ClearIcon id={inv.id} onClick={cancelInvitation}/>
                     </ListItem>
                     : '';
             });
@@ -53,10 +62,6 @@ const ContactsSource: React.FC<IContactsSourceProps> = (props: IContactsSourcePr
             Žádné pozvánky
         </ListItem>
     }
-
-    console.log('RENDER ContactsSource: ' + props.title);
-    console.log(props.invitations);
-    console.log(props.contacts);
 
     return (
         <React.Fragment>

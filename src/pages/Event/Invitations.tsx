@@ -1,38 +1,69 @@
 import React from "react";
 import {Grid} from "@mui/material";
-import {IUserInvitation, User} from "../../model/Users";
+import {User} from "../../model/Users";
 import CommonHeader from "../../components/Header/CommonHeader";
-import Events, {EventInvitationStatus, IEventContactState, IEventData} from "../../model/Events";
+import Events, {EventInvitationStatus, IEventContactState, IEventData, IUserContactsStates} from "../../model/Events";
 import ContactsInvitation from "../../components/Event/Invitation/ContactsInvitation";
 import EInvitationSource from "../../enums/EInvitationSource";
+import ActionButton from "../../components/Common/ActionButton";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
 
-export interface IAttendantsFromContactsProps {
+interface IRouteParams {
+    id?: string
+}
+
+export interface IAttendantsFromContactsProps extends RouteComponentProps<IRouteParams> {
     user: User
 }
+
+export interface IAttendantsFromContactsState {
+    eventData: IEventData,
+    contactsState: IUserContactsStates
+}
+
 
 /**
  * @param props
  * @constructor
  */
-const Invitations: React.FC<IAttendantsFromContactsProps> = (props: IAttendantsFromContactsProps) => {
+class Invitations extends React.Component<IAttendantsFromContactsProps, IAttendantsFromContactsState> {
 
-    const [eventData, setEventData] = React.useState<IEventData>(Events.fetchUnfinished());
+    /**
+     * @param props
+     */
+    constructor(props: IAttendantsFromContactsProps) {
+        super(props);
+        let eventData = Events.fetchUnfinished();
+        if (eventData === undefined) {
+            eventData = {
+                title: null,
+                imgPath: null,
+                location: null,
+                eventTime: {
+                    start: null,
+                    end: null
+                },
+                description: null,
+                organizer: this.props.user.id,
+                attendants: null
+            }
+        }
+        this.state = {
+            eventData: eventData,
+            contactsState: Events.getUnfinishedEventContactsState(this.props.user)
+        };
+    }
 
     /**
      * @param source
      * @param state
      */
-    const update = (source: EInvitationSource, state: IEventContactState[]) => {
-        console.log('UPDATE Invitations');
-        console.log(state);
-        let newEventData: IEventData = eventData;
-        console.log(newEventData);
-        if (newEventData.attendants === undefined) {
-            newEventData.attendants = {};
-        }
+    update = (source: EInvitationSource, state: IEventContactState[]) => {
+        let newEventData: IEventData = this.state.eventData;
+        if (newEventData.attendants === null) { newEventData.attendants = {}; }
+        let newContactsState = this.state.contactsState;
         for (const inv of state) {
-            console.log(inv);
             if (inv.invited) {
                 newEventData.attendants[parseInt(inv.userId)] = {
                     id: inv.userId,
@@ -40,31 +71,77 @@ const Invitations: React.FC<IAttendantsFromContactsProps> = (props: IAttendantsF
                     source: source
                 }
             }
+            for (const [source, sourceList] of Object.entries(this.state.contactsState)) {
+                for (const [inx, cs] of Object.entries(sourceList)) {
+                    if ((cs as IEventContactState).userId === inv.userId) {
+                        newContactsState[source as keyof IUserContactsStates][inx as unknown as number].invited = inv.invited;
+                    }
+                }
+            }
         }
-        console.log(newEventData);
-        setEventData(newEventData);
+        this.setState({
+            eventData: newEventData,
+            contactsState: newContactsState
+        });
     }
 
-    console.log('RENDER Invitations');
-    console.log(eventData);
-    console.log(props.user);
-    console.log(Events.getUnfinishedEventContactsState(props.user));
+    /**
+     * @param userId
+     */
+    cancelInvitation = (userId: string) => {
+        let newEventData: IEventData = Object.assign(this.state.eventData);
+        if (newEventData.attendants === null) { return; }
+        delete newEventData.attendants[parseInt(userId)];
 
-    return (
-        <Grid container direction={"column"} mt={"3rem"} pb={"1rem"}>
-            <Grid item>
-                <CommonHeader title={'Pozvánky na událost'}/>
+        let newContactsState = this.state.contactsState;
+
+        for (const [source, sourceList] of Object.entries(this.state.contactsState)) {
+            for (const [inx, cs] of Object.entries(sourceList)) {
+                if ((cs as IEventContactState).userId === userId) {
+                    newContactsState[source as keyof IUserContactsStates][inx as unknown as number].invited = false;
+                }
+            }
+        }
+
+        this.setState({
+            eventData: newEventData,
+            contactsState: newContactsState
+        });
+    }
+
+    saveInvitations = () => {
+        Events.storeUnfinished(this.state.eventData);
+        let id: string|undefined = this.props.match.params.id;
+        this.props.history.push( `/event/${id ? 'edit/' + id : 'create'}`);
+    }
+
+    render = () => {
+        console.log('RENDER Invitations');
+        console.log(this.state);
+        return (
+            <Grid container direction={"column"} mt={"3rem"} pb={"1rem"}>
+                <Grid item>
+                    <CommonHeader title={'Pozvánky na událost'}/>
+                </Grid>
+                <Grid container direction={"column"} item sx={{paddingX: "5%", paddingY: "2rem"}}>
+                    <Grid item>
+                    <ContactsInvitation
+                        eventData={this.state.eventData}
+                        contacts={this.state.contactsState}
+                        updateParent={this.update}
+                        parentCancelInvitation={this.cancelInvitation}
+                    />
+                    </Grid>
+                    <Grid item sx={{paddingX: "5%", paddingY: "2rem"}}>
+                        <ActionButton variant={"contained"} clickHandler={this.saveInvitations}>
+                            Potvrdit výběr
+                        </ActionButton>
+                    </Grid>
+                </Grid>
             </Grid>
-            <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
-                <ContactsInvitation
-                    eventData={eventData}
-                    contacts={Events.getUnfinishedEventContactsState(props.user)}
-                    updateParent={update}
-                />
-            </Grid>
-        </Grid>
-    );
+        );
+    }
 
 }
 
-export default Invitations;
+export default withRouter(Invitations);

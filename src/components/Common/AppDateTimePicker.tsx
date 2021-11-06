@@ -10,7 +10,7 @@ moment.locale('cs');
 
 export interface IAppDateTimePickerProps {
     name: string,
-    value: Moment,
+    value: Date,
     label?: string,
     toolbarTitle?: string,
     textHelper?: string,
@@ -24,7 +24,7 @@ export interface IAppDateTimePickerProps {
  */
 const AppDateTimePicker: React.FC<IAppDateTimePickerProps> = (props: IAppDateTimePickerProps) => {
 
-    const [value, setValue] = React.useState<Moment | null>(props.value);
+    const [value, setValue] = React.useState<Moment | null>(moment(props.value));
 
     const TextFieldStyle: SxProps = {
         marginY: "0.5rem",
@@ -46,7 +46,7 @@ const AppDateTimePicker: React.FC<IAppDateTimePickerProps> = (props: IAppDateTim
         <React.Fragment>
             <LocalizationProvider dateAdapter={AdapterMoment}>
                 <MobileDateTimePicker
-                    value={value}
+                    value={moment(value)}
                     onError={(e) => console.log(e)}
                     onChange={(newValue) => update(newValue)}
                     renderInput={

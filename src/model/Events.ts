@@ -1,7 +1,6 @@
 import {IUserInvitation, User} from "./Users";
-import Cookies from 'js-cookie';
-import {Moment} from "moment";
 import EInvitationSource from "../enums/EInvitationSource";
+
 
 export enum EventInvitationStatus {
     Confirmed = 1,
@@ -38,20 +37,20 @@ export interface ILocation {
 
 export interface IEventTime {
     start: string;
-    end?: string;
+    end: string|null;
 }
 
 export interface IEventData {
-    title?: string,
-    imgPath?: string,
-    location?: ILocation,
+    title: string|null,
+    imgPath: string|null,
+    location: ILocation|null,
     eventTime: {
-        start?: Moment,
-        end?: Moment
+        start: Date|null,
+        end: Date|null
     },
-    description?: string,
-    organizer: string,
-    attendants?: IAttendantsList
+    description: string|null,
+    organizer: string|null,
+    attendants: IAttendantsList|null
 }
 
 export interface IEvent {
@@ -112,14 +111,14 @@ export class AttendantsList {
 export class EventTime {
 
     start: Date;
-    end?: Date;
+    end: Date|null;
 
     /**
      * @param data
      */
     constructor(data: IEventTime) {
         this.start = new Date(data.start);
-        data.end === undefined ? this.end = undefined : this.end = new Date(data.end);
+        data.end === null ? this.end = null : this.end = new Date(data.end);
     }
 
 }
@@ -247,7 +246,7 @@ class EventsModel {
             },
             eventTime: {
                 start: '2021-12-19T15:00:00',
-                end: undefined,
+                end: null,
             },
             description: 'Nedělní kávové odpoledne s Evženií.',
             organizer: '1',
@@ -271,8 +270,8 @@ class EventsModel {
 
     constructor() {
         this.data = [];
-        let sessionEvents: string | undefined = Cookies.get('events');
-        sessionEvents !== undefined ? this.constructFromSession(sessionEvents) : this.constructFromDataDefinition();
+        let sessionEvents: string | null = sessionStorage.getItem('events');
+        sessionEvents !== null ? this.constructFromSession(sessionEvents) : this.constructFromDataDefinition();
     }
 
     constructFromDataDefinition() {
@@ -288,7 +287,7 @@ class EventsModel {
         });
 
         this.data = events;
-        Cookies.set('events', JSON.stringify(this.data));
+        sessionStorage.setItem('events', JSON.stringify(this.data));
     }
 
     /**
@@ -404,21 +403,24 @@ class EventsModel {
                 }
             }
         }
-        Cookies.set('events', JSON.stringify(this.data));
+        sessionStorage.setItem('events', JSON.stringify(this.data));
     }
 
     /**
      * @param data
      */
     storeUnfinished(data: IEventData) {
-        console.log('storeUnfinished');
-        console.log(data);
         this.unfinished = data;
-        sessionStorage.setItem('unfinished', JSON.stringify(this.unfinished));
+        sessionStorage.setItem('unfinished', JSON.stringify(data));
     }
 
-    fetchUnfinished(): IEventData {
-        return JSON.parse(sessionStorage.getItem('unfinished') ?? '');
+    fetchUnfinished(): IEventData|undefined {
+        let str = sessionStorage.getItem('unfinished');
+        return str ? JSON.parse(str) : undefined;
+    }
+
+    clearUnfinished() {
+        sessionStorage.removeItem('unfinished');
     }
 
     /**
@@ -427,7 +429,7 @@ class EventsModel {
     getUnfinishedEventContactsState(user: User): IUserContactsStates {
         let unfinished: IEventData = JSON.parse(sessionStorage.getItem('unfinished') ?? '');
         let invited: Array<string> = [];
-        if (unfinished.attendants !== undefined) {
+        if (unfinished.attendants !== null) {
             for (const inv of Object.values(unfinished.attendants)) {
                 invited.push(inv.id);
             }
@@ -439,7 +441,6 @@ class EventsModel {
         };
         for (const [source, contacts] of Object.entries(user.contacts)) {
             for (const c of contacts) {
-                console.log(c);
                 res[source as keyof IUserContactsStates].push({
                     userId: c,
                     invited: invited.includes(c)

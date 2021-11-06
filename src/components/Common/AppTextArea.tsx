@@ -7,6 +7,7 @@ interface IAppTextAreaProps {
     label: string,
     minRows?: number,
     value?: string,
+    defaultValue?: string|null,
     updateParent(stateFragment: any): void,
 }
 
@@ -35,6 +36,7 @@ const AppTextArea: React.FC<IAppTextAreaProps> = (props: IAppTextAreaProps) => {
             minRows={props.minRows ?? 4}
             value={props.value}
             onChange={update}
+            defaultValue={props.defaultValue ?? undefined}
             fullWidth
         />
     );
