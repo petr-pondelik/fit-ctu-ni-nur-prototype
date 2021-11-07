@@ -365,6 +365,15 @@ class EventsModel {
     }
 
     /**
+     * @param event
+     */
+    delete = (event: Event) => {
+        let newData: Array<Event> = this.data.filter((e: Event) => e.id !== event.id);
+        this.data = newData;
+        sessionStorage.setItem('events', JSON.stringify(this.data));
+    }
+
+    /**
      * @param data
      */
     update = (data: IEventData) => {
