@@ -326,11 +326,10 @@ class UsersModel {
     }
 
     /**
-     *
      * @param username
      * @param password
      */
-    findByCredentials = (username: string|undefined, password: string|undefined): UserInterface|undefined => {
+    findByCredentials = (username: string|null, password: string|null): UserInterface|undefined => {
         console.log([username, password]);
         console.log(this.data);
         return this.data.find(item => item.username === username && item.password === password);

@@ -9,8 +9,8 @@ import MessageBox from "../../Common/MessageBox";
 import merge from "merge-objects";
 
 interface ILoginFormData {
-    username?: string,
-    password?: string
+    username: string|null,
+    password: string|null
 }
 
 interface ILoginFormProps {
@@ -21,7 +21,7 @@ interface ILoginFormState {
     data: ILoginFormData,
     messages?: {
         validation?: ILoginFormData,
-        global?: string,
+        global: string|null,
     }
 }
 
@@ -62,14 +62,14 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
     messages: MessagesInterface = {
         validation: {
             username: {
-                required: 'Please enter your username.'
+                required: 'Zadejte své přihlašovací jméno.'
             },
             password: {
-                required: 'Please enter your password.'
+                required: 'Zadejte heslo.'
             }
         },
         global: {
-            invalidCredentials: 'Please enter valid credentials.'
+            invalidCredentials: 'Zadejte platné údaje.'
         }
     };
 
@@ -80,15 +80,15 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
         super(props);
         this.state = {
             data: {
-                username: undefined,
-                password: undefined
+                username: null,
+                password: null
             },
             messages: {
                 validation: {
-                    username: undefined,
-                    password: undefined
+                    username: null,
+                    password: null
                 },
-                global: undefined
+                global: null
             }
         };
         this.validationFunctions = {
@@ -128,8 +128,8 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
         this.stateUpdate = {
             messages: {
                 validation: {
-                    username: undefined,
-                    password: undefined
+                    username: null,
+                    password: null
                 }
             }
         }
@@ -139,7 +139,7 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
      * @param key
      * @param msg
      */
-    setValidationMessage = (key: string, msg: string | undefined) => {
+    setValidationMessage = (key: string, msg: string | null) => {
         let keyTyped: keyof ILoginFormData = key as keyof ILoginFormData;
         if (this.stateUpdate && this.stateUpdate.messages && this.stateUpdate.messages.validation) {
             this.stateUpdate.messages.validation[keyTyped] = msg;
@@ -149,28 +149,28 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
     /**
      * @param data
      */
-    validateUsername = (data: string | undefined): ValidationTuple => {
-        if (typeof this.state.data.username !== 'string') {
+    validateUsername = (data: string | null): ValidationTuple => {
+        if (typeof this.state.data.username !== 'string' || this.state.data.username === '') {
             return [false, this.messages.validation.username.required];
         }
-        return [true, undefined];
+        return [true, null];
     }
 
     /**
      * @param data
      */
-    validatePassword = (data: string | undefined): ValidationTuple => {
-        if (typeof this.state.data.password !== 'string') {
+    validatePassword = (data: string | null): ValidationTuple => {
+        if (typeof this.state.data.password !== 'string' || this.state.data.username === '') {
             return [false, this.messages.validation.password.required];
         }
-        return [true, undefined];
+        return [true, null];
     }
 
     validate = () => {
         this.prepareValidationMessagesObj();
         let isValid = true;
         for (const dataKey of Object.keys(this.state.data)) {
-            let res: [boolean, string | undefined] = this.getValidationFunction(dataKey)(this.getData(dataKey));
+            let res: [boolean, string | null] = this.getValidationFunction(dataKey)(this.getData(dataKey));
             if (!res[0]) {
                 this.setValidationMessage(dataKey, res[1])
                 isValid = false;

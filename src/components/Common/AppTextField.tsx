@@ -1,6 +1,5 @@
 import React from "react";
 import {TextField} from "@mui/material";
-import MessageBox from "./MessageBox";
 import {OverridableStringUnion} from "@mui/types";
 import {TextFieldPropsSizeOverrides} from "@mui/material/TextField/TextField";
 
@@ -10,7 +9,7 @@ interface AppTextFieldProps {
     label: string,
     size?: OverridableStringUnion<'small' | 'medium', TextFieldPropsSizeOverrides>,
     defaultValue?: string|null,
-    message?: string,
+    message?: string|null,
     updateParent(stateFragment: any): void,
 }
 
@@ -37,11 +36,9 @@ const AppTextField: React.FC<AppTextFieldProps> = (props: AppTextFieldProps) => 
                 size={props.size ?? 'medium'}
                 defaultValue={props.defaultValue ?? undefined}
                 onChange={update}
+                error={typeof props.message === 'string'}
+                helperText={props.message}
                 fullWidth
-            />
-            <MessageBox
-                msg={props.message}
-                color={'error.main'}
             />
         </React.Fragment>
     );

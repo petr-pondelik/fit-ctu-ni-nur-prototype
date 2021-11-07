@@ -1,6 +1,5 @@
 import React from "react";
 import {ValidationFunction, ValidationTuple} from "../../../types/CustomeTypes";
-import AppTextField from "../../Common/AppTextField";
 import ActionButton from "../../Common/ActionButton";
 import {Button, Grid} from "@mui/material";
 import {Link} from "react-router-dom";
@@ -8,14 +7,14 @@ import {Link} from "react-router-dom";
 interface RegistrationFormStateInterface {
     messages?: {
         validation?: {
-            username?: string,
-            givenName?: string,
-            familyName?: string,
-            email?: string,
-            password?: string,
-            confirmPassword?: string
+            username: string|null,
+            givenName: string|null,
+            familyName: string|null,
+            email: string|null,
+            password: string|null,
+            confirmPassword: string|null
         },
-        global?: string
+        global: string|null
     }
 }
 
@@ -153,13 +152,14 @@ class SignUpForm extends React.Component<any, any> {
         this.stateUpdate = {
             messages: {
                 validation: {
-                    username: undefined,
-                    givenName: undefined,
-                    familyName: undefined,
-                    email: undefined,
-                    password: undefined,
-                    confirmPassword: undefined,
-                }
+                    username: null,
+                    givenName: null,
+                    familyName: null,
+                    email: null,
+                    password: null,
+                    confirmPassword: null,
+                },
+                global: null
             }
         }
     }
@@ -168,7 +168,7 @@ class SignUpForm extends React.Component<any, any> {
      * @param key
      * @param msg
      */
-    setValidationMessage = (key: string, msg: string | undefined) => {
+    setValidationMessage = (key: string, msg: string | null) => {
         let keyTyped: keyof RegistrationFormDataInterface = key as keyof RegistrationFormDataInterface;
         if (this.stateUpdate && this.stateUpdate.messages && this.stateUpdate.messages.validation) {
             this.stateUpdate.messages.validation[keyTyped] = msg;
@@ -182,7 +182,7 @@ class SignUpForm extends React.Component<any, any> {
         if (typeof this.data.username !== 'string') {
             return [false, this.messages.validation.username.required];
         }
-        return [true, undefined];
+        return [true, null];
     }
 
     /**
@@ -192,7 +192,7 @@ class SignUpForm extends React.Component<any, any> {
         if (typeof this.data.givenName !== 'string') {
             return [false, this.messages.validation.givenName.required];
         }
-        return [true, undefined];
+        return [true, null];
     }
 
     /**
@@ -202,7 +202,7 @@ class SignUpForm extends React.Component<any, any> {
         if (typeof this.data.familyName !== 'string') {
             return [false, this.messages.validation.familyName.required];
         }
-        return [true, undefined];
+        return [true, null];
     }
 
     /**
@@ -212,7 +212,7 @@ class SignUpForm extends React.Component<any, any> {
         if (typeof this.data.email !== 'string') {
             return [false, this.messages.validation.email.required];
         }
-        return [true, undefined];
+        return [true, null];
     }
 
     /**
@@ -222,7 +222,7 @@ class SignUpForm extends React.Component<any, any> {
         if (typeof this.data.password !== 'string') {
             return [false, this.messages.validation.password.required];
         }
-        return [true, undefined];
+        return [true, null];
     }
 
     /**
@@ -232,14 +232,14 @@ class SignUpForm extends React.Component<any, any> {
         if (typeof this.data.confirmPassword !== 'string') {
             return [false, this.messages.validation.confirmPassword.required];
         }
-        return [true, undefined];
+        return [true, null];
     }
 
     validate = () => {
         this.prepareValidationMessagesObj();
         let isValid = true;
         for (const dataKey of Object.keys(this.data)) {
-            let res: [boolean, string | undefined] = this.getValidationFunction(dataKey)(this.getData(dataKey));
+            let res: [boolean, string | null] = this.getValidationFunction(dataKey)(this.getData(dataKey));
             if (!res[0]) {
                 this.setValidationMessage(dataKey, res[1])
                 isValid = false;

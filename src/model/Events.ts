@@ -1,5 +1,6 @@
 import {IUserInvitation, User} from "./Users";
 import EInvitationSource from "../enums/EInvitationSource";
+import _ from "lodash";
 
 
 export enum EventInvitationStatus {
@@ -345,7 +346,7 @@ class EventsModel {
         let dataProcessed: IEvent = {
             id: String(this.data.length + 1),
             title: data.title ?? '',
-            imgPath: data.imgPath ?? '',
+            imgPath: data.imgPath ?? '/static/images/default/empty.jpg',
             eventTime: {
                 start: data.eventTime.start ? data.eventTime.start.toString() : '',
                 end: data.eventTime.end ? data.eventTime.end.toString() : null
@@ -374,10 +375,16 @@ class EventsModel {
     }
 
     /**
+     * @param event
      * @param data
      */
-    update = (data: IEventData) => {
-
+    update = (event: Event, data: IEventData) => {
+        let oldData = JSON.parse(JSON.stringify(event));
+        oldData.attendants = {};
+        let newData = _.merge(oldData, data);
+        let newEvent: Event = new Event(newData);
+        let inx = this.data.findIndex((e: Event) => e.id === newEvent.id);
+        this.data[inx] = newEvent;
     }
 
     /**

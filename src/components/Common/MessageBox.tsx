@@ -2,7 +2,7 @@ import {Box} from "@mui/material";
 import React from "react";
 
 interface MessageProps {
-    msg?: string,
+    msg?: string|null,
     color: string
 }
 

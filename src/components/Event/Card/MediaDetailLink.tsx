@@ -11,16 +11,6 @@ export interface ICardMediaProps {
 }
 
 
-// const SendIconStyle: SxProps = {
-//     position: "absolute",
-//     bottom: "10px",
-//     right: "30px",
-//     padding: '0.25rem',
-//     background: grey['A100'],
-//     opacity: 0.85
-// }
-
-
 /**
  * @param props
  * @constructor
@@ -29,6 +19,8 @@ const MediaDetailLink: React.FC<ICardMediaProps> = (props: ICardMediaProps) => {
 
     let actionUrl: string = props.event.isOrganisedBy(props.user) ? '/event/edit/' : '/event/view/';
 
+    console.log(props.event.imgPath);
+
     return (
         <Link to={actionUrl + props.event.id}>
         <Container sx={{ position: "relative", padding: 0 }}>
@@ -36,9 +28,8 @@ const MediaDetailLink: React.FC<ICardMediaProps> = (props: ICardMediaProps) => {
                 component={'img'}
                 alt={props.event.title}
                 height="140"
-                image={props.event.imgPath}
+                image={props.event.imgPath ?? '/static/images/default/empty.jpg'}
             />
-            {/*<ReadMoreIcon sx={SendIconStyle}/>*/}
         </Container>
         </Link>
     );

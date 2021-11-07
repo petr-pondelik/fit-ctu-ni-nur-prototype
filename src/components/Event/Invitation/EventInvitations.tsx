@@ -3,10 +3,12 @@ import {List, ListItem} from "@mui/material";
 import UsersModel, {User} from "../../../model/Users";
 import AttendantAvatar from "../Attendants/AttendantAvatar";
 import {IEventData} from "../../../model/Events";
+import MessageBox from "../../Common/MessageBox";
 
 
 export interface IInvitedListProps {
-    eventData: IEventData
+    eventData: IEventData,
+    message?: string|null
 }
 
 
@@ -32,10 +34,20 @@ const EventInvitations: React.FC<IInvitedListProps> = (props: IInvitedListProps)
         });
     }
 
+    const renderMessageBox = () => {
+        if (typeof props.message !== 'string') {
+            return '';
+        }
+        return <MessageBox msg={props.message} color={"error.main"}/>
+    }
+
     return (
-        <List>
-            {invitations}
-        </List>
+        <React.Fragment>
+            {renderMessageBox()}
+            <List>
+                {invitations}
+            </List>
+        </React.Fragment>
     );
 
 }

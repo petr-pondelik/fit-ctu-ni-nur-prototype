@@ -5,6 +5,7 @@ import {ILocation} from "../../../model/Events";
 
 export interface IEventLocationAutocompleteProps {
     location: ILocation|null,
+    message?: string|null,
     updateParent(stateFragment: any): void
 }
 
@@ -49,7 +50,12 @@ const EventLocationAutocomplete: React.FC<IEventLocationAutocompleteProps> = (pr
             }
             freeSolo
             renderInput={(params) => (
-                <TextField {...params} label="Vyhledat místo"/>
+                <TextField
+                    helperText={props.message}
+                    error={typeof props.message === 'string'}
+                    label="Vyhledat místo"
+                    {...params}
+                />
             )}
             fullWidth
         />
