@@ -56,11 +56,6 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
 
     validated: boolean = false;
 
-    // data: ILoginFormData = {
-    //     username: undefined,
-    //     password: undefined,
-    // };
-
     validationFunctions: DataValidationFunctionsInterface;
     stateUpdate?: ILoginFormStateFragment;
 
@@ -237,7 +232,7 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
                     <AppTextField
                         type={'text'}
                         name={'username'}
-                        label={'Username *'}
+                        label={'Přihlašovací jméno *'}
                         updateParent={this.update}
                         message={this.state.messages?.validation?.username}
                     />
@@ -246,14 +241,14 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
                     <AppTextField
                         type={'password'}
                         name={'password'}
-                        label={'Password *'}
+                        label={'Heslo *'}
                         updateParent={this.update}
                         message={this.state.messages?.validation?.password}
                     />
                 </Grid>
                 <Grid container item marginTop={"16px"}>
                     <ActionButton variant={"contained"} clickHandler={this.logIn}>
-                        Login
+                        Přihlásit se
                     </ActionButton>
                     {this.renderGlobalMessages()}
                 </Grid>

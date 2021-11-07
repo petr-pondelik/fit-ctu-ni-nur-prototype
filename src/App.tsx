@@ -9,17 +9,19 @@ import Homepage from "./pages/Homepage/Homepage";
 import './App.css';
 import './styles/global.css';
 import Registration from "./pages/Registration/Registration";
-import EventsModel from "./model/Events";
 import EventView from "./pages/Event/EventView";
 import EventEdit from "./pages/Event/EventEdit";
 import EventCreate from "./pages/Event/EventCreate";
 import Invitations from "./pages/Event/Invitations";
 
+
 interface AppState {
     user?: User
 }
 
+
 const history = createBrowserHistory();
+
 
 class App extends React.Component<any, AppState> {
 

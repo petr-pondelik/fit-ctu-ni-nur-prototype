@@ -22,8 +22,9 @@ const ImageUpload: React.FC<IImageUploadProps> = (props: IImageUploadProps) => {
      * @param path
      */
     function getImgPath(path: string): string {
-        let pathParts: Array<string> = path.split('\\');
-        return '/static/images/default/' + pathParts[pathParts.length - 1];
+        // let pathParts: Array<string> = path.split('\\');
+        //return '/static/images/default/' + pathParts[pathParts.length - 1];
+        return '/static/images/default/create-event-cover.jpg';
     }
 
     function getCSSImgPath(): string {

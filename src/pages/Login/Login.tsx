@@ -34,8 +34,8 @@ class Login extends React.Component<LoginProps> {
                     <LoginForm propagateState={this.updateState}/>
                 </Grid>
                 <Grid item>
-                    <p className={'ion-text-center'}>Don't have an account?</p>
-                    <Button component={Link} to={"/registration"} variant="contained" fullWidth>Sign Up</Button>
+                    <p className={'ion-text-center'}>Ještě nemáte účet?</p>
+                    <Button component={Link} to={"/registration"} variant="contained" fullWidth>Registrovat se</Button>
                 </Grid>
             </Grid>
         )
