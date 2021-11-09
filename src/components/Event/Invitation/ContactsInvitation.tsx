@@ -3,7 +3,6 @@ import {Grid, List} from "@mui/material";
 import EventsModel, {
     AttendantsList, IEventContactState, IEventData, IInvitationsOrganized, IUserContactsStates,
 } from "../../../model/Events";
-import {IUserContacts} from "../../../model/Users";
 import PhoneIcon from '@mui/icons-material/Phone';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import {Icon} from '@iconify/react';
@@ -40,8 +39,6 @@ const ContactsInvitation: React.FC<IContactsInvitationsListProps> = (props: ICon
      * @param state
      */
     const updateInvitations = (source: EInvitationSource, state: IEventContactState[]) => {
-        // console.log('UPDATE ContactsInvitation');
-        // console.log(state);
         props.updateParent(source, state);
     }
 
@@ -51,11 +48,6 @@ const ContactsInvitation: React.FC<IContactsInvitationsListProps> = (props: ICon
     const cancelInvitation = (userId: string) => {
         props.parentCancelInvitation(userId);
     }
-
-    console.log('RENDER ContactsInvitation');
-    console.log(props.contacts);
-    // console.log(eventData);
-    // console.log(invitations);
 
     return (
         <Grid container item direction={"column"} px={"2.5%"}>

@@ -121,8 +121,6 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
     }
 
     render = () => {
-        console.log('RENDER Invitations');
-        console.log(this.state);
         return (
             <Grid container direction={"column"} mt={"3rem"} pb={"1rem"}>
                 <Grid item>

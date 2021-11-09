@@ -19,8 +19,6 @@ const MediaDetailLink: React.FC<ICardMediaProps> = (props: ICardMediaProps) => {
 
     let actionUrl: string = props.event.isOrganisedBy(props.user) ? '/event/edit/' : '/event/view/';
 
-    console.log(props.event.imgPath);
-
     return (
         <Link to={actionUrl + props.event.id}>
         <Container sx={{ position: "relative", padding: 0 }}>

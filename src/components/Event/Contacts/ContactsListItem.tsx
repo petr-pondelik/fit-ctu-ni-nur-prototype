@@ -6,7 +6,6 @@ import {IEventContactState} from "../../../model/Events";
 
 export interface IContactsListItemProps {
     contact: IEventContactState,
-    // updateParent: (newState: IEventContactState) => any
 }
 
 
@@ -25,10 +24,6 @@ const ContactsListItem: React.FC<IContactsListItemProps> = (props: IContactsList
         newState.invited = !checked;
         setChecked(!checked);
     }
-
-    console.log('Render ContactsListItem');
-    console.log(props.contact);
-    console.log(contactUser);
 
     return (
         <React.Fragment>

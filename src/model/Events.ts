@@ -265,6 +265,45 @@ class EventsModel {
                     source: EInvitationSource.WhatsApp
                 }
             }
+        },
+        {
+            id: '3',
+            title: 'After COVID Party',
+            imgPath: '/static/images/events/3/cover.jpg',
+            location: {
+                name: 'Karlův Most',
+                address: 'Karlův most, 110 00 Praha 1',
+                lat: 50.0864771,
+                long: 14.4092479,
+            },
+            eventTime: {
+                start: '2022-04-15T14:00:00',
+                end: null,
+            },
+            description: 'Oslava dalšího konce pandemie bude znovu na Karlově mostě.',
+            organizer: '1',
+            attendants: {
+                1: {
+                    id: '1',
+                    status: EventInvitationStatus.Confirmed,
+                    source: EInvitationSource.Organizer
+                },
+                2: {
+                    id: '2',
+                    status: EventInvitationStatus.Pending,
+                    source: EInvitationSource.MobileContacts
+                },
+                3: {
+                    id: '3',
+                    status: EventInvitationStatus.Pending,
+                    source: EInvitationSource.Messenger
+                },
+                9: {
+                    id: '9',
+                    status: EventInvitationStatus.Confirmed,
+                    source: EInvitationSource.WhatsApp
+                }
+            }
         }
     ];
 
@@ -422,8 +461,6 @@ class EventsModel {
      * @param attendants
      */
     getInvitationsOrganized(attendants: AttendantsList): IInvitationsOrganized {
-        console.log('getInvitationsOrganized');
-        console.log(attendants);
         let res: IInvitationsOrganized = {
             MobileContacts: [],
             Messenger: [],

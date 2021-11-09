@@ -188,7 +188,6 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
      * @param key
      */
     getValidationFunction = (key: string) => {
-        console.log('getValidationFunction');
         let validationFcKey: keyof IValidationFunctions = key as keyof IValidationFunctions;
         return this.validationFunctions[validationFcKey];
     }
@@ -236,7 +235,6 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
     createEvent = () => {
         this.validate();
         if (this.validated) {
-            console.log('Create Event');
             Events.insert(this.state.data);
             Events.clearUnfinished();
             this.props.history.push(`/`);
@@ -245,7 +243,6 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
 
     updateEvent = () => {
         if (this.props.event instanceof Event) {
-            console.log('Update Event');
             Events.update(this.props.event, this.state.data);
             Events.clearUnfinished();
             this.props.history.push(`/`);
@@ -373,8 +370,6 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
     }
 
     render() {
-        console.log('RENDER EventForm');
-        console.log(this.state);
 
         return (
             <React.Fragment>

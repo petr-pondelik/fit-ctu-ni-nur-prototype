@@ -22,10 +22,8 @@ const EventLocationAutocomplete: React.FC<IEventLocationAutocompleteProps> = (pr
      * @param newValue
      */
     function update(newValue: ILocation | null) {
-        // console.log('EventLocationAutocomplete update');
         setValue(newValue);
         let sf = {location: newValue ?? null};
-        // console.log(sf);
         props.updateParent(sf);
     }
 

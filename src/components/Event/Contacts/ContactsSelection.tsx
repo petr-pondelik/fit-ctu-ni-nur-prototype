@@ -43,13 +43,9 @@ const ContactsSelection: React.FC<IContactsSelectionProps> = (props: IContactsSe
     };
 
     const handleConfirm = () => {
-        console.log('ContactsSelection CONFIRM');
-        console.log(props);
         props.updateParent(false);
         props.updateParentContactsState(props.contacts);
     };
-
-    console.log('render ContactsSelection');
 
     return (
         <Dialog
@@ -78,7 +74,6 @@ const ContactsSelection: React.FC<IContactsSelectionProps> = (props: IContactsSe
             </AppBar>
             <ContactsSelectionList
                 contacts={props.contacts}
-                // updateParent={updateSelection}
             />
         </Dialog>
     );

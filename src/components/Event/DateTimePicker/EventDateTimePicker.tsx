@@ -1,7 +1,7 @@
 import React from "react";
 import {Grid} from "@mui/material";
 import AppDateTimePicker from "../../Common/AppDateTimePicker";
-import moment, {Moment} from "moment";
+import moment from "moment";
 import ActionButton from "../../Common/ActionButton";
 
 
@@ -32,16 +32,12 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
      * @param stateFragment
      */
     function update(stateFragment: any) {
-        console.log('UPDATE EventDateTimePicker');
         let sf: any = {data: {eventTime: {}}};
-        console.log(stateFragment);
         if (stateFragment.data.start !== undefined) {
-            console.log(new Date(stateFragment.data.start));
             sf.data.eventTime.start = new Date(stateFragment.data.start);
         } else {
             sf.data.eventTime.end = new Date(stateFragment.data.end);
         }
-        console.log(sf);
         props.updateParent(sf);
     }
 

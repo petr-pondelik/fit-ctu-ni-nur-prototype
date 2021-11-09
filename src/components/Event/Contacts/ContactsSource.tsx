@@ -33,7 +33,6 @@ const ContactsSource: React.FC<IContactsSourceProps> = (props: IContactsSourcePr
      * @param e
      */
     const cancelInvitation = (e: React.MouseEvent<SVGSVGElement>) => {
-        console.log('Cancel invitation: ' + e.currentTarget.id);
         props.parentCancelInvitation(e.currentTarget.id);
     }
 
@@ -45,8 +44,6 @@ const ContactsSource: React.FC<IContactsSourceProps> = (props: IContactsSourcePr
     }
 
     const renderInvitations = () => {
-        console.log('renderInvitations');
-        console.log(props.invitations);
         if (props.invitations.length > 0) {
             return Object.values(props.invitations).map((inv, inx) => {
                 let u: User | undefined = UsersModel.findById(inv.id);

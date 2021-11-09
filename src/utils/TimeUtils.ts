@@ -4,7 +4,7 @@ export default class TimeUtils {
      * @param d
      */
     static formatDateCz(d: Date) {
-        return d.toLocaleDateString('cz-CZ').replaceAll('/', '.');
+        return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}`;
     }
 
     /**

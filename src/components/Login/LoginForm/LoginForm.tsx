@@ -101,10 +101,8 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
      * @param stateFragment
      */
     update = (stateFragment: ILoginFormStateFragment) => {
-        console.log('EventCreateForm update');
         let stateUpdate: ILoginFormState = this.state;
         let newState: ILoginFormState = merge(stateUpdate, stateFragment);
-        console.log(newState);
         this.setState(newState);
     }
 
@@ -187,12 +185,9 @@ class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
      * @param event
      */
     logIn = (event: React.MouseEvent<HTMLElement>) => {
-        console.log('logIn');
         this.validate();
 
         if (!this.validated) {
-            console.log('ERROR');
-            console.log(this.state.messages);
             return;
         }
 

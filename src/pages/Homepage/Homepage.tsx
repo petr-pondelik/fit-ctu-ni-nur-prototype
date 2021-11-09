@@ -15,7 +15,9 @@ export interface IHomepageProps {
 
 const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
 
-    const [events, setEvents] = useState<Event[]>(EventsModel.findByUser(props.user))
+    const [events, setEvents] = useState<Event[]>(EventsModel.findByUser(props.user));
+
+    // EventsModel.clearUnfinished();
 
     return (
         <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
