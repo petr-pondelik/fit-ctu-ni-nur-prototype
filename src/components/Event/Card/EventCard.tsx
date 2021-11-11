@@ -9,6 +9,7 @@ import EventLocation from "./EventLocation";
 import DetailLink from "./DetailLink";
 import MediaDetailLink from "./MediaDetailLink";
 import EventOrganizer from "./EventOrganizer";
+import {useHistory} from "react-router-dom";
 
 interface IEventCardProps {
     user: User,
@@ -17,8 +18,13 @@ interface IEventCardProps {
 
 
 const EventCard: React.FC<IEventCardProps> = (props: IEventCardProps) => {
+
+    let actionUrl: string = props.event.isOrganisedBy(props.user) ? '/event/edit/' : '/event/view/';
+
+    let history = useHistory();
+
     return (
-        <Card sx={{ width: "100%" }} elevation={2}>
+        <Card sx={{ width: "100%" }} elevation={2} onClick={() => {history.push(actionUrl + props.event.id)}}>
             <MediaDetailLink
                 user={props.user}
                 event={props.event}
