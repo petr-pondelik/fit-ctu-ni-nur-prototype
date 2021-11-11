@@ -63,6 +63,11 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
         let newEventData: IEventData = this.state.eventData;
         if (newEventData.attendants === null) { newEventData.attendants = {}; }
         let newContactsState = this.state.contactsState;
+        for (const st of state) {
+            if (!st.invited) {
+                delete newEventData.attendants[parseInt(st.userId)];
+            }
+        }
         for (const inv of state) {
             if (inv.invited) {
                 newEventData.attendants[parseInt(inv.userId)] = {

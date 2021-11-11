@@ -62,7 +62,11 @@ const ContactsSource: React.FC<IContactsSourceProps> = (props: IContactsSourcePr
 
     return (
         <React.Fragment>
-            <ListItem selected={true} sx={{paddingY: "0.75rem", marginTop: "2rem", marginBottom: "0.5rem"}}>
+            <ListItem
+                selected={true}
+                sx={{paddingY: "0.75rem", marginTop: "2rem", marginBottom: "0.5rem"}}
+                onClick={() => setSelectionOpen(true)}
+            >
                 <Grid container justifyContent={"space-between"} alignItems={"center"} flexWrap={"nowrap"}>
                     <Grid container item>
                         {props.icon}
@@ -71,7 +75,7 @@ const ContactsSource: React.FC<IContactsSourceProps> = (props: IContactsSourcePr
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <ActionButton clickHandler={(e) => setSelectionOpen(true)}>
+                        <ActionButton clickHandler={() => {}}>
                             <AddBoxOutlinedIcon fontSize={"large"}/>
                         </ActionButton>
                     </Grid>

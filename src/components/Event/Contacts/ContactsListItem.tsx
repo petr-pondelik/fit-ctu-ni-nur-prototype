@@ -17,7 +17,7 @@ const ContactsListItem: React.FC<IContactsListItemProps> = (props: IContactsList
 
     let contactUser = Users.findById(String(props.contact.userId));
 
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(props.contact.invited);
 
     const update = () => {
         let newState = props.contact;
