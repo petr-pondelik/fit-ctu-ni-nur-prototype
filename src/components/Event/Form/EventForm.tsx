@@ -10,7 +10,7 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {User} from "../../../model/Users";
 import * as _ from "lodash"
-import EventInvitations from "../Invitation/EventInvitations";
+import EventInvitationsEdit from "../Invitation/EventInvitationsEdit";
 import {FormOperations} from "../../../enums/FormOperations";
 import EditIcon from '@mui/icons-material/Edit';
 import ActionButton from "../../Common/ActionButton";
@@ -428,7 +428,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                             </Grid>
                         </Grid>
                         <Grid container item direction={"column"} pt={"1rem"} px={"2.5%"}>
-                            <EventInvitations
+                            <EventInvitationsEdit
                                 eventData={this.state.data}
                                 message={this.state.messages.validation.attendants}
                             />

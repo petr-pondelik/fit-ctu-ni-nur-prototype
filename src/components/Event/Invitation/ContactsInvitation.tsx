@@ -39,8 +39,6 @@ const ContactsInvitation: React.FC<IContactsInvitationsListProps> = (props: ICon
      * @param state
      */
     const updateInvitations = (source: EInvitationSource, state: IEventContactState[]) => {
-        console.log('updateInvitations');
-        console.log(state);
         props.updateParent(source, state);
     }
 
@@ -50,11 +48,6 @@ const ContactsInvitation: React.FC<IContactsInvitationsListProps> = (props: ICon
     const cancelInvitation = (userId: string) => {
         props.parentCancelInvitation(userId);
     }
-
-    console.log('RENDER ContactsInvitation');
-    console.log(props.eventData.attendants);
-    console.log(props.contacts.mobileContacts);
-    console.log(invitations);
 
     return (
         <Grid container item direction={"column"} px={"2.5%"}>
