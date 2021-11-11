@@ -11,7 +11,7 @@ export enum EventInvitationStatus {
 }
 
 export const EventInvitationStatusCZ: Array<string> = [
-	'Organizátor',
+	'Organizuji událost',
 	'Účastním se',
 	'Váhám',
 	'Odmítl jsem účast',

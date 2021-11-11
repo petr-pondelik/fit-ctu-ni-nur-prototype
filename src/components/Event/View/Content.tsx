@@ -51,7 +51,7 @@ export default class Content extends React.Component<IContentProps, IContentStat
                     </Card>
                 </Grid>
                 <Grid item pt={"1rem"}>
-                    <EventTime eventTime={this.props.event.eventTime}/>
+                    <EventTime eventTime={this.props.event.eventTime} variant={"h6"}/>
                 </Grid>
                 <Grid item pt={"1rem"}>
                     <EventViewLocation location={this.props.event.location}/>

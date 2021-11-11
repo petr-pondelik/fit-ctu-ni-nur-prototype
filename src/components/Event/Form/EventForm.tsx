@@ -17,6 +17,7 @@ import ActionButton from "../../Common/ActionButton";
 import AlertDialog from "../../Common/AlertDialog";
 import {ValidationFunction, ValidationTuple} from "../../../types/CustomeTypes";
 import moment from "moment";
+import EventInvitationsCreate from "../Invitation/EventInvitationsCreate";
 
 
 interface IEventCreateFormProps extends RouteComponentProps {
@@ -369,6 +370,20 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
         );
     }
 
+    renderEventInvitations = () => {
+        if (this.props.operation === FormOperations.Create) {
+            return <EventInvitationsCreate
+                eventData={this.state.data}
+                message={this.state.messages.validation.attendants}
+            />
+        } else {
+            return <EventInvitationsEdit
+                eventData={this.state.data}
+                message={this.state.messages.validation.attendants}
+            />
+        }
+    }
+
     render() {
 
         return (
@@ -428,10 +443,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                             </Grid>
                         </Grid>
                         <Grid container item direction={"column"} pt={"1rem"} px={"2.5%"}>
-                            <EventInvitationsEdit
-                                eventData={this.state.data}
-                                message={this.state.messages.validation.attendants}
-                            />
+                            {this.renderEventInvitations()}
                         </Grid>
                     </Grid>
                     <Grid container direction={"column"} item mt={"2.5rem"}>

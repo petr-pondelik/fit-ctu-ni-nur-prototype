@@ -2,9 +2,13 @@ import React from "react";
 import {Typography} from "@mui/material";
 import {EventTime} from "../../../model/Events";
 import TimeUtils from "../../../utils/TimeUtils";
+import {OverridableStringUnion} from "@mui/types";
+import {Variant} from "@mui/material/styles/createTypography";
+import {TypographyPropsVariantOverrides} from "@mui/material/Typography/Typography";
 
 interface IEventTimeViewProps {
-    eventTime: EventTime
+    eventTime: EventTime,
+    variant?: OverridableStringUnion<Variant | 'inherit', TypographyPropsVariantOverrides>
 }
 
 /**
@@ -18,7 +22,7 @@ const EventTimeView: React.FC<IEventTimeViewProps> = (props: IEventTimeViewProps
 
     if (props.eventTime.end === undefined) {
         return (
-            <Typography gutterBottom variant="body1" component="p" pt={"0.5rem"}>
+            <Typography gutterBottom variant={props.variant ?? "body1"} component="p" pt={"0.5rem"}>
                 Začátek: {startDateStr}, {startTimeStr}
             </Typography>
         );
@@ -27,7 +31,7 @@ const EventTimeView: React.FC<IEventTimeViewProps> = (props: IEventTimeViewProps
         let endTimeStr: string = TimeUtils.formatTimeCz(props.eventTime.start);
 
         return (
-            <Typography gutterBottom variant="body1" component="p" pt={"0.5rem"}>
+            <Typography gutterBottom variant={props.variant ?? "body1"} component="p" pt={"0.5rem"}>
                 Začátek: {startDateStr}, {startTimeStr} <br/>
                 Konec: {endDateStr}, {endTimeStr}
             </Typography>

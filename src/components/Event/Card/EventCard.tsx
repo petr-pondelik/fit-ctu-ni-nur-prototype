@@ -4,10 +4,11 @@ import {Card, CardActions, CardContent, Divider} from "@mui/material";
 import EventTitle from "./EventTitle";
 import EventTime from "./EventTimeView";
 import UserEventStatus from "./UserEventStatus";
-import {User} from "../../../model/Users";
+import Users, {User} from "../../../model/Users";
 import EventLocation from "./EventLocation";
 import DetailLink from "./DetailLink";
 import MediaDetailLink from "./MediaDetailLink";
+import EventOrganizer from "./EventOrganizer";
 
 interface IEventCardProps {
     user: User,
@@ -24,13 +25,14 @@ const EventCard: React.FC<IEventCardProps> = (props: IEventCardProps) => {
             />
             <CardContent>
                 <EventTitle title={props.event.title}/>
-                <Divider/>
+                <Divider sx={{ marginBottom: "1rem" }}/>
+                <EventOrganizer organizer={Users.findById(props.event.organizer)}/>
+                <EventLocation location={props.event.location}/>
+                <EventTime eventTime={props.event.eventTime}/>
                 <UserEventStatus
                     loggedUser={props.user}
                     event={props.event}
                 />
-                <EventLocation location={props.event.location}/>
-                <EventTime eventTime={props.event.eventTime}/>
             </CardContent>
             <CardActions sx={{ justifyContent: "end" }}>
                 <DetailLink
