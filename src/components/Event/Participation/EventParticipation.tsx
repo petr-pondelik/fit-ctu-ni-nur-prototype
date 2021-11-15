@@ -65,7 +65,7 @@ const EventParticipation: React.FC<IEventParticipationProps> = (props: IEventPar
             container
             alignItems={"center"}
             justifyContent={"space-around"}
-            sx={{ pt: "1rem", minHeight: "84px" }}
+            sx={{ paddingY: "0.5rem", minHeight: "76px" }}
         >
             <Grid item>
                 {renderConfirmed()}

@@ -9,7 +9,7 @@ interface ActionButtonProps {
     variant?: OverridableStringUnion<'text' | 'outlined' | 'contained', ButtonPropsVariantOverrides>,
     color?: OverridableStringUnion<'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning', ButtonPropsColorOverrides>
     fullWidth?: boolean,
-    clickHandler: (event: React.MouseEvent<HTMLElement>) => any
+    clickHandler?: (event: React.MouseEvent<HTMLElement>) => any
 }
 
 const ActionButton: React.FC<ActionButtonProps> = (props: ActionButtonProps) => {
@@ -19,6 +19,7 @@ const ActionButton: React.FC<ActionButtonProps> = (props: ActionButtonProps) => 
             color={props.color ?? 'primary'}
             onClick={props.clickHandler}
             fullWidth={props.fullWidth ?? true}
+            sx={{ paddingY: "0.6rem" }}
         >
             {props.text ?? props.children}
         </Button>

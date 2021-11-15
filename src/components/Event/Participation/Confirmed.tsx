@@ -25,14 +25,14 @@ const Confirmed: React.FC<IConfirmedProps> = (props: IConfirmedProps) => {
 
     function renderPending(): any {
         return <CheckBoxOutlinedIcon
-            sx={{ fontSize: "4rem", color: "success.main" }}
+            sx={{ fontSize: "3.5rem", color: "success.main" }}
             onClick={handleClick}
         />
     }
 
     function renderActive(): any {
         return <CheckBoxIcon
-            sx={{ fontSize: "4rem", color: "success.main" }}
+            sx={{ fontSize: "3.5rem", color: "success.main" }}
             onClick={handleClick}
         />
     }

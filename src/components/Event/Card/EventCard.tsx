@@ -16,15 +16,27 @@ interface IEventCardProps {
     event: Event
 }
 
-
 const EventCard: React.FC<IEventCardProps> = (props: IEventCardProps) => {
 
     let actionUrl: string = props.event.isOrganisedBy(props.user) ? '/event/edit/' : '/event/view/';
 
     let history = useHistory();
 
+    const getBackgroundColor = () => {
+        return props.user.id !== props.event.organizer ? '' : '#fff8e1';
+    }
+
+    const renderEventOrganizer = () => {
+        return props.user.id !== props.event.organizer ? <EventOrganizer organizer={Users.findById(props.event.organizer)}/> : '';
+    }
+
     return (
-        <Card sx={{ width: "100%" }} elevation={2} onClick={() => {history.push(actionUrl + props.event.id)}}>
+        <Card
+            sx={{ width: "100%", backgroundColor: getBackgroundColor() }}
+            elevation={props.user.id !== props.event.organizer ? 2 : 5}
+            onClick={() => {history.push(actionUrl + props.event.id)}}
+            id={`event-${props.event.id}`}
+        >
             <MediaDetailLink
                 user={props.user}
                 event={props.event}
@@ -32,13 +44,13 @@ const EventCard: React.FC<IEventCardProps> = (props: IEventCardProps) => {
             <CardContent>
                 <EventTitle title={props.event.title}/>
                 <Divider sx={{ marginBottom: "1rem" }}/>
-                <EventOrganizer organizer={Users.findById(props.event.organizer)}/>
-                <EventLocation location={props.event.location}/>
-                <EventTime eventTime={props.event.eventTime}/>
                 <UserEventStatus
                     loggedUser={props.user}
                     event={props.event}
                 />
+                {renderEventOrganizer()}
+                <EventLocation location={props.event.location} sx={{paddingTop: "1rem"}}/>
+                <EventTime eventTime={props.event.eventTime}/>
             </CardContent>
             <CardActions sx={{ justifyContent: "end" }}>
                 <DetailLink

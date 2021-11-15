@@ -16,12 +16,9 @@ export interface IEventOrganizerProps {
 const EventOrganizer: React.FC<IEventOrganizerProps> = (props: IEventOrganizerProps) => {
 
 	return (
-		<Grid container alignItems={"center"} sx={{ paddingY: "0.5rem" }}>
+		<Grid container alignItems={"center"}>
 			<Grid item>
-				<PersonOutlineIcon/>
-			</Grid>
-			<Grid item>
-				<Typography variant={"body1"} component={"p"} sx={{ paddingLeft: "0.5rem" }}>
+				<Typography variant={"body1"} component={"p"} sx={{ paddingLeft: "0.2rem" }}>
 					Organizuje {props.organizer ? props.organizer.getFullName() : ''}
 				</Typography>
 			</Grid>

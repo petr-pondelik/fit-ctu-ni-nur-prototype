@@ -39,7 +39,7 @@ const AlertDialog: React.FC<IAlertDialogProps> = (props: IAlertDialogProps) => {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Odstranit událost?"}
+                    {"Odstranit událost"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">

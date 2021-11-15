@@ -466,7 +466,7 @@ class EventsModel {
 			WhatsApp: [],
 		}
 
-		for (const [id, a] of Object.entries(attendants)) {
+		for (const a of Object.values(attendants)) {
 			switch (a.source) {
 				case EInvitationSource.MobileContacts:
 					res.MobileContacts.push(a);

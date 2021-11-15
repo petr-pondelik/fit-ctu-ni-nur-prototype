@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import EventsModel, {Event} from "../../model/Events";
 import {Grid} from "@mui/material";
 import CommonHeader from "../../components/Header/CommonHeader";
@@ -20,6 +20,10 @@ const EventView: React.FC<IEventViewProps> = (props: IEventViewProps) => {
 
     let event: Event|undefined = EventsModel.findById(params.id);
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
+
     if (event === undefined) {
         return <React.Fragment/>;
     }
@@ -27,9 +31,9 @@ const EventView: React.FC<IEventViewProps> = (props: IEventViewProps) => {
     return (
         <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
             <Grid item>
-                <CommonHeader title={event.title} goBack={() => history.push('/')}/>
+                <CommonHeader title={event.title} goBack={() => history.push(`/#${params.id}`)}/>
             </Grid>
-            <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
+            <Grid container item sx={{paddingY: "2rem" }} id={"start"}>
                 <Content
                     user={props.user}
                     event={event}

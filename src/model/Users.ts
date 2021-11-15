@@ -73,10 +73,10 @@ class UsersModel {
     dataDefinition: Array<UserInterface> = [
         {
             id: '1',
-            username: 'petrtest',
-            email: 'test@test.com',
-            givenName: 'Petr',
-            familyName: 'Test',
+            username: 'knedlikota',
+            email: 'otakarknedlik@test.com',
+            givenName: 'Otakar',
+            familyName: 'Knedlík',
             password: '12345678',
             events: {
                 2: {
@@ -297,7 +297,21 @@ class UsersModel {
                 messenger: [],
                 whatsApp: []
             }
-        }
+        },
+        {
+            id: '14',
+            username: 'knedlikota2',
+            email: 'otakarknedlik@test.com',
+            givenName: 'Otakar',
+            familyName: 'Knedlík',
+            password: '12345678',
+            events: {},
+            contacts: {
+                mobileContacts: ['2', '11', '13'],
+                messenger: ['3', '10'],
+                whatsApp: ['9', '12']
+            }
+        },
     ];
 
     data: Array<User>;
@@ -348,6 +362,10 @@ class UsersModel {
      */
     setLoggedUser (user: UserInterface) {
         Cookies.set('loggedUser', JSON.stringify(user));
+    }
+
+    logOut () {
+        Cookies.remove('loggedUser');
     }
 
 }

@@ -9,29 +9,29 @@ export interface IDeclinedProps {
 }
 
 const PendingStyle: SxProps = {
-    fontSize: "2.35rem",
+    fontSize: "1.8rem",
     border: "5px solid",
     borderRadius: "6px",
     borderColor: "error.main",
-    marginX: "8px"
+    marginX: "7px"
 }
 
 const ActiveStyle: SxProps = {
-    fontSize: "2.35rem",
+    fontSize: "1.8rem",
     border: "5px solid",
     borderRadius: "6px",
     borderColor: "error.main",
     color: "white",
     backgroundColor: "error.main",
-    marginX: "8px"
+    marginX: "7px"
 }
 
 const InactiveStyle: SxProps = {
-    fontSize: "2rem",
-    border: "3px solid",
+    fontSize: "1.8rem",
+    border: "3.5px solid",
     borderRadius: "6px",
     borderColor: "error.main",
-    marginX: "8px"
+    marginX: "7px"
 }
 
 const Declined: React.FC<IDeclinedProps> = (props: IDeclinedProps) => {

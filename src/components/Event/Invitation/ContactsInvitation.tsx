@@ -24,7 +24,7 @@ export interface IContactsInvitationsListProps {
  */
 const ContactsInvitation: React.FC<IContactsInvitationsListProps> = (props: IContactsInvitationsListProps) => {
 
-    const [eventData, setEventData] = useState<IEventData>(props.eventData);
+    const [eventData] = useState<IEventData>(props.eventData);
 
     let invitations: IInvitationsOrganized = eventData.attendants ?
             EventsModel.getInvitationsOrganized(new AttendantsList(eventData.attendants)) :

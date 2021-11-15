@@ -1,10 +1,11 @@
 import React from "react";
-import {Link} from "react-router-dom";
 import LoginForm from "../../components/Login/LoginForm/LoginForm";
-import {Button, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
+import {AppState} from "../../App";
+import ActionButton from "../../components/Common/ActionButton";
 
 interface LoginProps {
-    propagateState(key: string, data: any): any
+    propagateState: (key: keyof AppState, data: any) => any
 }
 
 class Login extends React.Component<LoginProps> {
@@ -35,7 +36,7 @@ class Login extends React.Component<LoginProps> {
                 </Grid>
                 <Grid item>
                     <p className={'ion-text-center'}>Ještě nemáte účet?</p>
-                    <Button component={Link} to={"/registration"} variant="contained" fullWidth>Registrovat se</Button>
+                    <ActionButton variant={"contained"}>Registrovat se</ActionButton>
                 </Grid>
             </Grid>
         )

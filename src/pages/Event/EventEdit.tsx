@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {User} from "../../model/Users";
 import {Grid} from "@mui/material";
 import {RouteComponentProps} from "react-router-dom";
@@ -23,8 +23,12 @@ export interface IEventEditState {
 
 export default class EventEdit extends React.Component<IEventEditProps, IEventEditState> {
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     goBack = () => {
-        this.props.history.push('/');
+        this.props.history.push(`/#${this.props.match.params.id}`);
         Events.clearUnfinished();
     }
 

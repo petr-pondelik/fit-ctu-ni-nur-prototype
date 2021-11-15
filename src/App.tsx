@@ -15,7 +15,7 @@ import EventCreate from "./pages/Event/EventCreate";
 import Invitations from "./pages/Event/Invitations";
 
 
-interface AppState {
+export interface AppState {
     user?: User
 }
 
@@ -23,7 +23,7 @@ interface AppState {
 const history = createBrowserHistory();
 
 
-class App extends React.Component<any, AppState> {
+export default class App extends React.Component<any, AppState> {
 
     constructor(props: any) {
         super(props);
@@ -49,7 +49,10 @@ class App extends React.Component<any, AppState> {
                         {
                             this.state.user === undefined ?
                                 <Login propagateState={this.updateState}/> :
-                                <Homepage user={this.state.user}/>
+                                <Homepage
+                                    user={this.state.user}
+                                    updateParent={this.updateState}
+                                />
                         }
                     </Route>
 
@@ -57,11 +60,14 @@ class App extends React.Component<any, AppState> {
                         {
                             this.state.user === undefined ?
                                 <Registration/> :
-                                <Homepage user={this.state.user}/>
+                                <Homepage
+                                    user={this.state.user}
+                                    updateParent={this.updateState}
+                                />
                         }
                     </Route>
 
-                    <Route exact path="/event/view/:id"
+                    <Route path="/event/view/:id"
                            render={(props) =>
                                this.state.user !== undefined ?
                                    <EventView user={this.state.user}/> : undefined
@@ -97,5 +103,3 @@ class App extends React.Component<any, AppState> {
         )
     }
 }
-
-export default App;

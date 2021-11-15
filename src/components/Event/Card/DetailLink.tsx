@@ -18,7 +18,18 @@ const DetailLink: React.FC<IDetailLinkProps> = (props: IDetailLinkProps) => {
     let actionUrl: string = props.event.isOrganisedBy(props.user) ? '/event/edit/' : '/event/view/';
     let btnDescription: string = props.event.isOrganisedBy(props.user) ? 'Upravit událost' : 'Detail události';
 
-    return <Button component={Link} to={actionUrl + props.event.id} size="small">{btnDescription}</Button>
+    return (
+        <Button
+            component={Link}
+            to={{
+                pathname: actionUrl + props.event.id,
+                hash: 'start'
+            }}
+            size="small"
+        >
+            {btnDescription}
+        </Button>
+    );
 
 }
 

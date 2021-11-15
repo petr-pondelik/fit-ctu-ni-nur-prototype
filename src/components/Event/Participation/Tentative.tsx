@@ -25,14 +25,14 @@ const Tentative: React.FC<ITentativeProps> = (props: ITentativeProps) => {
 
     function renderPending(): any {
         return <HelpCenterOutlinedIcon
-            sx={{ fontSize: "4rem", color: "text.disabled" }}
+            sx={{ fontSize: "3.5rem", color: "text.disabled" }}
             onClick={handleClick}
         />
     }
 
     function renderActive(): any {
         return <HelpCenterIcon
-            sx={{ fontSize: "4rem", color: "text.disabled" }}
+            sx={{ fontSize: "3.5rem", color: "text.disabled" }}
             onClick={handleClick}
         />
     }
