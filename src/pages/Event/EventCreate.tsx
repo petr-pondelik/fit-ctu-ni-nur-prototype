@@ -19,6 +19,10 @@ export interface IEventCreateState {
 
 export default class EventCreate extends React.Component<IEventCreateProps, IEventCreateState> {
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     goBack = () => {
         this.props.history.push('/');
         Events.clearUnfinished();
