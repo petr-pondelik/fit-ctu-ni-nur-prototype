@@ -20,15 +20,15 @@ const EventTimeView: React.FC<IEventTimeViewProps> = (props: IEventTimeViewProps
     let startDateStr: string = TimeUtils.formatDateCz(props.eventTime.start);
     let startTimeStr: string = TimeUtils.formatTimeCz(props.eventTime.start);
 
-    if (props.eventTime.end === undefined) {
+    if (props.eventTime.end === null) {
         return (
             <Typography gutterBottom variant={props.variant ?? "body1"} component="p" pt={"0.5rem"}>
                 Začátek: {startDateStr}, {startTimeStr}
             </Typography>
         );
     } else {
-        let endDateStr: string = TimeUtils.formatDateCz(props.eventTime.start);
-        let endTimeStr: string = TimeUtils.formatTimeCz(props.eventTime.start);
+        let endDateStr: string = TimeUtils.formatDateCz(props.eventTime.end);
+        let endTimeStr: string = TimeUtils.formatTimeCz(props.eventTime.end);
 
         return (
             <Typography gutterBottom variant={props.variant ?? "body1"} component="p" pt={"0.5rem"}>
