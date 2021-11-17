@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {User} from "../../model/Users";
 import {Grid} from "@mui/material";
-import {RouteComponentProps} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import Events, {Event} from "../../model/Events";
 import CommonHeader from "../../components/Header/CommonHeader";
 import EventCreateForm from "../../components/Event/Form/EventForm";
@@ -24,7 +24,14 @@ export interface IEventEditState {
 export default class EventEdit extends React.Component<IEventEditProps, IEventEditState> {
 
     componentDidMount() {
-        window.scrollTo(0, 0);
+        let anchor: string = this.props.history.location.hash;
+        if (anchor !== '') {
+            setTimeout(() => {
+                window.scrollTo(0, 1140);
+            }, 5)
+        } else {
+            window.scrollTo(0, 0);
+        }
     }
 
     goBack = () => {

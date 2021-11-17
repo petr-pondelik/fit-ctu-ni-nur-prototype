@@ -429,7 +429,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                             updateParent={this.update}
                         />
                     </Grid>
-                    <Grid container alignItems={"center"} sx={{ marginY: "2rem"}}>
+                    <Grid container alignItems={"center"} sx={{ marginY: "2rem"}} id={"invitations"}>
                         <Grid container item alignItems={"center"}>
                             <Grid item>
                                 <Typography variant={"h5"} component={"h2"}>
@@ -446,7 +446,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                             {this.renderEventInvitations()}
                         </Grid>
                     </Grid>
-                    <Grid container direction={"column"} item mt={"2.5rem"}>
+                    <Grid container direction={"column"} item>
                         {this.renderActionBtn()}
                         {this.renderDeleteBtn()}
                     </Grid>

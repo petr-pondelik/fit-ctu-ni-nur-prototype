@@ -116,13 +116,13 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
 
     goBack = () => {
         let id: string|undefined = this.props.match.params.id;
-        this.props.history.push( `/event/${id ? 'edit/' + id : 'create'}`);
+        this.props.history.push( `/event/${id ? 'edit/' + id : 'create'}#invitations`);
     }
 
     saveInvitations = () => {
         Events.storeUnfinished(this.state.eventData);
         let id: string|undefined = this.props.match.params.id;
-        this.props.history.push( `/event/${id ? 'edit/' + id : 'create'}`);
+        this.props.history.push( `/event/${id ? 'edit/' + id : 'create'}#invitations`);
     }
 
     render = () => {

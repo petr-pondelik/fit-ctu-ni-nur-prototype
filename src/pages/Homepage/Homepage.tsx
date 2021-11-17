@@ -26,7 +26,7 @@ const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
         if (anchorId !== '') {
             let eventCard: HTMLElement = document.querySelector(`#event-${anchorId}`) as HTMLElement;
             if (eventCard instanceof HTMLElement) {
-                window.scrollTo(0, anchorId === '1' ? 0 : eventCard.offsetTop - 70);
+                window.scrollTo(0, (eventCard.offsetTop < window.innerHeight/2) ? 0 : eventCard.offsetTop - 70);
             }
         }
     }, []);

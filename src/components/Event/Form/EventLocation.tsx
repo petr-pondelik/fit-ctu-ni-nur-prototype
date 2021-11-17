@@ -44,7 +44,7 @@ const EventLocation: React.FC<IEventCreateLocationProps> = (props: IEventCreateL
                     updateParent={update}
                 />
             </Grid>
-            <Grid item>
+            <Grid item sx={{ minHeight: "27.5vh" }}>
                 <EventMap
                     location={getLocation()}
                     isMarkerShown={true}

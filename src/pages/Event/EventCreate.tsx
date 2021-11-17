@@ -20,7 +20,14 @@ export interface IEventCreateState {
 export default class EventCreate extends React.Component<IEventCreateProps, IEventCreateState> {
 
     componentDidMount() {
-        window.scrollTo(0, 0);
+        let anchor: string = this.props.history.location.hash;
+        if (anchor !== '') {
+            setTimeout(() => {
+                window.scrollTo(0, 1140);
+            }, 5)
+        } else {
+            window.scrollTo(0, 0);
+        }
     }
 
     goBack = () => {
