@@ -235,18 +235,25 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
 
     createEvent = () => {
         this.validate();
-        if (this.validated) {
-            Events.insert(this.state.data);
-            Events.clearUnfinished();
-            this.props.history.push(`/`);
+        if (!this.validated) {
+            window.scrollTo(0, 0);
+            return;
         }
+        let resId = Events.insert(this.state.data);
+        Events.clearUnfinished();
+        this.props.history.push(`/#${resId}`);
     }
 
     updateEvent = () => {
+        this.validate();
+        if (!this.validated) {
+            window.scrollTo(0, 0);
+            return;
+        }
         if (this.props.event instanceof Event) {
             Events.update(this.props.event, this.state.data);
             Events.clearUnfinished();
-            this.props.history.push(`/`);
+            this.props.history.push(`/#${this.props.event.id}`);
         }
     }
 

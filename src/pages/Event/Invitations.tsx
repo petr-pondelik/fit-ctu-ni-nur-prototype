@@ -55,6 +55,10 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
         };
     }
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     /**
      * @param source
      * @param state
@@ -127,7 +131,7 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
 
     render = () => {
         return (
-            <Grid container direction={"column"} mt={"3rem"} pb={"1rem"}>
+            <Grid container direction={"column"} mt={"2rem"} pb={"1rem"}>
                 <Grid item>
                     <CommonHeader
                         title={'Pozvánky na událost'}

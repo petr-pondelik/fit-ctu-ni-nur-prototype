@@ -401,6 +401,7 @@ class EventsModel {
 		};
 		this.data.push(new Event(dataProcessed));
 		sessionStorage.setItem('events', JSON.stringify(this.data));
+		return this.data[this.data.length-1].id;
 	}
 
 	/**

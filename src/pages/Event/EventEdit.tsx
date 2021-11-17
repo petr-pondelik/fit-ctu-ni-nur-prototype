@@ -27,7 +27,10 @@ export default class EventEdit extends React.Component<IEventEditProps, IEventEd
         let anchor: string = this.props.history.location.hash;
         if (anchor !== '') {
             setTimeout(() => {
-                window.scrollTo(0, 1140);
+                let elem: HTMLElement = document.querySelector(anchor) as HTMLElement;
+                if (elem instanceof HTMLElement) {
+                    window.scrollTo(0, elem.offsetTop - 70);
+                }
             }, 5)
         } else {
             window.scrollTo(0, 0);
