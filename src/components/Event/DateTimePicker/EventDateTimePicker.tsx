@@ -43,6 +43,9 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
 
     function addEnd() {
         setType('startEnd');
+        let sf: any = {data: {eventTime: {}}};
+        sf.data.eventTime.end = props.value.start;
+        props.updateParent(sf);
     }
 
     function removeEnd() {
@@ -103,6 +106,8 @@ const EventDateTimePicker: React.FC<IEventDateTimePickerProps> = (props: IEventD
         }
         return '';
     }
+
+    console.log(props.value.end);
 
     return (
         <React.Fragment>
