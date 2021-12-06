@@ -30,6 +30,7 @@ interface IEventCreateFormProps extends RouteComponentProps {
 interface IEventCreateFormState {
     data: IEventData,
     alertOpened: boolean,
+    confirmCreateOpened: boolean,
     messages: IMessagesState
 }
 
@@ -156,6 +157,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
         this.state = {
             data: this.getDefaultData(),
             alertOpened: false,
+            confirmCreateOpened: false,
             messages: {
                 validation: {
                     title: null,
@@ -241,6 +243,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
             window.scrollTo(0, 0);
             return;
         }
+        this.setState({alertOpened: false});
         let resId = Events.insert(this.state.data);
         Events.clearUnfinished();
         Messages.push('Událost úspěšně vytvořena.');
@@ -272,6 +275,10 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
 
     openAlertDialog = () => {
         this.setState({alertOpened: true});
+    }
+
+    openConfirmCreateDialog = () => {
+        this.setState({confirmCreateOpened: true});
     }
 
     /**
@@ -354,7 +361,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
         if (this.props.operation === FormOperations.Create) {
             return (
                 <Grid item sx={{marginY: "0.75rem"}}>
-                    <ActionButton variant={"contained"} clickHandler={this.createEvent}>
+                    <ActionButton variant={"contained"} clickHandler={this.openConfirmCreateDialog}>
                         Založit událost
                     </ActionButton>
                 </Grid>
@@ -467,8 +474,15 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                     title={'Odstranit událost'}
                     question={'Skutečně si přejete odstranit událost?'}
                     open={this.state.alertOpened}
-                    parentUpdate={this.update}
                     yesAction={this.deleteEvent}
+                    noAction={() => { this.setState({ alertOpened: false }) }}
+                />
+                <AlertDialog
+                    title={'Vytvořit událost'}
+                    question={'Přejete si vytvořit událost a rozeslat pozvánky?'}
+                    open={this.state.confirmCreateOpened}
+                    yesAction={this.createEvent}
+                    noAction={() => { this.setState({ confirmCreateOpened: false }) }}
                 />
             </React.Fragment>
         );

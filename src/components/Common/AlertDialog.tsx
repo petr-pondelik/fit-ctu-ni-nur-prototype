@@ -39,8 +39,11 @@ const AlertDialog: React.FC<IAlertDialogProps> = (props: IAlertDialogProps) => {
             <Dialog
                 open={props.open}
                 onClose={() => {
+                    if (typeof props.noAction === 'function') {
+                        props.noAction();
+                    }
                     if (typeof props.parentUpdate === 'function') {
-                        props.parentUpdate({alertOpened: false});
+                        props.parentUpdate({ alertOpened: false });
                     }
                 }}
                 aria-labelledby="alert-dialog-title"
