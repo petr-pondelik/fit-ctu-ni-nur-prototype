@@ -28,13 +28,13 @@ interface IEventCreateFormProps extends RouteComponentProps {
 
 interface IEventCreateFormState {
     data: IEventData,
-    alertOpen: boolean,
+    alertOpened: boolean,
     messages: IMessagesState
 }
 
 interface IStateFragment {
     data?: IEventData,
-    alertOpen?: boolean,
+    alertOpened?: boolean,
     messages?: IMessagesState
 }
 
@@ -154,7 +154,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
         super(props);
         this.state = {
             data: this.getDefaultData(),
-            alertOpen: false,
+            alertOpened: false,
             messages: {
                 validation: {
                     title: null,
@@ -230,6 +230,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
      */
     update = (stateFragment: IStateFragment) => {
         let newState = _.merge(this.state, stateFragment);
+        sessionStorage.setItem('eventChanges', JSON.stringify(newState));
         this.setState(newState);
     }
 
@@ -260,13 +261,13 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
     deleteEvent = () => {
         if (this.props.event instanceof Event) {
             Events.delete(this.props.event);
-            this.setState({alertOpen: false});
+            this.setState({alertOpened: false});
         }
         this.props.history.push(`/`);
     }
 
     openAlertDialog = () => {
-        this.setState({alertOpen: true});
+        this.setState({alertOpened: true});
     }
 
     /**
@@ -459,9 +460,11 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                     </Grid>
                 </Grid>
                 <AlertDialog
-                    open={this.state.alertOpen}
+                    title={'Odstranit událost'}
+                    question={'Skutečně si přejete odstranit událost?'}
+                    open={this.state.alertOpened}
                     parentUpdate={this.update}
-                    parentDeleteEvent={this.deleteEvent}
+                    yesAction={this.deleteEvent}
                 />
             </React.Fragment>
         );

@@ -1,11 +1,10 @@
 import React from "react";
 import {Grid} from "@mui/material";
 import {User} from "../../model/Users";
-import CommonHeader from "../../components/Header/CommonHeader";
+import CommonHeader, {ActionType} from "../../components/Header/CommonHeader";
 import Events, {EventInvitationStatus, IEventContactState, IEventData, IUserContactsStates} from "../../model/Events";
 import ContactsInvitation from "../../components/Event/Invitation/ContactsInvitation";
 import EInvitationSource from "../../enums/EInvitationSource";
-import ActionButton from "../../components/Common/ActionButton";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 
 
@@ -19,7 +18,9 @@ export interface IAttendantsFromContactsProps extends RouteComponentProps<IRoute
 
 export interface IAttendantsFromContactsState {
     eventData: IEventData,
-    contactsState: IUserContactsStates
+    contactsState: IUserContactsStates,
+    alertOpened: boolean,
+    originalContactsState: IUserContactsStates
 }
 
 
@@ -51,7 +52,9 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
         }
         this.state = {
             eventData: eventData,
-            contactsState: Events.getUnfinishedEventContactsState(this.props.user)
+            contactsState: Events.getUnfinishedEventContactsState(this.props.user),
+            alertOpened: false,
+            originalContactsState: Events.getUnfinishedEventContactsState(this.props.user)
         };
     }
 
@@ -129,13 +132,29 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
         this.props.history.push( `/event/${id ? 'edit/' + id : 'create'}#invitations`);
     }
 
+    selectionDiffers = () => {
+        for (const [gKey, group] of Object.entries(this.state.contactsState)) {
+            for (const cKey of Object.keys(group)) {
+                // @ts-ignore
+                if (this.state.contactsState[gKey][cKey].invited !== this.state.originalContactsState[gKey][cKey].invited) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     render = () => {
         return (
             <Grid container direction={"column"} mt={"2rem"} pb={"1rem"}>
                 <Grid item>
                     <CommonHeader
                         title={'Pozvánky na událost'}
-                        goBack={this.goBack}
+                        actionType={ActionType.SAVE}
+                        // showDialog={this.selectionDiffers()}
+                        showDialog={false}
+                        yesAction={this.saveInvitations}
+                        noAction={this.goBack}
                     />
                 </Grid>
                 <Grid container direction={"column"} item sx={{paddingX: "5%", paddingY: "2rem"}}>
@@ -147,11 +166,11 @@ class Invitations extends React.Component<IAttendantsFromContactsProps, IAttenda
                         parentCancelInvitation={this.cancelInvitation}
                     />
                     </Grid>
-                    <Grid item sx={{paddingX: "5%", paddingY: "2rem"}}>
-                        <ActionButton variant={"contained"} clickHandler={this.saveInvitations}>
-                            Potvrdit výběr
-                        </ActionButton>
-                    </Grid>
+                    {/*<Grid item sx={{paddingX: "5%", paddingY: "2rem"}}>*/}
+                    {/*    <ActionButton variant={"contained"} clickHandler={this.saveInvitations}>*/}
+                    {/*        Potvrdit výběr*/}
+                    {/*    </ActionButton>*/}
+                    {/*</Grid>*/}
                 </Grid>
             </Grid>
         );

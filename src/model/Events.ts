@@ -516,6 +516,7 @@ class EventsModel {
 	}
 
 	clearUnfinished() {
+		sessionStorage.removeItem('eventChanges');
 		sessionStorage.removeItem('unfinished');
 	}
 

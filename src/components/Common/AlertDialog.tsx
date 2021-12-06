@@ -7,50 +7,58 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 
-interface IStateFragment {
-    alertOpen: boolean
-}
-
 export interface IAlertDialogProps {
+    title: string,
+    question: string,
     open: boolean,
-    parentUpdate: (sf: IStateFragment) => any,
-    parentDeleteEvent: () => any
+    parentUpdate?: (sf?: any) => any,
+    yesAction: (data?: any) => any,
+    noAction?: (data?: any) => any
 }
 
 
 const AlertDialog: React.FC<IAlertDialogProps> = (props: IAlertDialogProps) => {
 
     const handleClose = () => {
-        props.parentUpdate({
-            alertOpen: false
-        });
+        if (typeof props.parentUpdate === 'function') {
+            props.parentUpdate({
+                alertOpened: false
+            });
+        }
+        if (typeof props.noAction === 'function') {
+            props.noAction();
+        }
     };
 
     const handleSubmit = () => {
-        props.parentDeleteEvent();
+        props.yesAction();
     };
 
     return (
         <div>
             <Dialog
                 open={props.open}
-                onClose={handleClose}
+                onClose={() => {
+                    if (typeof props.parentUpdate === 'function') {
+                        props.parentUpdate({alertOpened: false});
+                    }
+                }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Odstranit událost"}
+                    {props.title}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Skutečně si přejete odstranit událost?
+                        {props.question}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleSubmit} autoFocus>Ano</Button>
                     <Button onClick={handleClose}>
                         Ne
                     </Button>
+                    <Button onClick={handleSubmit} autoFocus>Ano</Button>
                 </DialogActions>
             </Dialog>
         </div>

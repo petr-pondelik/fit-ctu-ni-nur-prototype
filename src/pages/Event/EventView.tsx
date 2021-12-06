@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import EventsModel, {Event} from "../../model/Events";
 import {Grid} from "@mui/material";
-import CommonHeader from "../../components/Header/CommonHeader";
+import CommonHeader, {ActionType} from "../../components/Header/CommonHeader";
 import {useHistory, useParams} from "react-router-dom";
 import {IRouteParams} from "../../interfaces/IRouteParams";
 import Content from "../../components/Event/View/Content";
@@ -31,7 +31,7 @@ const EventView: React.FC<IEventViewProps> = (props: IEventViewProps) => {
     return (
         <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
             <Grid item>
-                <CommonHeader title={event.title} goBack={() => history.push(`/#${params.id}`)}/>
+                <CommonHeader title={event.title} showDialog={false} actionType={ActionType.BACK} yesAction={() => history.push(`/#${params.id}`)}/>
             </Grid>
             <Grid container item sx={{paddingY: "2rem" }} id={"start"}>
                 <Content

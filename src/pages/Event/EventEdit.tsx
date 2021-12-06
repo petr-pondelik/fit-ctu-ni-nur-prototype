@@ -1,11 +1,12 @@
 import React from "react";
 import {User} from "../../model/Users";
 import {Grid} from "@mui/material";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps} from "react-router-dom";
 import Events, {Event} from "../../model/Events";
-import CommonHeader from "../../components/Header/CommonHeader";
+import CommonHeader, {ActionType} from "../../components/Header/CommonHeader";
 import EventCreateForm from "../../components/Event/Form/EventForm";
 import {FormOperations} from "../../enums/FormOperations";
+import * as _ from "lodash"
 
 
 interface IRouteParams {
@@ -59,7 +60,13 @@ export default class EventEdit extends React.Component<IEventEditProps, IEventEd
         return (
             <Grid container direction={"column"} mt={"2rem"} pb={"1rem"}>
                 <Grid item>
-                    <CommonHeader title={this.state.event.title} goBack={this.goBack}/>
+                    <CommonHeader
+                        title={this.state.event.title}
+                        showDialog={true}
+                        actionType={ActionType.BACK}
+                        yesAction={this.goBack}
+                        entity={this.state.event}
+                    />
                 </Grid>
                 <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
                     <EventCreateForm operation={FormOperations.Update} user={this.props.user} event={this.state.event} />

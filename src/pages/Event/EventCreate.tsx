@@ -1,6 +1,6 @@
 import React from "react";
 import {Grid} from "@mui/material";
-import CommonHeader from "../../components/Header/CommonHeader";
+import CommonHeader, {ActionType} from "../../components/Header/CommonHeader";
 import EventCreateForm from "../../components/Event/Form/EventForm";
 import {User} from "../../model/Users";
 import Events from "../../model/Events";
@@ -42,7 +42,12 @@ export default class EventCreate extends React.Component<IEventCreateProps, IEve
         return (
             <Grid container direction={"column"} mt={"2rem"} pb={"1rem"}>
                 <Grid item>
-                    <CommonHeader title={'Vytvořit událost'} goBack={this.goBack}/>
+                    <CommonHeader
+                        title={'Vytvořit událost'}
+                        showDialog={true}
+                        actionType={ActionType.BACK}
+                        yesAction={this.goBack}
+                    />
                 </Grid>
                 <Grid container item sx={{ paddingX: "5%", paddingY: "2rem" }}>
                     <EventCreateForm operation={FormOperations.Create} user={this.props.user}/>
