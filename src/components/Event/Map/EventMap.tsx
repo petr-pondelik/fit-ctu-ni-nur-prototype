@@ -39,6 +39,7 @@ const EventMap: React.FC<IEventMapProps> = (props: IEventMapProps) => {
                 defaultZoom={14}
                 defaultCenter={{lat: props.location.lat, lng: props.location.long}}
                 center={{lat: props.location.lat, lng: props.location.long}}
+                onClick={(e) => update(e.latLng.lat(), e.latLng.lng())}
             >
                 {
                     props.isMarkerShown &&
