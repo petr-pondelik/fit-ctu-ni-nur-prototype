@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Grid, Typography} from "@mui/material";
 import AppTextField from "../../Common/AppTextField";
 import ImageUpload from "../../Common/ImageUpload";
-import Events, {Event, IAttendantsList, IEventData, ILocation} from "../../../model/Events";
+import Events, {AttendantsList, Event, IAttendantsList, IEventData, ILocation} from "../../../model/Events";
 import EventDateTimePicker from "../DateTimePicker/EventDateTimePicker";
 import EventLocation from "./EventLocation";
 import AppTextArea from "../../Common/AppTextArea";
@@ -31,6 +31,7 @@ interface IEventCreateFormState {
     data: IEventData,
     alertOpened: boolean,
     confirmCreateOpened: boolean,
+    confirmUpdateOpened: boolean,
     messages: IMessagesState
 }
 
@@ -158,6 +159,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
             data: this.getDefaultData(),
             alertOpened: false,
             confirmCreateOpened: false,
+            confirmUpdateOpened: false,
             messages: {
                 validation: {
                     title: null,
@@ -243,7 +245,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
             window.scrollTo(0, 0);
             return;
         }
-        this.setState({alertOpened: false});
+        this.setState({confirmCreateOpened: false});
         let resId = Events.insert(this.state.data);
         Events.clearUnfinished();
         Messages.push('Událost úspěšně vytvořena.');
@@ -255,6 +257,15 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
         if (!this.validated) {
             window.scrollTo(0, 0);
             return;
+        }
+        console.log(Events.fetchUnfinished());
+        if (!this.state.confirmUpdateOpened) {
+            // @ts-ignore
+            if (Events.fetchUnfinished() !== undefined && !_.isEqual(new AttendantsList(Events.fetchUnfinished().attendants), this.props.event.attendants))
+            {
+                this.setState({confirmUpdateOpened: true});
+                return;
+            }
         }
         if (this.props.event instanceof Event) {
             Events.update(this.props.event, this.state.data);
@@ -483,6 +494,13 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                     open={this.state.confirmCreateOpened}
                     yesAction={this.createEvent}
                     noAction={() => { this.setState({ confirmCreateOpened: false }) }}
+                />
+                <AlertDialog
+                    title={'Upravit pozvánky'}
+                    question={'Přejete si upravit událost a rozeslat informace o změnách pozvánek?'}
+                    open={this.state.confirmUpdateOpened}
+                    yesAction={this.updateEvent}
+                    noAction={() => { this.setState({ confirmUpdateOpened: false }) }}
                 />
             </React.Fragment>
         );
