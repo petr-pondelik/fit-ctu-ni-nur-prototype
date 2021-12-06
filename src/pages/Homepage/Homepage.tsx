@@ -7,6 +7,8 @@ import {User} from "../../model/Users";
 import {useHistory} from "react-router-dom";
 import {AppState} from "../../App";
 import FloatingActionButtons from "../../components/Common/FloatingActionButton";
+import Messages from "../../model/Messages";
+import MessageDialog from "../../components/Common/MessageDialog";
 
 
 export interface IHomepageProps {
@@ -18,6 +20,8 @@ export interface IHomepageProps {
 const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
 
     const [events] = useState<Event[]>(EventsModel.findByUser(props.user));
+    const [messageOpened, setMessageOpened] = useState(Messages.data.length > 0);
+
 
     const history = useHistory();
 
@@ -36,6 +40,25 @@ const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
             return <FloatingActionButtons/>
         }
     }
+
+    const renderMessage = () => {
+        console.log('renderMessage');
+        if (Messages.data.length < 1) {
+            return;
+        }
+        let msg = Messages.pop()?.msg;
+        if (msg) {
+            return (
+                <MessageDialog
+                    msg={msg}
+                    open={messageOpened}
+                    onClose={() => setMessageOpened(false)}
+                />
+            )
+        }
+    }
+
+    console.log('Render homepage');
 
     return (
         <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
@@ -58,6 +81,7 @@ const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
                 </Grid>
             </Grid>
             {renderFloatingCreateBtn()}
+            {renderMessage()}
         </Grid>
     );
 };

@@ -18,6 +18,7 @@ import AlertDialog from "../../Common/AlertDialog";
 import {ValidationFunction, ValidationTuple} from "../../../types/CustomeTypes";
 import moment from "moment";
 import EventInvitationsCreate from "../Invitation/EventInvitationsCreate";
+import Messages from "../../../model/Messages";
 
 
 interface IEventCreateFormProps extends RouteComponentProps {
@@ -242,6 +243,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
         }
         let resId = Events.insert(this.state.data);
         Events.clearUnfinished();
+        Messages.push('Událost úspěšně vytvořena.');
         this.props.history.push(`/#${resId}`);
     }
 
@@ -254,6 +256,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
         if (this.props.event instanceof Event) {
             Events.update(this.props.event, this.state.data);
             Events.clearUnfinished();
+            Messages.push('Událost úspěšně upravena.');
             this.props.history.push(`/#${this.props.event.id}`);
         }
     }
@@ -263,6 +266,7 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
             Events.delete(this.props.event);
             this.setState({alertOpened: false});
         }
+        Messages.push('Událost úspěšně odstraněna.');
         this.props.history.push(`/`);
     }
 

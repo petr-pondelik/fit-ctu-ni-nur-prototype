@@ -13,10 +13,13 @@ import EventView from "./pages/Event/EventView";
 import EventEdit from "./pages/Event/EventEdit";
 import EventCreate from "./pages/Event/EventCreate";
 import Invitations from "./pages/Event/Invitations";
+import Messages, {IMessage} from "./model/Messages";
+import MessageDialog from "./components/Common/MessageDialog";
 
 
 export interface AppState {
-    user?: User
+    user?: User,
+    messageOpened: boolean
 }
 
 
@@ -28,7 +31,8 @@ export default class App extends React.Component<any, AppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            user: UsersModel.getLoggedUser()
+            user: UsersModel.getLoggedUser(),
+            messageOpened: Messages.data.length > 0
         };
     }
 
@@ -40,7 +44,14 @@ export default class App extends React.Component<any, AppState> {
         }
     }
 
+    // handleMessageClose = () => {
+    //     this.setState({
+    //         messageOpened: false
+    //     });
+    // };
+
     render() {
+        console.log('RENDER');
         return (
             <Router history={history}>
                 <Switch>
@@ -49,10 +60,12 @@ export default class App extends React.Component<any, AppState> {
                         {
                             this.state.user === undefined ?
                                 <Login propagateState={this.updateState}/> :
-                                <Homepage
-                                    user={this.state.user}
-                                    updateParent={this.updateState}
-                                />
+                                <React.Fragment>
+                                    <Homepage
+                                        user={this.state.user}
+                                        updateParent={this.updateState}
+                                    />
+                                </React.Fragment>
                         }
                     </Route>
 
