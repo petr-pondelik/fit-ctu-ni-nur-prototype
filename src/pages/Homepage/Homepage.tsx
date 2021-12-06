@@ -31,6 +31,12 @@ const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
         }
     }, []);
 
+    const renderFloatingCreateBtn = () => {
+        if (events.length > 0) {
+            return <FloatingActionButtons/>
+        }
+    }
+
     return (
         <Grid container direction={"column"} mt={"5rem"} pb={"1rem"}>
             <Grid item>
@@ -51,7 +57,7 @@ const Homepage: React.FC<IHomepageProps> = (props: IHomepageProps) => {
                     />
                 </Grid>
             </Grid>
-            <FloatingActionButtons/>
+            {renderFloatingCreateBtn()}
         </Grid>
     );
 };
