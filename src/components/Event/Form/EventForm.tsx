@@ -460,14 +460,14 @@ class EventForm extends Component<IEventCreateFormProps, IEventCreateFormState> 
                         />
                     </Grid>
                     <Grid container alignItems={"center"} sx={{ marginY: "2rem"}} id={"invitations"}>
-                        <Grid container item alignItems={"center"}>
+                        <Grid container item alignItems={"center"} onClick={() => this.toInvitations()}>
                             <Grid item>
                                 <Typography variant={"h5"} component={"h2"}>
                                     Pozvánky na událost
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Button onClick={() => this.toInvitations()}>
+                                <Button>
                                     {this.renderInvitationsIcon()}
                                 </Button>
                             </Grid>
